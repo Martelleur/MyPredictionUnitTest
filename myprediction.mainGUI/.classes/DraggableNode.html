@@ -1,0 +1,754 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: DraggableNode</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">myprediction.mainGUI</a> ]
+</div>
+
+<h1>Coverage Summary for Class: DraggableNode (myprediction.mainGUI)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">DraggableNode</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 30)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 302)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">DraggableNode$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 31)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 303)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package myprediction.mainGUI;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import javafx.beans.value.ChangeListener;
+<i>4</i>&nbsp;import javafx.event.EventHandler;
+<i>5</i>&nbsp;import javafx.fxml.FXML;
+<i>6</i>&nbsp;import javafx.fxml.FXMLLoader;
+<i>7</i>&nbsp;import javafx.geometry.Point2D;
+<i>8</i>&nbsp;import javafx.scene.Node;
+<i>9</i>&nbsp;import javafx.scene.Parent;
+<i>10</i>&nbsp;import javafx.scene.control.*;
+<i>11</i>&nbsp;import javafx.scene.input.*;
+<i>12</i>&nbsp;import javafx.scene.layout.AnchorPane;
+<i>13</i>&nbsp;import javafx.scene.layout.BorderPane;
+<i>14</i>&nbsp;import javafx.stage.Stage;
+<i>15</i>&nbsp;import javafx.stage.StageStyle;
+<i>16</i>&nbsp;import javafx.stage.WindowEvent;
+<i>17</i>&nbsp;import myprediction.AppConfig;
+<i>18</i>&nbsp;import myprediction.nodePropertiesManagement.*;
+<i>19</i>&nbsp;import myprediction.nodePropertiesGUI.*;
+<i>20</i>&nbsp;import org.springframework.context.ApplicationContext;
+<i>21</i>&nbsp;import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+<i>22</i>&nbsp;
+<i>23</i>&nbsp;import java.io.IOException;
+<i>24</i>&nbsp;import java.io.Serializable;
+<i>25</i>&nbsp;import java.util.*;
+<i>26</i>&nbsp;import java.util.List;
+<i>27</i>&nbsp;
+<i>28</i>&nbsp;/**
+<i>29</i>&nbsp; * Class: DraggableNode
+<i>30</i>&nbsp; * Author: Joel Martelleur
+<i>31</i>&nbsp; * Reference:
+<i>32</i>&nbsp; *  https://rterp.wordpress.com/2013/09/19/drag-and-drop-with-custom-components-in-javafx/
+<i>33</i>&nbsp; * 	https://monograff76.wordpress.com/2015/02/17/developing-a-drag-and-drop-ui-in-javafx-part-i-skeleton-application/
+<i>34</i>&nbsp; * Date: 2020-04-15
+<i>35</i>&nbsp; * @version v1.0
+<i>36</i>&nbsp; */
+<i>37</i>&nbsp;public class DraggableNode extends AnchorPane implements Serializable {
+<i>38</i>&nbsp;
+<i>39</i>&nbsp;    @FXML private AnchorPane root_pane;
+<i>40</i>&nbsp;    @FXML private AnchorPane left_link_handle;
+<i>41</i>&nbsp;    @FXML private AnchorPane right_link_handle;
+<i>42</i>&nbsp;    @FXML private Label title_bar;
+<i>43</i>&nbsp;    @FXML private Label close_button;
+<i>44</i>&nbsp;
+<i>45</i>&nbsp;    private static final long serialVersionUID = 2100L;
+<i>46</i>&nbsp;    private EventHandler&lt;MouseEvent&gt; linkHandleDragDetected;
+<i>47</i>&nbsp;    private EventHandler&lt;DragEvent&gt; linkHandleDragDropped;
+<i>48</i>&nbsp;    private EventHandler&lt;DragEvent&gt; contextLinkDragOver;
+<i>49</i>&nbsp;    private EventHandler&lt;DragEvent&gt; contextLinkDragDropped;
+<i>50</i>&nbsp;    private EventHandler&lt;DragEvent&gt; contextDragOver;
+<i>51</i>&nbsp;    private EventHandler&lt;DragEvent&gt; contextDragDropped;
+<i>52</i>&nbsp;    private EventHandler&lt;MouseEvent&gt; dragDetectedHandler;
+<i>53</i>&nbsp;    private EventHandler&lt;MouseEvent&gt; changeTitleHandler;
+<i>54</i>&nbsp;    private EventHandler&lt;ContextMenuEvent&gt; contextMenuHandler;
+<i>55</i>&nbsp;    private ChangeListener&lt;Parent&gt; changeListener;
+<i>56</i>&nbsp;    private EventHandler&lt;WindowEvent&gt; closeHandler;
+<i>57</i>&nbsp;
+<b class="nc"><i>58</i>&nbsp;    private DragIconType dragIconType = null;</b>
+<b class="nc"><i>59</i>&nbsp;    private Point2D dragOffset = new Point2D(0.0, 0.0);</b>
+<b class="nc"><i>60</i>&nbsp;    private NodeLink dragLink = null;</b>
+<b class="nc"><i>61</i>&nbsp;    private AnchorPane right_pane = null;</b>
+<b class="nc"><i>62</i>&nbsp;    private NodeStage nodeStage = null;</b>
+<b class="nc"><i>63</i>&nbsp;    private String nodeStageTitle = &quot;&quot;;</b>
+<b class="nc"><i>64</i>&nbsp;    private final List &lt;String&gt; linkIds = new ArrayList&lt;&gt;();</b>
+<i>65</i>&nbsp;    private BorderPane borderPane;
+<i>66</i>&nbsp;    private DataManager manager;
+<b class="nc"><i>67</i>&nbsp;    private ApplicationContext applicationContext = new AnnotationConfigApplicationContext(AppConfig.class);</b>
+<i>68</i>&nbsp;    private Stage primaryStage;
+<i>69</i>&nbsp;
+<i>70</i>&nbsp;    /**
+<i>71</i>&nbsp;     * Constructor DraggableNode
+<i>72</i>&nbsp;     */
+<b class="nc"><i>73</i>&nbsp;    public DraggableNode(Stage primaryStage) {</b>
+<i>74</i>&nbsp;
+<b class="nc"><i>75</i>&nbsp;        this.primaryStage = primaryStage;</b>
+<i>76</i>&nbsp;
+<b class="nc"><i>77</i>&nbsp;        FXMLLoader fxmlLoader = new FXMLLoader(</b>
+<b class="nc"><i>78</i>&nbsp;                getClass().getResource(&quot;/myprediction/mainGUI/DraggableNode.fxml&quot;)</b>
+<i>79</i>&nbsp;        );
+<i>80</i>&nbsp;
+<b class="nc"><i>81</i>&nbsp;        fxmlLoader.setRoot(this);</b>
+<b class="nc"><i>82</i>&nbsp;        fxmlLoader.setController(this);</b>
+<i>83</i>&nbsp;
+<i>84</i>&nbsp;        try {
+<b class="nc"><i>85</i>&nbsp;            fxmlLoader.load();</b>
+<i>86</i>&nbsp;
+<b class="nc"><i>87</i>&nbsp;        } catch (IOException exception) {</b>
+<b class="nc"><i>88</i>&nbsp;            throw new RuntimeException(exception);</b>
+<b class="nc"><i>89</i>&nbsp;        }</b>
+<i>90</i>&nbsp;        //provide a universally unique identifier for this object
+<b class="nc"><i>91</i>&nbsp;        setId(UUID.randomUUID().toString());</b>
+<i>92</i>&nbsp;
+<b class="nc"><i>93</i>&nbsp;        this.setup();</b>
+<b class="nc"><i>94</i>&nbsp;    }</b>
+<i>95</i>&nbsp;
+<i>96</i>&nbsp;    /**
+<i>97</i>&nbsp;     * Method: Setup
+<i>98</i>&nbsp;     * Functionality: Setup for this class
+<i>99</i>&nbsp;     */
+<i>100</i>&nbsp;    private void setup() {
+<i>101</i>&nbsp;
+<i>102</i>&nbsp;        // Build events
+<b class="nc"><i>103</i>&nbsp;        buildDragDetectedHandler();</b>
+<b class="nc"><i>104</i>&nbsp;        buildChangeTitleHandler();</b>
+<b class="nc"><i>105</i>&nbsp;        buildNodeDragHandlers();</b>
+<b class="nc"><i>106</i>&nbsp;        buildLinkDragHandlers();</b>
+<b class="nc"><i>107</i>&nbsp;        buildNodeContextHandlers();</b>
+<i>108</i>&nbsp;
+<i>109</i>&nbsp;        // Connect and register events
+<b class="nc"><i>110</i>&nbsp;        left_link_handle.setOnDragDetected(linkHandleDragDetected);</b>
+<b class="nc"><i>111</i>&nbsp;        right_link_handle.setOnDragDetected(linkHandleDragDetected);</b>
+<b class="nc"><i>112</i>&nbsp;        left_link_handle.setOnDragDropped(linkHandleDragDropped);</b>
+<b class="nc"><i>113</i>&nbsp;        right_link_handle.setOnDragDropped(linkHandleDragDropped);</b>
+<b class="nc"><i>114</i>&nbsp;        title_bar.setOnMouseClicked(changeTitleHandler);</b>
+<b class="nc"><i>115</i>&nbsp;        this.setOnContextMenuRequested(contextMenuHandler);</b>
+<i>116</i>&nbsp;
+<b class="nc"><i>117</i>&nbsp;        dragLink = new NodeLink();</b>
+<b class="nc"><i>118</i>&nbsp;        dragLink.setVisible(false);</b>
+<i>119</i>&nbsp;
+<b class="nc"><i>120</i>&nbsp;        parentProperty().addListener(changeListener);</b>
+<b class="nc"><i>121</i>&nbsp;    }</b>
+<i>122</i>&nbsp;
+<i>123</i>&nbsp;    /**
+<i>124</i>&nbsp;     * Method: registerLink
+<i>125</i>&nbsp;     * @param linkId -
+<i>126</i>&nbsp;     */
+<i>127</i>&nbsp;    void registerLink(String linkId) {
+<b class="nc"><i>128</i>&nbsp;        linkIds.add(linkId);</b>
+<b class="nc"><i>129</i>&nbsp;    }</b>
+<i>130</i>&nbsp;
+<i>131</i>&nbsp;    /**
+<i>132</i>&nbsp;     * Method: getLinkIds
+<i>133</i>&nbsp;     * Functionality: Return instance variable linkIds
+<i>134</i>&nbsp;     * @return - List&lt;String&gt;
+<i>135</i>&nbsp;     */
+<i>136</i>&nbsp;    List&lt;String&gt; getLinkIds() {
+<b class="nc"><i>137</i>&nbsp;        return this.linkIds;</b>
+<i>138</i>&nbsp;    }
+<i>139</i>&nbsp;
+<i>140</i>&nbsp;    /**
+<i>141</i>&nbsp;     * Method: relocateToPoint
+<i>142</i>&nbsp;     * Functionality: Relocates the object to a point that has been converted to scene coordinates
+<i>143</i>&nbsp;     * @param p - Point2D
+<i>144</i>&nbsp;     */
+<i>145</i>&nbsp;    void relocateToPoint(Point2D p) {
+<i>146</i>&nbsp;
+<b class="nc"><i>147</i>&nbsp;        Point2D localCoords = getParent().sceneToLocal(p);</b>
+<i>148</i>&nbsp;
+<b class="nc"><i>149</i>&nbsp;        relocate (</b>
+<b class="nc"><i>150</i>&nbsp;                (int) (localCoords.getX() - dragOffset.getX()),</b>
+<b class="nc"><i>151</i>&nbsp;                (int) (localCoords.getY() - dragOffset.getY())</b>
+<i>152</i>&nbsp;        );
+<b class="nc"><i>153</i>&nbsp;    }</b>
+<i>154</i>&nbsp;
+<i>155</i>&nbsp;    /**
+<i>156</i>&nbsp;     * Method: getType
+<i>157</i>&nbsp;     * Return the type of the DragIcon
+<i>158</i>&nbsp;     * @return DragIconType
+<i>159</i>&nbsp;     */
+<b class="nc"><i>160</i>&nbsp;    public DragIconType getType() { return dragIconType; }</b>
+<i>161</i>&nbsp;
+<i>162</i>&nbsp;    /**
+<i>163</i>&nbsp;     * Method: setType
+<i>164</i>&nbsp;     * Set the type of the DragIcon and add a specific styleClass to it
+<i>165</i>&nbsp;     * @param dragIconType - DragIconType
+<i>166</i>&nbsp;     */
+<i>167</i>&nbsp;    public void setType(DragIconType dragIconType) {
+<i>168</i>&nbsp;
+<b class="nc"><i>169</i>&nbsp;        this.dragIconType = dragIconType;</b>
+<i>170</i>&nbsp;
+<b class="nc"><i>171</i>&nbsp;        getStyleClass().clear();</b>
+<b class="nc"><i>172</i>&nbsp;        getStyleClass().add(&quot;dragicon&quot;);</b>
+<b class="nc"><i>173</i>&nbsp;        String arffFileExtension = &quot;arff&quot;;</b>
+<b class="nc"><i>174</i>&nbsp;        String csvFileExtension = &quot;csv&quot;;</b>
+<b class="nc"><i>175</i>&nbsp;        String excelFileExtension = &quot;xlsx&quot;;</b>
+<i>176</i>&nbsp;
+<b class="nc"><i>177</i>&nbsp;        switch (this.dragIconType) {</b>
+<i>178</i>&nbsp;
+<i>179</i>&nbsp;            case TEST_DATA:
+<b class="nc"><i>180</i>&nbsp;                this.manager = (DataManager) this.applicationContext.getBean(&quot;testdatanodemanager&quot;);</b>
+<b class="nc"><i>181</i>&nbsp;                borderPane = new FilePropertyGUI(this, arffFileExtension, this.primaryStage);</b>
+<b class="nc"><i>182</i>&nbsp;                getStyleClass().add(&quot;icon-test-data&quot;);</b>
+<b class="nc"><i>183</i>&nbsp;                title_bar.setText(this.dragIconType.name());</b>
+<b class="nc"><i>184</i>&nbsp;                nodeStageTitle = this.dragIconType.name();</b>
+<b class="nc"><i>185</i>&nbsp;                break;</b>
+<i>186</i>&nbsp;
+<i>187</i>&nbsp;            case TRAINING_DATA:
+<b class="nc"><i>188</i>&nbsp;                this.manager = (DataManager) this.applicationContext.getBean(&quot;trainingdatanodemanager&quot;);</b>
+<b class="nc"><i>189</i>&nbsp;                borderPane = new FilePropertyGUI(this, arffFileExtension, true);</b>
+<b class="nc"><i>190</i>&nbsp;                getStyleClass().add(&quot;icon-training-data&quot;);</b>
+<b class="nc"><i>191</i>&nbsp;                title_bar.setText(this.dragIconType.name());</b>
+<b class="nc"><i>192</i>&nbsp;                nodeStageTitle = this.dragIconType.name();</b>
+<b class="nc"><i>193</i>&nbsp;                break;</b>
+<i>194</i>&nbsp;
+<i>195</i>&nbsp;            case CSV_FILE:
+<b class="nc"><i>196</i>&nbsp;                this.manager = (DataManager) this.applicationContext.getBean(&quot;csvnodemanager&quot;);</b>
+<b class="nc"><i>197</i>&nbsp;                borderPane = new FilePropertyGUI(this, csvFileExtension, this.primaryStage);</b>
+<b class="nc"><i>198</i>&nbsp;                getStyleClass().add(&quot;icon-csv-file&quot;);</b>
+<b class="nc"><i>199</i>&nbsp;                title_bar.setText(this.dragIconType.name());</b>
+<b class="nc"><i>200</i>&nbsp;                nodeStageTitle = this.dragIconType.name();</b>
+<b class="nc"><i>201</i>&nbsp;                break;</b>
+<i>202</i>&nbsp;
+<i>203</i>&nbsp;            case EXCEL_FILE:
+<b class="nc"><i>204</i>&nbsp;                this.manager = (DataManager) this.applicationContext.getBean(&quot;excelnodemanager&quot;);</b>
+<b class="nc"><i>205</i>&nbsp;                borderPane = new FilePropertyGUI(this, excelFileExtension, this.primaryStage);</b>
+<b class="nc"><i>206</i>&nbsp;                getStyleClass().add(&quot;icon-excel-file&quot;);</b>
+<b class="nc"><i>207</i>&nbsp;                title_bar.setText(this.dragIconType.name());</b>
+<b class="nc"><i>208</i>&nbsp;                nodeStageTitle = this.dragIconType.name();</b>
+<b class="nc"><i>209</i>&nbsp;                break;</b>
+<i>210</i>&nbsp;
+<i>211</i>&nbsp;            case AGGLOMERATION:
+<b class="nc"><i>212</i>&nbsp;                this.manager = (DataManager) this.applicationContext.getBean(&quot;agglomerationnodemanager&quot;);</b>
+<b class="nc"><i>213</i>&nbsp;                borderPane = new MethodPropertyGUI(this, dragIconType, false);</b>
+<b class="nc"><i>214</i>&nbsp;                getStyleClass().add(&quot;icon-agglomeration&quot;);</b>
+<b class="nc"><i>215</i>&nbsp;                title_bar.setText(this.dragIconType.name());</b>
+<b class="nc"><i>216</i>&nbsp;                nodeStageTitle = this.dragIconType.name();</b>
+<b class="nc"><i>217</i>&nbsp;                break;</b>
+<i>218</i>&nbsp;
+<i>219</i>&nbsp;            case K_MEAN:
+<b class="nc"><i>220</i>&nbsp;                this.manager = (DataManager) this.applicationContext.getBean(&quot;kmeannodemanager&quot;);</b>
+<b class="nc"><i>221</i>&nbsp;                borderPane = new MethodPropertyGUI(this, dragIconType, false);</b>
+<b class="nc"><i>222</i>&nbsp;                getStyleClass().add(&quot;icon-k-mean&quot;);</b>
+<b class="nc"><i>223</i>&nbsp;                title_bar.setText(this.dragIconType.name());</b>
+<b class="nc"><i>224</i>&nbsp;                nodeStageTitle = this.dragIconType.name();</b>
+<b class="nc"><i>225</i>&nbsp;                break;</b>
+<i>226</i>&nbsp;
+<i>227</i>&nbsp;            case KNN:
+<b class="nc"><i>228</i>&nbsp;                this.manager = (DataManager) this.applicationContext.getBean(&quot;knnnodemanager&quot;);</b>
+<b class="nc"><i>229</i>&nbsp;                borderPane = new MethodPropertyGUI(this, dragIconType, false);</b>
+<b class="nc"><i>230</i>&nbsp;                getStyleClass().add(&quot;icon-knn&quot;);</b>
+<b class="nc"><i>231</i>&nbsp;                title_bar.setText(this.dragIconType.name());</b>
+<b class="nc"><i>232</i>&nbsp;                nodeStageTitle = this.dragIconType.name();</b>
+<b class="nc"><i>233</i>&nbsp;                break;</b>
+<i>234</i>&nbsp;
+<i>235</i>&nbsp;            case LINEAR_REGRESSION:
+<b class="nc"><i>236</i>&nbsp;                this.manager = (DataManager) this.applicationContext.getBean(&quot;linearregressionnodemanager&quot;);</b>
+<b class="nc"><i>237</i>&nbsp;                borderPane = new MethodPropertyGUI(this, dragIconType, false);</b>
+<b class="nc"><i>238</i>&nbsp;                getStyleClass().add(&quot;icon-linear-regression&quot;);</b>
+<b class="nc"><i>239</i>&nbsp;                title_bar.setText(this.dragIconType.name());</b>
+<b class="nc"><i>240</i>&nbsp;                nodeStageTitle = this.dragIconType.name();</b>
+<b class="nc"><i>241</i>&nbsp;                break;</b>
+<i>242</i>&nbsp;
+<i>243</i>&nbsp;            case MULTI_LAYER_PERCEPTRON:
+<b class="nc"><i>244</i>&nbsp;                this.manager = (DataManager) this.applicationContext.getBean(&quot;multilayerperceptronnodemanager&quot;);</b>
+<b class="nc"><i>245</i>&nbsp;                borderPane = new MethodPropertyGUI(this, dragIconType, false);</b>
+<b class="nc"><i>246</i>&nbsp;                getStyleClass().add(&quot;icon-multi-layer-perceptron&quot;);</b>
+<b class="nc"><i>247</i>&nbsp;                title_bar.setText(this.dragIconType.name());</b>
+<b class="nc"><i>248</i>&nbsp;                nodeStageTitle = this.dragIconType.name();</b>
+<b class="nc"><i>249</i>&nbsp;                break;</b>
+<i>250</i>&nbsp;
+<i>251</i>&nbsp;            case NAIVE_BAYES:
+<b class="nc"><i>252</i>&nbsp;                this.manager = (DataManager) this.applicationContext.getBean(&quot;naivebayesnodemanager&quot;);</b>
+<b class="nc"><i>253</i>&nbsp;                borderPane = new MethodPropertyGUI(this, dragIconType, false);</b>
+<b class="nc"><i>254</i>&nbsp;                getStyleClass().add(&quot;icon-naive-bayes&quot;);</b>
+<b class="nc"><i>255</i>&nbsp;                title_bar.setText(this.dragIconType.name());</b>
+<b class="nc"><i>256</i>&nbsp;                nodeStageTitle = this.dragIconType.name();</b>
+<b class="nc"><i>257</i>&nbsp;                break;</b>
+<i>258</i>&nbsp;
+<i>259</i>&nbsp;            case TREE_DECISION:
+<b class="nc"><i>260</i>&nbsp;                this.manager = (DataManager) this.applicationContext.getBean(&quot;treedecisionnodemanager&quot;);</b>
+<b class="nc"><i>261</i>&nbsp;                borderPane = new MethodPropertyGUI(this, dragIconType, false);</b>
+<b class="nc"><i>262</i>&nbsp;                getStyleClass().add(&quot;icon-tree-decision&quot;);</b>
+<b class="nc"><i>263</i>&nbsp;                title_bar.setText(this.dragIconType.name());</b>
+<b class="nc"><i>264</i>&nbsp;                nodeStageTitle = this.dragIconType.name();</b>
+<b class="nc"><i>265</i>&nbsp;                break;</b>
+<i>266</i>&nbsp;
+<i>267</i>&nbsp;            case MY_PREDICTION:
+<b class="nc"><i>268</i>&nbsp;                this.manager = (DataManager) this.applicationContext.getBean(&quot;mypredictionnodemanager&quot;);</b>
+<b class="nc"><i>269</i>&nbsp;                borderPane = new MethodPropertyGUI(this, dragIconType, true);</b>
+<b class="nc"><i>270</i>&nbsp;                getStyleClass().add(&quot;icon-my-prediction&quot;);</b>
+<b class="nc"><i>271</i>&nbsp;                title_bar.setText(this.dragIconType.name());</b>
+<b class="nc"><i>272</i>&nbsp;                nodeStageTitle = this.dragIconType.name();</b>
+<b class="nc"><i>273</i>&nbsp;                break;</b>
+<i>274</i>&nbsp;
+<i>275</i>&nbsp;            case MY_CLUSTER:
+<b class="nc"><i>276</i>&nbsp;                this.manager = (DataManager) this.applicationContext.getBean(&quot;myclusternodemanager&quot;);</b>
+<b class="nc"><i>277</i>&nbsp;                borderPane = new MethodPropertyGUI(this, dragIconType, true);</b>
+<b class="nc"><i>278</i>&nbsp;                getStyleClass().add(&quot;icon-my-cluster&quot;);</b>
+<b class="nc"><i>279</i>&nbsp;                title_bar.setText(this.dragIconType.name());</b>
+<b class="nc"><i>280</i>&nbsp;                nodeStageTitle = this.dragIconType.name();</b>
+<b class="nc"><i>281</i>&nbsp;                break;</b>
+<i>282</i>&nbsp;
+<i>283</i>&nbsp;            case PREDICTION:
+<b class="nc"><i>284</i>&nbsp;                this.manager = (DataManager) this.applicationContext.getBean(&quot;predictionnodemanager&quot;);</b>
+<b class="nc"><i>285</i>&nbsp;                borderPane = new PredictionPropertyGUI(this, this.primaryStage);</b>
+<b class="nc"><i>286</i>&nbsp;                getStyleClass().add(&quot;icon-prediction&quot;);</b>
+<b class="nc"><i>287</i>&nbsp;                title_bar.setText(this.dragIconType.name());</b>
+<b class="nc"><i>288</i>&nbsp;                nodeStageTitle = this.dragIconType.name();</b>
+<b class="nc"><i>289</i>&nbsp;                break;</b>
+<i>290</i>&nbsp;
+<i>291</i>&nbsp;            case EVALUATE:
+<b class="nc"><i>292</i>&nbsp;                this.manager = (DataManager) this.applicationContext.getBean(&quot;evaluatenodemanager&quot;);</b>
+<b class="nc"><i>293</i>&nbsp;                borderPane = new EvaluationPropertyGUI(this, this.primaryStage);</b>
+<b class="nc"><i>294</i>&nbsp;                getStyleClass().add(&quot;icon-evaluate&quot;);</b>
+<b class="nc"><i>295</i>&nbsp;                title_bar.setText(this.dragIconType.name());</b>
+<b class="nc"><i>296</i>&nbsp;                nodeStageTitle = this.dragIconType.name();</b>
+<b class="nc"><i>297</i>&nbsp;                break;</b>
+<i>298</i>&nbsp;
+<i>299</i>&nbsp;            case CLUSTERING:
+<b class="nc"><i>300</i>&nbsp;                this.manager = (DataManager) this.applicationContext.getBean(&quot;clusteringnodemanager&quot;);</b>
+<b class="nc"><i>301</i>&nbsp;                borderPane = new ClusterPropertyGUI(this, this.primaryStage);</b>
+<b class="nc"><i>302</i>&nbsp;                getStyleClass().add(&quot;icon-clustering&quot;);</b>
+<b class="nc"><i>303</i>&nbsp;                title_bar.setText(this.dragIconType.name());</b>
+<b class="nc"><i>304</i>&nbsp;                nodeStageTitle = this.dragIconType.name();</b>
+<b class="nc"><i>305</i>&nbsp;                break;</b>
+<i>306</i>&nbsp;
+<i>307</i>&nbsp;            default:
+<i>308</i>&nbsp;                break;
+<i>309</i>&nbsp;
+<i>310</i>&nbsp;        }
+<i>311</i>&nbsp;
+<i>312</i>&nbsp;        // Initialize nodeStage
+<b class="nc"><i>313</i>&nbsp;        this.nodeStage = new NodeStage(this.borderPane);</b>
+<b class="nc"><i>314</i>&nbsp;        this.nodeStage.initOwner(this.primaryStage);</b>
+<b class="nc"><i>315</i>&nbsp;        this.nodeStage.setTitle(nodeStageTitle);</b>
+<i>316</i>&nbsp;
+<i>317</i>&nbsp;        // create and initialize stickyHooverStage
+<b class="nc"><i>318</i>&nbsp;        StickyHooverStage stickyHooverStage = createStickyHoverStage();</b>
+<b class="nc"><i>319</i>&nbsp;        this.setOnMouseEntered(stickyHooverStage.getEnterNodeHandler());</b>
+<b class="nc"><i>320</i>&nbsp;        this.setOnMouseExited(stickyHooverStage.getExitNodeHandler());</b>
+<b class="nc"><i>321</i>&nbsp;    }</b>
+<i>322</i>&nbsp;
+<i>323</i>&nbsp;    /**
+<i>324</i>&nbsp;     * Method: buildNodeContextHandlers
+<i>325</i>&nbsp;     * Build functionality for event contextMenuHandler
+<i>326</i>&nbsp;     * Creating a context menu including a setting/property stage for the node
+<i>327</i>&nbsp;     */
+<i>328</i>&nbsp;    private void buildNodeContextHandlers() {
+<i>329</i>&nbsp;        // Create ContextMenu
+<b class="nc"><i>330</i>&nbsp;        ContextMenu contextMenu = new ContextMenu();</b>
+<b class="nc"><i>331</i>&nbsp;        MenuItem itemNodeProperties = new MenuItem(&quot;Node Properties&quot;);</b>
+<b class="nc"><i>332</i>&nbsp;        MenuItem itemNodeName = new MenuItem(&quot;Set Name&quot;);</b>
+<b class="nc"><i>333</i>&nbsp;        MenuItem itemNodeClose = new MenuItem(&quot;Close Node&quot;);</b>
+<i>334</i>&nbsp;
+<b class="nc"><i>335</i>&nbsp;        itemNodeName.setOnAction(event -&gt; {</b>
+<b class="nc"><i>336</i>&nbsp;            changeTileHandlerHelper();</b>
+<b class="nc"><i>337</i>&nbsp;        });</b>
+<i>338</i>&nbsp;
+<b class="nc"><i>339</i>&nbsp;        itemNodeProperties.setOnAction(event -&gt; nodeStage.showStage());</b>
+<i>340</i>&nbsp;
+<b class="nc"><i>341</i>&nbsp;        itemNodeClose.setOnAction(event -&gt; {</b>
+<b class="nc"><i>342</i>&nbsp;            this.removeDraggableNodeLogic();</b>
+<b class="nc"><i>343</i>&nbsp;        });</b>
+<i>344</i>&nbsp;
+<i>345</i>&nbsp;        // Add MenuItem to ContextMenu
+<b class="nc"><i>346</i>&nbsp;        contextMenu.getItems().addAll(itemNodeProperties, itemNodeName, itemNodeClose);</b>
+<i>347</i>&nbsp;
+<b class="nc"><i>348</i>&nbsp;        contextMenuHandler = event -&gt; {</b>
+<b class="nc"><i>349</i>&nbsp;            contextMenu.show(this, event.getScreenX(), event.getScreenY());</b>
+<b class="nc"><i>350</i>&nbsp;        };</b>
+<b class="nc"><i>351</i>&nbsp;    }</b>
+<i>352</i>&nbsp;
+<i>353</i>&nbsp;    /**
+<i>354</i>&nbsp;     * Method: buildLabelHandlers
+<i>355</i>&nbsp;     * Build functionality for the events enterLabel, changeLabel
+<i>356</i>&nbsp;     */
+<i>357</i>&nbsp;    private void buildChangeTitleHandler () {
+<b class="nc"><i>358</i>&nbsp;        changeTitleHandler = mouseEvent -&gt; {</b>
+<b class="nc"><i>359</i>&nbsp;            if(mouseEvent.getButton().equals(MouseButton.PRIMARY)){</b>
+<i>360</i>&nbsp;
+<b class="nc"><i>361</i>&nbsp;                if (mouseEvent.getClickCount() == 2) {</b>
+<i>362</i>&nbsp;
+<b class="nc"><i>363</i>&nbsp;                    this.changeTileHandlerHelper();</b>
+<i>364</i>&nbsp;
+<i>365</i>&nbsp;                }
+<i>366</i>&nbsp;            }
+<b class="nc"><i>367</i>&nbsp;        };</b>
+<b class="nc"><i>368</i>&nbsp;    }</b>
+<i>369</i>&nbsp;
+<i>370</i>&nbsp;    /**
+<i>371</i>&nbsp;     * Method: changeTileHandlerHelper
+<i>372</i>&nbsp;     * Functionality: Help method for event associated with
+<i>373</i>&nbsp;     * change of draggable nodes title
+<i>374</i>&nbsp;     */
+<i>375</i>&nbsp;    private void changeTileHandlerHelper() {
+<b class="nc"><i>376</i>&nbsp;        TextInputDialog dialog = new TextInputDialog(this.getType().name());</b>
+<b class="nc"><i>377</i>&nbsp;        dialog.initOwner(this.primaryStage);</b>
+<b class="nc"><i>378</i>&nbsp;        dialog.setTitle(&quot;Set Title!&quot;);</b>
+<b class="nc"><i>379</i>&nbsp;        dialog.setContentText(&quot;Enter title:&quot;);</b>
+<b class="nc"><i>380</i>&nbsp;        dialog.setHeaderText(&quot;&quot;);</b>
+<i>381</i>&nbsp;
+<b class="nc"><i>382</i>&nbsp;        Optional&lt;String&gt; result = dialog.showAndWait();</b>
+<b class="nc"><i>383</i>&nbsp;        TextField input = dialog.getEditor();</b>
+<i>384</i>&nbsp;
+<b class="nc"><i>385</i>&nbsp;        if (result.isPresent()){</b>
+<b class="nc"><i>386</i>&nbsp;            if (input.getText() !=null &amp;&amp; input.getText().length() != 0) {</b>
+<b class="nc"><i>387</i>&nbsp;                title_bar.setText(input.getText());</b>
+<b class="nc"><i>388</i>&nbsp;                nodeStage.setTitle(input.getText());</b>
+<i>389</i>&nbsp;            }
+<i>390</i>&nbsp;        }
+<i>391</i>&nbsp;
+<b class="nc"><i>392</i>&nbsp;    }</b>
+<i>393</i>&nbsp;
+<i>394</i>&nbsp;    /**
+<i>395</i>&nbsp;     * Method: buildNodeDragHandlers
+<i>396</i>&nbsp;     * Functionality: Build events:
+<i>397</i>&nbsp;     * contextDragOver,
+<i>398</i>&nbsp;     * contextDragDropped,
+<i>399</i>&nbsp;     * mouseEvent at close_button,
+<i>400</i>&nbsp;     * dragEvent event at title_bar
+<i>401</i>&nbsp;     */
+<i>402</i>&nbsp;    private void buildNodeDragHandlers() {
+<i>403</i>&nbsp;
+<i>404</i>&nbsp;        // Dragover to handle node dragging in the right pane view
+<b class="nc"><i>405</i>&nbsp;        contextDragOver = event -&gt; {</b>
+<b class="nc"><i>406</i>&nbsp;            event.acceptTransferModes(TransferMode.ANY);</b>
+<b class="nc"><i>407</i>&nbsp;            this.relocateToPoint(new Point2D( event.getSceneX(), event.getSceneY()));</b>
+<b class="nc"><i>408</i>&nbsp;            event.consume();</b>
+<b class="nc"><i>409</i>&nbsp;        };</b>
+<i>410</i>&nbsp;
+<i>411</i>&nbsp;        // Dragdrop for node dragging
+<b class="nc"><i>412</i>&nbsp;        contextDragDropped = event -&gt; {</b>
+<i>413</i>&nbsp;
+<b class="nc"><i>414</i>&nbsp;            getParent().setOnDragOver(null);</b>
+<b class="nc"><i>415</i>&nbsp;            getParent().setOnDragDropped(null);</b>
+<i>416</i>&nbsp;
+<b class="nc"><i>417</i>&nbsp;            event.setDropCompleted(true);</b>
+<b class="nc"><i>418</i>&nbsp;            event.consume();</b>
+<b class="nc"><i>419</i>&nbsp;        };</b>
+<i>420</i>&nbsp;
+<i>421</i>&nbsp;        // Event for close button click
+<b class="nc"><i>422</i>&nbsp;        close_button.setOnMouseClicked(event -&gt; {</b>
+<b class="nc"><i>423</i>&nbsp;            this.removeDraggableNodeLogic();</b>
+<b class="nc"><i>424</i>&nbsp;        });</b>
+<i>425</i>&nbsp;
+<i>426</i>&nbsp;        // Event for dragging of DraggableNodes
+<b class="nc"><i>427</i>&nbsp;        title_bar.setOnDragDetected(dragDetectedHandler);</b>
+<b class="nc"><i>428</i>&nbsp;    }</b>
+<i>429</i>&nbsp;
+<i>430</i>&nbsp;    /**
+<i>431</i>&nbsp;     * Method: buildDragDetectedHandler
+<i>432</i>&nbsp;     * Functionality: Build logic for event dragDetectedHandler
+<i>433</i>&nbsp;     */
+<i>434</i>&nbsp;    private void buildDragDetectedHandler() {
+<b class="nc"><i>435</i>&nbsp;        dragDetectedHandler = event -&gt; {</b>
+<b class="nc"><i>436</i>&nbsp;            getParent().setOnDragOver(null);</b>
+<b class="nc"><i>437</i>&nbsp;            getParent().setOnDragDropped(null);</b>
+<i>438</i>&nbsp;
+<b class="nc"><i>439</i>&nbsp;            getParent().setOnDragOver(contextDragOver);</b>
+<b class="nc"><i>440</i>&nbsp;            getParent().setOnDragDropped(contextDragDropped);</b>
+<i>441</i>&nbsp;
+<i>442</i>&nbsp;            // Begin drag ops
+<b class="nc"><i>443</i>&nbsp;            dragOffset = new Point2D(event.getX(), event.getY());</b>
+<i>444</i>&nbsp;
+<b class="nc"><i>445</i>&nbsp;            relocateToPoint(</b>
+<b class="nc"><i>446</i>&nbsp;                    new Point2D(event.getSceneX(), event.getSceneY())</b>
+<i>447</i>&nbsp;            );
+<i>448</i>&nbsp;
+<b class="nc"><i>449</i>&nbsp;            ClipboardContent content = new ClipboardContent();</b>
+<b class="nc"><i>450</i>&nbsp;            DragContainer container = new DragContainer();</b>
+<i>451</i>&nbsp;
+<b class="nc"><i>452</i>&nbsp;            container.addData (&quot;type&quot;, this.dragIconType.toString());</b>
+<b class="nc"><i>453</i>&nbsp;            content.put(DragContainer.AddNode, container);</b>
+<i>454</i>&nbsp;
+<b class="nc"><i>455</i>&nbsp;            startDragAndDrop (TransferMode.ANY).setContent(content);</b>
+<i>456</i>&nbsp;
+<b class="nc"><i>457</i>&nbsp;            event.consume();</b>
+<b class="nc"><i>458</i>&nbsp;        };</b>
+<b class="nc"><i>459</i>&nbsp;    }</b>
+<i>460</i>&nbsp;
+<i>461</i>&nbsp;    /**
+<i>462</i>&nbsp;     * Method: removeDraggableNodeLogic
+<i>463</i>&nbsp;     * Functionality: Build the logic for when this draggable nodes is removed
+<i>464</i>&nbsp;     */
+<i>465</i>&nbsp;    private void removeDraggableNodeLogic() {
+<b class="nc"><i>466</i>&nbsp;        AnchorPane parent  = (AnchorPane) this.getParent();</b>
+<i>467</i>&nbsp;
+<i>468</i>&nbsp;        // Iterate each link id connected to this node
+<i>469</i>&nbsp;        // find it&#39;s corresponding component at parent (right_pane (AnchorPane)) and delete it.
+<i>470</i>&nbsp;
+<b class="nc"><i>471</i>&nbsp;        for (ListIterator &lt;String&gt; iterId = linkIds.listIterator();</b>
+<b class="nc"><i>472</i>&nbsp;             iterId.hasNext();) {</b>
+<i>473</i>&nbsp;
+<b class="nc"><i>474</i>&nbsp;            String id = iterId.next();</b>
+<i>475</i>&nbsp;
+<b class="nc"><i>476</i>&nbsp;            for (ListIterator &lt;Node&gt; iterNode = parent.getChildren().listIterator();</b>
+<b class="nc"><i>477</i>&nbsp;                 iterNode.hasNext();) {</b>
+<i>478</i>&nbsp;
+<b class="nc"><i>479</i>&nbsp;                Node node = iterNode.next();</b>
+<i>480</i>&nbsp;
+<b class="nc"><i>481</i>&nbsp;                if (node.getId() == null)</b>
+<b class="nc"><i>482</i>&nbsp;                    continue;</b>
+<i>483</i>&nbsp;
+<b class="nc"><i>484</i>&nbsp;                if (node.getId().equals(id))</b>
+<b class="nc"><i>485</i>&nbsp;                    iterNode.remove();</b>
+<i>486</i>&nbsp;
+<i>487</i>&nbsp;
+<b class="nc"><i>488</i>&nbsp;                if (node instanceof DraggableNode) {</b>
+<i>489</i>&nbsp;
+<b class="nc"><i>490</i>&nbsp;                    DataManager manager = ((DraggableNode) node).getManager();</b>
+<i>491</i>&nbsp;
+<b class="nc"><i>492</i>&nbsp;                    if (manager.getConnectedNodes().containsKey(this.getType().name())) {</b>
+<i>493</i>&nbsp;
+<b class="nc"><i>494</i>&nbsp;                        manager.getNodeProperties().put(this.getType().name(), &quot;&quot;);</b>
+<b class="nc"><i>495</i>&nbsp;                        manager.removeConnectedNodes(this.getType().name());</b>
+<i>496</i>&nbsp;
+<i>497</i>&nbsp;                    }
+<i>498</i>&nbsp;                }
+<i>499</i>&nbsp;
+<b class="nc"><i>500</i>&nbsp;            }</b>
+<i>501</i>&nbsp;
+<b class="nc"><i>502</i>&nbsp;            iterId.remove();</b>
+<b class="nc"><i>503</i>&nbsp;        }</b>
+<b class="nc"><i>504</i>&nbsp;        this.nodeStage.close();</b>
+<b class="nc"><i>505</i>&nbsp;        parent.getChildren().remove(this);</b>
+<i>506</i>&nbsp;
+<b class="nc"><i>507</i>&nbsp;    }</b>
+<i>508</i>&nbsp;
+<i>509</i>&nbsp;    /**
+<i>510</i>&nbsp;     * Method: buildLinkDragHandlers&#39;
+<i>511</i>&nbsp;     * Functionality: Build events:
+<i>512</i>&nbsp;     * changeListener,
+<i>513</i>&nbsp;     * linkHandleDragDetected,
+<i>514</i>&nbsp;     * linkHandleDragDropped,
+<i>515</i>&nbsp;     * contextLinkDragOver,
+<i>516</i>&nbsp;     * contextLinkDragDropped
+<i>517</i>&nbsp;     */
+<i>518</i>&nbsp;    private void buildLinkDragHandlers() {
+<i>519</i>&nbsp;
+<b class="nc"><i>520</i>&nbsp;        changeListener = (observable, oldValue, newValue) -&gt; {</b>
+<b class="nc"><i>521</i>&nbsp;            right_pane = (AnchorPane) getParent();</b>
+<i>522</i>&nbsp;
+<b class="nc"><i>523</i>&nbsp;        };</b>
+<i>524</i>&nbsp;
+<i>525</i>&nbsp;        // Build event linkHandleDragDetected
+<b class="nc"><i>526</i>&nbsp;        linkHandleDragDetected = event -&gt; {</b>
+<i>527</i>&nbsp;
+<b class="nc"><i>528</i>&nbsp;            getParent().setOnDragOver(null);</b>
+<b class="nc"><i>529</i>&nbsp;            getParent().setOnDragDropped(null);</b>
+<i>530</i>&nbsp;
+<b class="nc"><i>531</i>&nbsp;            getParent().setOnDragOver(contextLinkDragOver);</b>
+<b class="nc"><i>532</i>&nbsp;            getParent().setOnDragDropped(contextLinkDragDropped);</b>
+<i>533</i>&nbsp;
+<i>534</i>&nbsp;            //Set up user-draggable link
+<b class="nc"><i>535</i>&nbsp;            right_pane.getChildren().add(0, dragLink);</b>
+<i>536</i>&nbsp;
+<b class="nc"><i>537</i>&nbsp;            dragLink.setVisible(false);</b>
+<i>538</i>&nbsp;
+<b class="nc"><i>539</i>&nbsp;            Point2D p = new Point2D(</b>
+<b class="nc"><i>540</i>&nbsp;                    getLayoutX() + (getWidth() / 2.0),</b>
+<b class="nc"><i>541</i>&nbsp;                    getLayoutY() + (getHeight() / 2.0)</b>
+<i>542</i>&nbsp;            );
+<i>543</i>&nbsp;
+<b class="nc"><i>544</i>&nbsp;            dragLink.setStart(p);</b>
+<i>545</i>&nbsp;
+<i>546</i>&nbsp;            // Drag content code
+<b class="nc"><i>547</i>&nbsp;            ClipboardContent content = new ClipboardContent();</b>
+<b class="nc"><i>548</i>&nbsp;            DragContainer container = new DragContainer();</b>
+<i>549</i>&nbsp;
+<i>550</i>&nbsp;            // Pass the UUID of the source node for later lookup in RootLayout.java
+<b class="nc"><i>551</i>&nbsp;            container.addData(&quot;source&quot;, getId());</b>
+<i>552</i>&nbsp;
+<b class="nc"><i>553</i>&nbsp;            content.put(DragContainer.AddLink, container);</b>
+<i>554</i>&nbsp;
+<b class="nc"><i>555</i>&nbsp;            startDragAndDrop (TransferMode.ANY).setContent(content);</b>
+<i>556</i>&nbsp;
+<b class="nc"><i>557</i>&nbsp;            event.consume();</b>
+<b class="nc"><i>558</i>&nbsp;        };</b>
+<i>559</i>&nbsp;
+<i>560</i>&nbsp;        // Build event linkHandleDragDropped
+<b class="nc"><i>561</i>&nbsp;        linkHandleDragDropped = event -&gt; {</b>
+<i>562</i>&nbsp;
+<b class="nc"><i>563</i>&nbsp;            getParent().setOnDragOver(null);</b>
+<b class="nc"><i>564</i>&nbsp;            getParent().setOnDragDropped(null);</b>
+<i>565</i>&nbsp;
+<i>566</i>&nbsp;            // Get the drag data
+<b class="nc"><i>567</i>&nbsp;            DragContainer container = (DragContainer) event.getDragboard().getContent(DragContainer.AddLink);</b>
+<i>568</i>&nbsp;
+<i>569</i>&nbsp;            // If it&#39;s null, abort. This isn&#39;t the drag event we&#39;re looking for.
+<b class="nc"><i>570</i>&nbsp;            if (container == null) {</b>
+<b class="nc"><i>571</i>&nbsp;                return;</b>
+<i>572</i>&nbsp;            }
+<i>573</i>&nbsp;
+<i>574</i>&nbsp;            // Hide the draggable mainGUI.NodeLink and remove it from the right-hand AnchorPane&#39;s children
+<b class="nc"><i>575</i>&nbsp;            dragLink.setVisible(false);</b>
+<b class="nc"><i>576</i>&nbsp;            right_pane.getChildren().remove(0);</b>
+<i>577</i>&nbsp;
+<b class="nc"><i>578</i>&nbsp;            AnchorPane link_handle = (AnchorPane) event.getSource();</b>
+<i>579</i>&nbsp;
+<b class="nc"><i>580</i>&nbsp;            ClipboardContent content = new ClipboardContent();</b>
+<i>581</i>&nbsp;
+<i>582</i>&nbsp;            // Pass the UUID of the target node for later lookup in class RootLayout.java
+<b class="nc"><i>583</i>&nbsp;            container.addData(&quot;target&quot;, getId());</b>
+<i>584</i>&nbsp;
+<b class="nc"><i>585</i>&nbsp;            content.put(DragContainer.AddLink, container);</b>
+<i>586</i>&nbsp;
+<b class="nc"><i>587</i>&nbsp;            event.getDragboard().setContent(content);</b>
+<b class="nc"><i>588</i>&nbsp;            event.setDropCompleted(true);</b>
+<b class="nc"><i>589</i>&nbsp;            event.consume();</b>
+<b class="nc"><i>590</i>&nbsp;        };</b>
+<i>591</i>&nbsp;
+<i>592</i>&nbsp;        // Drag event for nodeLink
+<b class="nc"><i>593</i>&nbsp;        contextLinkDragOver = event -&gt; {</b>
+<b class="nc"><i>594</i>&nbsp;            event.acceptTransferModes(TransferMode.ANY);</b>
+<i>595</i>&nbsp;            // Relocate end of user-draggable link
+<b class="nc"><i>596</i>&nbsp;            if (!dragLink.isVisible())</b>
+<b class="nc"><i>597</i>&nbsp;                dragLink.setVisible(true);</b>
+<i>598</i>&nbsp;
+<b class="nc"><i>599</i>&nbsp;            dragLink.setEnd(new Point2D(event.getX(), event.getY()));</b>
+<i>600</i>&nbsp;
+<b class="nc"><i>601</i>&nbsp;            event.consume();</b>
+<i>602</i>&nbsp;
+<b class="nc"><i>603</i>&nbsp;        };</b>
+<i>604</i>&nbsp;
+<i>605</i>&nbsp;        // Drop event for nodeLink creation
+<b class="nc"><i>606</i>&nbsp;        contextLinkDragDropped = event -&gt; {</b>
+<i>607</i>&nbsp;
+<b class="nc"><i>608</i>&nbsp;            getParent().setOnDragOver(null);</b>
+<b class="nc"><i>609</i>&nbsp;            getParent().setOnDragDropped(null);</b>
+<i>610</i>&nbsp;
+<i>611</i>&nbsp;            // Hide the draggable mainGUI.NodeLink and remove it from the right-hand AnchorPane&#39;s children
+<b class="nc"><i>612</i>&nbsp;            dragLink.setVisible(false);</b>
+<b class="nc"><i>613</i>&nbsp;            right_pane.getChildren().remove(0);</b>
+<i>614</i>&nbsp;
+<b class="nc"><i>615</i>&nbsp;            event.setDropCompleted(true);</b>
+<b class="nc"><i>616</i>&nbsp;            event.consume();</b>
+<b class="nc"><i>617</i>&nbsp;        };</b>
+<i>618</i>&nbsp;
+<b class="nc"><i>619</i>&nbsp;    }</b>
+<i>620</i>&nbsp;
+<i>621</i>&nbsp;    /**
+<i>622</i>&nbsp;     * Method: createStickyHoverStage
+<i>623</i>&nbsp;     * @return - StickyHooverStage
+<i>624</i>&nbsp;     */
+<i>625</i>&nbsp;    private StickyHooverStage createStickyHoverStage() {
+<i>626</i>&nbsp;
+<b class="nc"><i>627</i>&nbsp;        ArrayList&lt;String&gt; content = new ArrayList&lt;&gt;(Arrays.asList(this.manager.getValidNodeNeighbours()));</b>
+<b class="nc"><i>628</i>&nbsp;        content.add(0, this.getType().name() + &quot;\n&quot;);</b>
+<b class="nc"><i>629</i>&nbsp;        content.add(1,&quot;Valid Neighbours\n===============&quot;);</b>
+<b class="nc"><i>630</i>&nbsp;        return new StickyHooverStage(content, this.getPrefWidth(), this.getPrefHeight(), this.primaryStage);</b>
+<i>631</i>&nbsp;    }
+<i>632</i>&nbsp;
+<i>633</i>&nbsp;    NodeStage getNodeStage() {
+<b class="nc"><i>634</i>&nbsp;        return nodeStage;</b>
+<i>635</i>&nbsp;    }
+<i>636</i>&nbsp;
+<i>637</i>&nbsp;    /**
+<i>638</i>&nbsp;     * Method: getManager
+<i>639</i>&nbsp;     * Functionality: return instance variable &quot;manager&quot;
+<i>640</i>&nbsp;     * @return - DataSharingManager
+<i>641</i>&nbsp;     */
+<i>642</i>&nbsp;    public DataManager getManager() {
+<b class="nc"><i>643</i>&nbsp;        return this.manager;</b>
+<i>644</i>&nbsp;    }
+<i>645</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-06-08 17:08</div>
+</div>
+</body>
+</html>

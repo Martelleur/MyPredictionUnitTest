@@ -1,0 +1,454 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: GeneralAlgorithm</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">myprediction.algorithms</a> ]
+</div>
+
+<h1>Coverage Summary for Class: GeneralAlgorithm (myprediction.algorithms)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">GeneralAlgorithm</td>
+<td class="coverageStat">
+  <span class="percent">
+    88.9%
+  </span>
+  <span class="absValue">
+    (16/ 18)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    58.9%
+  </span>
+  <span class="absValue">
+    (66/ 112)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">GeneralAlgorithm$MockitoMock$1059101740</td>
+  </tr>
+  <tr>
+    <td class="name">GeneralAlgorithm$MockitoMock$1059101740$auxiliary$0jgvCR7J</td>
+  </tr>
+  <tr>
+    <td class="name">GeneralAlgorithm$MockitoMock$1059101740$auxiliary$2fqWLizl</td>
+  </tr>
+  <tr>
+    <td class="name">GeneralAlgorithm$MockitoMock$1059101740$auxiliary$59Qd7kug</td>
+  </tr>
+  <tr>
+    <td class="name">GeneralAlgorithm$MockitoMock$1059101740$auxiliary$8C1GVVmS</td>
+  </tr>
+  <tr>
+    <td class="name">GeneralAlgorithm$MockitoMock$1059101740$auxiliary$8ZzAQlF5</td>
+  </tr>
+  <tr>
+    <td class="name">GeneralAlgorithm$MockitoMock$1059101740$auxiliary$Br7n0nf0</td>
+  </tr>
+  <tr>
+    <td class="name">GeneralAlgorithm$MockitoMock$1059101740$auxiliary$dxYtSH10</td>
+  </tr>
+  <tr>
+    <td class="name">GeneralAlgorithm$MockitoMock$1059101740$auxiliary$fpufO6vv</td>
+  </tr>
+  <tr>
+    <td class="name">GeneralAlgorithm$MockitoMock$1059101740$auxiliary$hDPj1CFz</td>
+  </tr>
+  <tr>
+    <td class="name">GeneralAlgorithm$MockitoMock$1059101740$auxiliary$jZf12IEi</td>
+  </tr>
+  <tr>
+    <td class="name">GeneralAlgorithm$MockitoMock$1059101740$auxiliary$LBxWZGCN</td>
+  </tr>
+  <tr>
+    <td class="name">GeneralAlgorithm$MockitoMock$1059101740$auxiliary$Mi7K7TuD</td>
+  </tr>
+  <tr>
+    <td class="name">GeneralAlgorithm$MockitoMock$1059101740$auxiliary$mO7YSOoM</td>
+  </tr>
+  <tr>
+    <td class="name">GeneralAlgorithm$MockitoMock$1059101740$auxiliary$OVrLjYDr</td>
+  </tr>
+  <tr>
+    <td class="name">GeneralAlgorithm$MockitoMock$1059101740$auxiliary$PvJw9N6t</td>
+  </tr>
+  <tr>
+    <td class="name">GeneralAlgorithm$MockitoMock$1059101740$auxiliary$qmBKcv74</td>
+  </tr>
+  <tr>
+    <td class="name">GeneralAlgorithm$MockitoMock$1059101740$auxiliary$SkSbzjDw</td>
+  </tr>
+  <tr>
+    <td class="name">GeneralAlgorithm$MockitoMock$1059101740$auxiliary$xYCHUTUK</td>
+  </tr>
+  <tr>
+    <td class="name">GeneralAlgorithm$MockitoMock$1059101740$auxiliary$zeOXkP00</td>
+  </tr>
+<tr>
+  <td class="name"><strong>total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    88.9%
+  </span>
+  <span class="absValue">
+    (16/ 18)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    58.9%
+  </span>
+  <span class="absValue">
+    (66/ 112)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package myprediction.algorithms;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import org.springframework.stereotype.Component;
+<i>4</i>&nbsp;import weka.classifiers.Classifier;
+<i>5</i>&nbsp;import weka.classifiers.Evaluation;
+<i>6</i>&nbsp;import weka.classifiers.trees.J48;
+<i>7</i>&nbsp;import weka.core.Instances;
+<i>8</i>&nbsp;import weka.core.converters.ConverterUtils;
+<i>9</i>&nbsp;
+<i>10</i>&nbsp;import java.io.File;
+<i>11</i>&nbsp;import java.io.FileNotFoundException;
+<i>12</i>&nbsp;import java.io.IOException;
+<i>13</i>&nbsp;import java.net.URL;
+<i>14</i>&nbsp;import java.net.URLConnection;
+<i>15</i>&nbsp;import java.util.Scanner;
+<i>16</i>&nbsp;
+<i>17</i>&nbsp;/**
+<i>18</i>&nbsp; * Abstract Class: GeneralAlgorithm
+<i>19</i>&nbsp; * Author: Joel Martelleur
+<i>20</i>&nbsp; * Date: 2020-05-03
+<i>21</i>&nbsp; * @version v1.0
+<i>22</i>&nbsp; */
+<i>23</i>&nbsp;@Component(&quot;generalalgorithm&quot;)
+<b class="fc"><i>24</i>&nbsp;public abstract class GeneralAlgorithm implements Algorithm {</b>
+<i>25</i>&nbsp;
+<i>26</i>&nbsp;    private String trainingData;
+<i>27</i>&nbsp;    private String testData;
+<i>28</i>&nbsp;    private String evaluateData;
+<b class="fc"><i>29</i>&nbsp;    private int trainingIndex = -1;</b>
+<b class="fc"><i>30</i>&nbsp;    private int testIndex= -1;</b>
+<b class="fc"><i>31</i>&nbsp;    private int evaluateIndex= -1;</b>
+<i>32</i>&nbsp;
+<i>33</i>&nbsp;    @Override
+<i>34</i>&nbsp;    public abstract Classifier getClassifier();
+<i>35</i>&nbsp;
+<i>36</i>&nbsp;    @Override
+<i>37</i>&nbsp;    public abstract String getName();
+<i>38</i>&nbsp;
+<i>39</i>&nbsp;    @Override
+<i>40</i>&nbsp;    public abstract String getDescriptionAddress();
+<i>41</i>&nbsp;
+<i>42</i>&nbsp;    @Override
+<i>43</i>&nbsp;    public abstract String getDescription(String address);
+<i>44</i>&nbsp;
+<i>45</i>&nbsp;    @Override
+<i>46</i>&nbsp;    public void setTrainingData(String path) {
+<b class="fc"><i>47</i>&nbsp;        this.trainingData = path;</b>
+<b class="fc"><i>48</i>&nbsp;    }</b>
+<i>49</i>&nbsp;
+<i>50</i>&nbsp;    @Override
+<i>51</i>&nbsp;    public void setTestData(String path) {
+<b class="fc"><i>52</i>&nbsp;        this.testData = path;</b>
+<b class="fc"><i>53</i>&nbsp;    }</b>
+<i>54</i>&nbsp;
+<i>55</i>&nbsp;    @Override
+<i>56</i>&nbsp;    public void setEvaluateData(String path) {
+<b class="fc"><i>57</i>&nbsp;        this.evaluateData = path;</b>
+<b class="fc"><i>58</i>&nbsp;    }</b>
+<i>59</i>&nbsp;
+<i>60</i>&nbsp;    @Override
+<i>61</i>&nbsp;    public String getTrainingData() {
+<b class="fc"><i>62</i>&nbsp;        return this.trainingData;</b>
+<i>63</i>&nbsp;    }
+<i>64</i>&nbsp;
+<i>65</i>&nbsp;    @Override
+<i>66</i>&nbsp;    public String getTestData() {
+<b class="fc"><i>67</i>&nbsp;        return this.testData;</b>
+<i>68</i>&nbsp;    }
+<i>69</i>&nbsp;
+<i>70</i>&nbsp;    @Override
+<i>71</i>&nbsp;    public String getEvaluateData() {
+<b class="fc"><i>72</i>&nbsp;        return this.evaluateData;</b>
+<i>73</i>&nbsp;    }
+<i>74</i>&nbsp;
+<i>75</i>&nbsp;    @Override
+<i>76</i>&nbsp;    public String getPrediction(boolean csvFormat) throws Exception {
+<i>77</i>&nbsp;
+<i>78</i>&nbsp;        // Set prediction column for training data
+<b class="nc"><i>79</i>&nbsp;        ConverterUtils.DataSource source = new ConverterUtils.DataSource(getTrainingData());</b>
+<b class="nc"><i>80</i>&nbsp;        Instances train = source.getDataSet();</b>
+<b class="nc"><i>81</i>&nbsp;        train.setClassIndex(getTrainingIndex());</b>
+<i>82</i>&nbsp;
+<i>83</i>&nbsp;
+<i>84</i>&nbsp;        // Set prediction column for test data
+<b class="nc"><i>85</i>&nbsp;        source = new ConverterUtils.DataSource(getTestData());</b>
+<b class="nc"><i>86</i>&nbsp;        Instances test = source.getDataSet();</b>
+<b class="nc"><i>87</i>&nbsp;        test.setClassIndex(getTestIndex());</b>
+<i>88</i>&nbsp;
+<i>89</i>&nbsp;        // if (J48) this.getClassifier()).setUnpruned(true)
+<b class="nc"><i>90</i>&nbsp;        if (this.getClassifier() instanceof J48) {</b>
+<b class="nc"><i>91</i>&nbsp;            ((J48) this.getClassifier()).setUnpruned(true);</b>
+<i>92</i>&nbsp;        }
+<i>93</i>&nbsp;
+<i>94</i>&nbsp;        // Build classifiers
+<b class="nc"><i>95</i>&nbsp;        this.getClassifier().buildClassifier(train);</b>
+<i>96</i>&nbsp;
+<b class="nc"><i>97</i>&nbsp;        StringBuilder out = new StringBuilder();</b>
+<i>98</i>&nbsp;
+<i>99</i>&nbsp;        // Building attributes for output (Headers)
+<b class="nc"><i>100</i>&nbsp;        for (int i = 0; i &lt; train.numAttributes(); i++) {</b>
+<i>101</i>&nbsp;
+<b class="nc"><i>102</i>&nbsp;            if (csvFormat){</b>
+<b class="nc"><i>103</i>&nbsp;                if (i == (train.numAttributes() - 1)) {</b>
+<i>104</i>&nbsp;                    // out.append(train.attribute(i).name()).append(&quot;,&quot;).append(&quot;Prediction&quot;);
+<b class="nc"><i>105</i>&nbsp;                    out.append(train.attribute(i).name());</b>
+<b class="nc"><i>106</i>&nbsp;                } else if (i == 0) {</b>
+<b class="nc"><i>107</i>&nbsp;                    out.append(&quot;Prediction&quot;).append(train.attribute(i).name()).append(&quot;,&quot;);</b>
+<i>108</i>&nbsp;                } else {
+<b class="nc"><i>109</i>&nbsp;                    out.append(train.attribute(i).name()).append(&quot;,&quot;);</b>
+<i>110</i>&nbsp;                }
+<i>111</i>&nbsp;            } else {
+<b class="nc"><i>112</i>&nbsp;                out.append(train.attribute(i).name()).append(&quot; &quot;);</b>
+<i>113</i>&nbsp;            }
+<i>114</i>&nbsp;
+<i>115</i>&nbsp;        }
+<i>116</i>&nbsp;
+<i>117</i>&nbsp;        // Building instances for output (data)
+<b class="nc"><i>118</i>&nbsp;        for (int i = 0; i &lt; test.numInstances(); i++) {</b>
+<b class="nc"><i>119</i>&nbsp;            double clsLabel = this.getClassifier().classifyInstance(test.instance(i));</b>
+<i>120</i>&nbsp;
+<b class="nc"><i>121</i>&nbsp;            String label = test.classAttribute().value((int) clsLabel);</b>
+<i>122</i>&nbsp;
+<b class="nc"><i>123</i>&nbsp;            if (csvFormat) {</b>
+<i>124</i>&nbsp;                // out.append(&quot;\n&quot;).append(test.instance(i)).append(&quot;,&quot;).append(label);
+<b class="nc"><i>125</i>&nbsp;                out.append(&quot;\n&quot;).append(label).append(&quot;,&quot;).append(test.instance(i));</b>
+<i>126</i>&nbsp;            } else {
+<b class="nc"><i>127</i>&nbsp;                out.append(&quot;\n\nCase: &quot;).append(i + 1);</b>
+<b class="nc"><i>128</i>&nbsp;                out.append(&quot;\n&quot;).append(&quot;Data: &quot;).append(test.instance(i));</b>
+<b class="nc"><i>129</i>&nbsp;                out.append(&quot;\nPrediction: &quot;).append(label).append(&quot;\n&quot;);</b>
+<i>130</i>&nbsp;            }
+<i>131</i>&nbsp;
+<i>132</i>&nbsp;        }
+<i>133</i>&nbsp;
+<b class="nc"><i>134</i>&nbsp;        return out.toString();</b>
+<i>135</i>&nbsp;    }
+<i>136</i>&nbsp;
+<i>137</i>&nbsp;    @Override
+<i>138</i>&nbsp;    public String getEvaluations() throws Exception {
+<i>139</i>&nbsp;
+<b class="nc"><i>140</i>&nbsp;        ConverterUtils.DataSource source = new ConverterUtils.DataSource(this.trainingData);</b>
+<b class="nc"><i>141</i>&nbsp;        Instances train = source.getDataSet();</b>
+<b class="nc"><i>142</i>&nbsp;        train.setClassIndex(this.trainingIndex);</b>
+<i>143</i>&nbsp;
+<b class="nc"><i>144</i>&nbsp;        if (train.classIndex() == -1) {</b>
+<b class="nc"><i>145</i>&nbsp;            train.setClassIndex(train.numAttributes() -1);</b>
+<i>146</i>&nbsp;        }
+<i>147</i>&nbsp;
+<b class="nc"><i>148</i>&nbsp;        source = new ConverterUtils.DataSource(this.evaluateData);</b>
+<b class="nc"><i>149</i>&nbsp;        Instances evaluate = source.getDataSet();</b>
+<b class="nc"><i>150</i>&nbsp;        evaluate.setClassIndex(evaluateIndex);</b>
+<i>151</i>&nbsp;
+<i>152</i>&nbsp;
+<b class="nc"><i>153</i>&nbsp;        if (train.classIndex() == -1) {</b>
+<b class="nc"><i>154</i>&nbsp;            evaluate.setClassIndex(evaluate.numAttributes() -1);</b>
+<i>155</i>&nbsp;        }
+<i>156</i>&nbsp;
+<i>157</i>&nbsp;
+<b class="nc"><i>158</i>&nbsp;        if (this.getClassifier() instanceof J48) {</b>
+<b class="nc"><i>159</i>&nbsp;            ((J48) this.getClassifier()).setUnpruned(true);</b>
+<i>160</i>&nbsp;        }
+<i>161</i>&nbsp;
+<b class="nc"><i>162</i>&nbsp;        this.getClassifier().buildClassifier(train);</b>
+<b class="nc"><i>163</i>&nbsp;        Evaluation evaluation = new Evaluation(train);</b>
+<b class="nc"><i>164</i>&nbsp;        evaluation.evaluateModel(getClassifier(), evaluate);</b>
+<i>165</i>&nbsp;
+<b class="nc"><i>166</i>&nbsp;        return evaluation.toSummaryString().replace(&quot; &quot;, &quot;,&quot;);</b>
+<i>167</i>&nbsp;        // return evaluation.toSummaryString(this.getClassifier().getClass().getSimpleName() + &quot;,result: &quot;, false);
+<i>168</i>&nbsp;    }
+<i>169</i>&nbsp;
+<i>170</i>&nbsp;    @Override
+<i>171</i>&nbsp;    public int getTrainingIndex() {
+<b class="fc"><i>172</i>&nbsp;        if (this.trainingIndex == -1) {</b>
+<b class="nc"><i>173</i>&nbsp;            throw new IllegalStateException(&quot;Index is not set!&quot;);</b>
+<i>174</i>&nbsp;        }
+<b class="fc"><i>175</i>&nbsp;        return this.trainingIndex;</b>
+<i>176</i>&nbsp;    }
+<i>177</i>&nbsp;
+<i>178</i>&nbsp;    @Override
+<i>179</i>&nbsp;    public void setTrainingIndex(int i) throws FileNotFoundException {
+<b class="fc"><i>180</i>&nbsp;        if (this.trainingData == null) {</b>
+<b class="fc"><i>181</i>&nbsp;            throw new IllegalStateException(&quot;No training data i set!&quot;);</b>
+<i>182</i>&nbsp;        } else {
+<b class="fc"><i>183</i>&nbsp;            int numberOfDataAttributes = this.getNumberOfDataAttributes(this.trainingData);</b>
+<b class="fc"><i>184</i>&nbsp;            if (i &gt;= 0 &amp;&amp; i &lt; numberOfDataAttributes) {</b>
+<b class="fc"><i>185</i>&nbsp;                this.trainingIndex = i;</b>
+<i>186</i>&nbsp;            } else {
+<b class="fc"><i>187</i>&nbsp;                throw new IllegalArgumentException(&quot;Index have to be in the range of number of attributes!&quot;);</b>
+<i>188</i>&nbsp;            }
+<i>189</i>&nbsp;        }
+<b class="fc"><i>190</i>&nbsp;    }</b>
+<i>191</i>&nbsp;
+<i>192</i>&nbsp;    @Override
+<i>193</i>&nbsp;    public int getTestIndex() {
+<b class="fc"><i>194</i>&nbsp;        if (this.testIndex == -1) {</b>
+<b class="nc"><i>195</i>&nbsp;            throw new IllegalStateException(&quot;Index is not set!&quot;);</b>
+<i>196</i>&nbsp;        }
+<b class="fc"><i>197</i>&nbsp;        return this.testIndex;</b>
+<i>198</i>&nbsp;    }
+<i>199</i>&nbsp;
+<i>200</i>&nbsp;    @Override
+<i>201</i>&nbsp;    public void setTestIndex(int i) throws FileNotFoundException {
+<b class="fc"><i>202</i>&nbsp;        if (this.testData == null) {</b>
+<b class="fc"><i>203</i>&nbsp;            throw new IllegalStateException(&quot;No training data is set!&quot;);</b>
+<i>204</i>&nbsp;        } else {
+<b class="fc"><i>205</i>&nbsp;            int numberOfDataAttributes = this.getNumberOfDataAttributes(this.testData);</b>
+<b class="fc"><i>206</i>&nbsp;            if (i &gt;= 0 &amp;&amp; i &lt; numberOfDataAttributes) {</b>
+<b class="fc"><i>207</i>&nbsp;                this.testIndex = i;</b>
+<i>208</i>&nbsp;            } else {
+<b class="fc"><i>209</i>&nbsp;                throw new IllegalArgumentException(&quot;Index have to be in the range of number of attributes!&quot;);</b>
+<i>210</i>&nbsp;            }
+<i>211</i>&nbsp;        }
+<b class="fc"><i>212</i>&nbsp;    }</b>
+<i>213</i>&nbsp;
+<i>214</i>&nbsp;    @Override
+<i>215</i>&nbsp;    public int getEvaluateIndex() {
+<b class="fc"><i>216</i>&nbsp;        if (this.evaluateIndex == -1) {</b>
+<b class="nc"><i>217</i>&nbsp;            throw new IllegalStateException(&quot;Index is not set!&quot;);</b>
+<i>218</i>&nbsp;        }
+<b class="fc"><i>219</i>&nbsp;        return this.evaluateIndex;</b>
+<i>220</i>&nbsp;    }
+<i>221</i>&nbsp;
+<i>222</i>&nbsp;    @Override
+<i>223</i>&nbsp;    public void setEvaluateIndex(int i) throws FileNotFoundException {
+<b class="fc"><i>224</i>&nbsp;        if (this.evaluateData == null) {</b>
+<b class="fc"><i>225</i>&nbsp;            throw new IllegalStateException(&quot;No training data i set!&quot;);</b>
+<i>226</i>&nbsp;        } else {
+<b class="fc"><i>227</i>&nbsp;            int numberOfDataAttributes = this.getNumberOfDataAttributes(this.evaluateData);</b>
+<b class="fc"><i>228</i>&nbsp;            if (i &gt;= 0 &amp;&amp; i &lt; numberOfDataAttributes) {</b>
+<b class="fc"><i>229</i>&nbsp;                this.evaluateIndex = i;</b>
+<i>230</i>&nbsp;            } else {
+<b class="fc"><i>231</i>&nbsp;                throw new IllegalArgumentException(&quot;Index have to be in the range of number of attributes!&quot;);</b>
+<i>232</i>&nbsp;            }
+<i>233</i>&nbsp;        }
+<b class="fc"><i>234</i>&nbsp;    }</b>
+<i>235</i>&nbsp;
+<i>236</i>&nbsp;    @Override
+<i>237</i>&nbsp;    public void setStandardIndexes() throws FileNotFoundException {
+<i>238</i>&nbsp;
+<b class="fc"><i>239</i>&nbsp;        if (trainingData != null) {</b>
+<b class="fc"><i>240</i>&nbsp;            this.trainingIndex = this.getNumberOfDataAttributes(trainingData) -1;</b>
+<i>241</i>&nbsp;        }
+<i>242</i>&nbsp;
+<b class="fc"><i>243</i>&nbsp;        if (testData != null) {</b>
+<b class="fc"><i>244</i>&nbsp;            this.testIndex = this.getNumberOfDataAttributes(testData) -1;</b>
+<i>245</i>&nbsp;        }
+<i>246</i>&nbsp;
+<b class="fc"><i>247</i>&nbsp;        if (evaluateData != null) {</b>
+<b class="fc"><i>248</i>&nbsp;            this.evaluateIndex = this.getNumberOfDataAttributes(evaluateData) -1;</b>
+<i>249</i>&nbsp;        }
+<b class="fc"><i>250</i>&nbsp;    }</b>
+<i>251</i>&nbsp;
+<i>252</i>&nbsp;    /**
+<i>253</i>&nbsp;     * Method name: getNumberOfDataAttributes
+<i>254</i>&nbsp;     * @param data - int
+<i>255</i>&nbsp;     * @return - int representing number of data attributes in file
+<i>256</i>&nbsp;     * @throws FileNotFoundException -
+<i>257</i>&nbsp;     */
+<i>258</i>&nbsp;    public int getNumberOfDataAttributes(String data) throws FileNotFoundException {
+<i>259</i>&nbsp;
+<i>260</i>&nbsp;        int attributeCounter;
+<b class="fc"><i>261</i>&nbsp;        String regex = &quot;[\\s]&quot;;</b>
+<i>262</i>&nbsp;        String[] strings;
+<b class="fc"><i>263</i>&nbsp;        File file = new File(data);</b>
+<i>264</i>&nbsp;
+<b class="fc"><i>265</i>&nbsp;        attributeCounter = 0;</b>
+<i>266</i>&nbsp;
+<b class="fc"><i>267</i>&nbsp;        Scanner scanner = new Scanner(file);</b>
+<b class="fc"><i>268</i>&nbsp;        while (scanner.hasNext()) {</b>
+<b class="fc"><i>269</i>&nbsp;            String str = scanner.nextLine();</b>
+<b class="fc"><i>270</i>&nbsp;            strings = str.split(regex);</b>
+<i>271</i>&nbsp;
+<b class="fc"><i>272</i>&nbsp;            if (strings[0].equals(&quot;@attribute&quot;) || strings[0].equals(&quot;@ATTRIBUTE&quot;) || strings[0].equals(&quot;@Attribute&quot;)) {</b>
+<b class="fc"><i>273</i>&nbsp;                attributeCounter++;</b>
+<i>274</i>&nbsp;            }
+<b class="fc"><i>275</i>&nbsp;        }</b>
+<i>276</i>&nbsp;
+<b class="fc"><i>277</i>&nbsp;        scanner.close();</b>
+<i>278</i>&nbsp;
+<b class="fc"><i>279</i>&nbsp;        return attributeCounter;</b>
+<i>280</i>&nbsp;    }
+<i>281</i>&nbsp;
+<i>282</i>&nbsp;
+<i>283</i>&nbsp;    /**
+<i>284</i>&nbsp;     * Method: isConnected
+<i>285</i>&nbsp;     * Functionality: Test the connection to the address
+<i>286</i>&nbsp;     * @param address - String
+<i>287</i>&nbsp;     * @return - boolean that represent the connection state to the address
+<i>288</i>&nbsp;     */
+<i>289</i>&nbsp;    @Override
+<i>290</i>&nbsp;    public boolean isConnected(String address) {
+<i>291</i>&nbsp;
+<i>292</i>&nbsp;        try {
+<b class="fc"><i>293</i>&nbsp;            URL url = new URL(address);</b>
+<b class="fc"><i>294</i>&nbsp;            URLConnection urlConnection = url.openConnection();</b>
+<b class="fc"><i>295</i>&nbsp;            urlConnection.connect();</b>
+<b class="fc"><i>296</i>&nbsp;            urlConnection.getInputStream().close();</b>
+<b class="fc"><i>297</i>&nbsp;            return true;</b>
+<i>298</i>&nbsp;
+<b class="fc"><i>299</i>&nbsp;        } catch (IOException e) {</b>
+<b class="fc"><i>300</i>&nbsp;            return false;</b>
+<i>301</i>&nbsp;        }
+<i>302</i>&nbsp;    }
+<i>303</i>&nbsp;
+<i>304</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-06-08 17:08</div>
+</div>
+</body>
+</html>

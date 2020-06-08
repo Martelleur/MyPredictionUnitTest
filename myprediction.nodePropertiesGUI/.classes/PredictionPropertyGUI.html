@@ -1,0 +1,796 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: PredictionPropertyGUI</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">myprediction.nodePropertiesGUI</a> ]
+</div>
+
+<h1>Coverage Summary for Class: PredictionPropertyGUI (myprediction.nodePropertiesGUI)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">PredictionPropertyGUI</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 22)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 269)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">PredictionPropertyGUI$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 23)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 270)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package myprediction.nodePropertiesGUI;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import javafx.beans.value.ChangeListener;
+<i>4</i>&nbsp;import javafx.collections.ObservableMap;
+<i>5</i>&nbsp;import javafx.event.ActionEvent;
+<i>6</i>&nbsp;import javafx.event.EventHandler;
+<i>7</i>&nbsp;import javafx.scene.Cursor;
+<i>8</i>&nbsp;import javafx.scene.Scene;
+<i>9</i>&nbsp;import javafx.scene.control.*;
+<i>10</i>&nbsp;import javafx.scene.layout.AnchorPane;
+<i>11</i>&nbsp;import javafx.scene.layout.GridPane;
+<i>12</i>&nbsp;import javafx.stage.Stage;
+<i>13</i>&nbsp;import myprediction.algorithms.Algorithm;
+<i>14</i>&nbsp;import myprediction.AppConfig;
+<i>15</i>&nbsp;import javafx.collections.MapChangeListener;
+<i>16</i>&nbsp;import javafx.fxml.FXML;
+<i>17</i>&nbsp;import javafx.fxml.FXMLLoader;
+<i>18</i>&nbsp;import javafx.scene.layout.BorderPane;
+<i>19</i>&nbsp;import javafx.scene.text.Text;
+<i>20</i>&nbsp;import myprediction.management.FileManager;
+<i>21</i>&nbsp;import myprediction.nodePropertiesManagement.DataManager;
+<i>22</i>&nbsp;import myprediction.mainGUI.DraggableNode;
+<i>23</i>&nbsp;import myprediction.nodePropertiesManagement.NodePropertiesKeys;
+<i>24</i>&nbsp;import org.springframework.context.ApplicationContext;
+<i>25</i>&nbsp;import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+<i>26</i>&nbsp;
+<i>27</i>&nbsp;import java.io.File;
+<i>28</i>&nbsp;import java.io.IOException;
+<i>29</i>&nbsp;import java.util.ArrayList;
+<i>30</i>&nbsp;import java.util.Arrays;
+<i>31</i>&nbsp;import java.util.HashMap;
+<i>32</i>&nbsp;import java.util.concurrent.atomic.AtomicBoolean;
+<i>33</i>&nbsp;
+<i>34</i>&nbsp;
+<i>35</i>&nbsp;/**
+<i>36</i>&nbsp; * Class: PredictionNodeProperty
+<i>37</i>&nbsp; * Author: Joel Martelleur
+<i>38</i>&nbsp; * Date: 2020-05-22
+<i>39</i>&nbsp; * @version v1.0
+<i>40</i>&nbsp; */
+<i>41</i>&nbsp;public class PredictionPropertyGUI extends BorderPane {
+<i>42</i>&nbsp;
+<i>43</i>&nbsp;    @FXML private GridPane grid_pane;
+<i>44</i>&nbsp;    @FXML private Button clone_node;
+<i>45</i>&nbsp;    @FXML private Button synchronize_class_attribute;
+<i>46</i>&nbsp;
+<i>47</i>&nbsp;    @FXML private Text training_data;
+<i>48</i>&nbsp;    @FXML private Text test_data;
+<i>49</i>&nbsp;    @FXML private Text prediction_lr;
+<i>50</i>&nbsp;    @FXML private Text prediction_knn;
+<i>51</i>&nbsp;    @FXML private Text prediction_mlp;
+<i>52</i>&nbsp;    @FXML private Text prediction_nb;
+<i>53</i>&nbsp;    @FXML private Text prediction_td;
+<i>54</i>&nbsp;    @FXML private Text text_class_attributes_status;
+<i>55</i>&nbsp;    @FXML private Text prediction_my_prediction;
+<i>56</i>&nbsp;
+<i>57</i>&nbsp;    @FXML private ScrollPane sp_test_data;
+<i>58</i>&nbsp;    @FXML private ScrollPane sp_training_data;
+<i>59</i>&nbsp;    @FXML private ScrollPane sp_linear_regression;
+<i>60</i>&nbsp;    @FXML private ScrollPane sp_knn;
+<i>61</i>&nbsp;    @FXML private ScrollPane sp_multi_layer_perceptron;
+<i>62</i>&nbsp;    @FXML private ScrollPane sp_naive_bayes;
+<i>63</i>&nbsp;    @FXML private ScrollPane sp_tree_decision;
+<i>64</i>&nbsp;    @FXML private ScrollPane sp_my_prediction;
+<i>65</i>&nbsp;
+<i>66</i>&nbsp;    @FXML private Button button_test_data;
+<i>67</i>&nbsp;    @FXML private Button button_training_data;
+<i>68</i>&nbsp;    @FXML private Button button_linear_regression;
+<i>69</i>&nbsp;    @FXML private Button button_knn;
+<i>70</i>&nbsp;    @FXML private Button button_multi_layer_perceptron;
+<i>71</i>&nbsp;    @FXML private Button button_my_prediction;
+<i>72</i>&nbsp;    @FXML private Button button_naive_bayes;
+<i>73</i>&nbsp;    @FXML private Button button_tree_decision;
+<i>74</i>&nbsp;
+<b class="nc"><i>75</i>&nbsp;    private ApplicationContext applicationContext = new AnnotationConfigApplicationContext(AppConfig.class);</b>
+<b class="nc"><i>76</i>&nbsp;    private MapChangeListener&lt;String, String&gt; nodePropertiesHandler = null;</b>
+<b class="nc"><i>77</i>&nbsp;    private EventHandler&lt;ActionEvent&gt; cloneNodeHandler = null;</b>
+<b class="nc"><i>78</i>&nbsp;    private EventHandler&lt;ActionEvent&gt; nodeInFullScreenHandler = null;</b>
+<b class="nc"><i>79</i>&nbsp;    private ChangeListener&lt;Number&gt; sizeListener = null;</b>
+<b class="nc"><i>80</i>&nbsp;    private EventHandler&lt;ActionEvent&gt; synchronizeAttributesHandler = null;</b>
+<i>81</i>&nbsp;
+<i>82</i>&nbsp;    private DataManager manager;
+<i>83</i>&nbsp;    private DraggableNode draggableNode;
+<b class="nc"><i>84</i>&nbsp;    private HashMap&lt;String, TableView&lt;TransformToTableView.Data&gt;&gt; tableViews = new HashMap&lt;&gt;();</b>
+<i>85</i>&nbsp;    private Stage primaryStage;
+<i>86</i>&nbsp;
+<i>87</i>&nbsp;
+<i>88</i>&nbsp;    /**
+<i>89</i>&nbsp;     * Constructor: PredictionNodeProperty
+<i>90</i>&nbsp;     * @param draggableNode - DraggableNode
+<i>91</i>&nbsp;     */
+<b class="nc"><i>92</i>&nbsp;    public PredictionPropertyGUI(DraggableNode draggableNode, Stage primaryStage) {</b>
+<i>93</i>&nbsp;
+<b class="nc"><i>94</i>&nbsp;        this.primaryStage = primaryStage;</b>
+<b class="nc"><i>95</i>&nbsp;        this.manager = draggableNode.getManager();</b>
+<b class="nc"><i>96</i>&nbsp;        this.draggableNode = draggableNode;</b>
+<i>97</i>&nbsp;
+<b class="nc"><i>98</i>&nbsp;        FXMLLoader fxmlLoader = new FXMLLoader(</b>
+<b class="nc"><i>99</i>&nbsp;                getClass().getResource(&quot;/myprediction/nodePropertiesGUI/PredictionPropertyGUI.fxml&quot;)</b>
+<i>100</i>&nbsp;        );
+<i>101</i>&nbsp;
+<b class="nc"><i>102</i>&nbsp;        fxmlLoader.setRoot(this);</b>
+<b class="nc"><i>103</i>&nbsp;        fxmlLoader.setController(this);</b>
+<i>104</i>&nbsp;
+<i>105</i>&nbsp;        try {
+<b class="nc"><i>106</i>&nbsp;            fxmlLoader.load();</b>
+<i>107</i>&nbsp;
+<b class="nc"><i>108</i>&nbsp;        } catch (IOException exception) {</b>
+<b class="nc"><i>109</i>&nbsp;            throw new RuntimeException(exception);</b>
+<b class="nc"><i>110</i>&nbsp;        }</b>
+<i>111</i>&nbsp;
+<b class="nc"><i>112</i>&nbsp;        this.setUp();</b>
+<b class="nc"><i>113</i>&nbsp;    }</b>
+<i>114</i>&nbsp;
+<i>115</i>&nbsp;    /**
+<i>116</i>&nbsp;     * Method: setUp
+<i>117</i>&nbsp;     * Functionality: Setup for this class
+<i>118</i>&nbsp;     */
+<i>119</i>&nbsp;    private void setUp() {
+<i>120</i>&nbsp;
+<i>121</i>&nbsp;        // Build events
+<b class="nc"><i>122</i>&nbsp;        buildNodePropertiesHandler();</b>
+<b class="nc"><i>123</i>&nbsp;        buildCloneNodeHandler();</b>
+<b class="nc"><i>124</i>&nbsp;        buildNodeInFullScreenHandler();</b>
+<b class="nc"><i>125</i>&nbsp;        buildParentChangeListener();</b>
+<b class="nc"><i>126</i>&nbsp;        buildSynchronizeAttributesHandler();</b>
+<i>127</i>&nbsp;
+<i>128</i>&nbsp;        // Connect and register events
+<b class="nc"><i>129</i>&nbsp;        this.manager.getNodeProperties().addListener(nodePropertiesHandler);</b>
+<b class="nc"><i>130</i>&nbsp;        this.clone_node.setOnAction(cloneNodeHandler);</b>
+<i>131</i>&nbsp;
+<b class="nc"><i>132</i>&nbsp;        this.synchronize_class_attribute.setOnAction(synchronizeAttributesHandler);</b>
+<b class="nc"><i>133</i>&nbsp;        this.button_test_data.setOnAction(nodeInFullScreenHandler);</b>
+<b class="nc"><i>134</i>&nbsp;        this.button_training_data.setOnAction(nodeInFullScreenHandler);</b>
+<b class="nc"><i>135</i>&nbsp;        this.button_linear_regression.setOnAction(nodeInFullScreenHandler);</b>
+<b class="nc"><i>136</i>&nbsp;        this.button_multi_layer_perceptron.setOnAction(nodeInFullScreenHandler);</b>
+<b class="nc"><i>137</i>&nbsp;        this.button_knn.setOnAction(nodeInFullScreenHandler);</b>
+<b class="nc"><i>138</i>&nbsp;        this.button_naive_bayes.setOnAction(nodeInFullScreenHandler);</b>
+<b class="nc"><i>139</i>&nbsp;        this.button_tree_decision.setOnAction(nodeInFullScreenHandler);</b>
+<b class="nc"><i>140</i>&nbsp;        this.button_my_prediction.setOnAction(nodeInFullScreenHandler);</b>
+<i>141</i>&nbsp;
+<b class="nc"><i>142</i>&nbsp;        this.sp_test_data.heightProperty().addListener(sizeListener);</b>
+<b class="nc"><i>143</i>&nbsp;        this.sp_test_data.widthProperty().addListener(sizeListener);</b>
+<i>144</i>&nbsp;
+<b class="nc"><i>145</i>&nbsp;    }</b>
+<i>146</i>&nbsp;
+<i>147</i>&nbsp;    /**
+<i>148</i>&nbsp;     * Method: buildNodeInFullScreenHandler
+<i>149</i>&nbsp;     * Functionality: Build  logic for event nodeInFullScreenHandler
+<i>150</i>&nbsp;     */
+<i>151</i>&nbsp;    private void buildNodeInFullScreenHandler() {
+<b class="nc"><i>152</i>&nbsp;        nodeInFullScreenHandler = event -&gt; {</b>
+<i>153</i>&nbsp;
+<b class="nc"><i>154</i>&nbsp;            if (event.getTarget() == button_linear_regression) {</b>
+<b class="nc"><i>155</i>&nbsp;                buildNodeInFullScreenHandlerHelper(&quot;Linear Regression Prediction&quot;,</b>
+<b class="nc"><i>156</i>&nbsp;                        this.tableViews.get(NodePropertiesKeys.LINEAR_REGRESSION.name()), prediction_lr);</b>
+<i>157</i>&nbsp;
+<i>158</i>&nbsp;            }
+<b class="nc"><i>159</i>&nbsp;            if (event.getTarget() == button_multi_layer_perceptron) {</b>
+<b class="nc"><i>160</i>&nbsp;                buildNodeInFullScreenHandlerHelper(&quot;Multi Layer Perceptron Prediction&quot;,</b>
+<b class="nc"><i>161</i>&nbsp;                        this.tableViews.get(NodePropertiesKeys.MULTI_LAYER_PERCEPTRON.name()), prediction_mlp);</b>
+<i>162</i>&nbsp;
+<i>163</i>&nbsp;            }
+<b class="nc"><i>164</i>&nbsp;            if (event.getTarget() == button_tree_decision) {</b>
+<b class="nc"><i>165</i>&nbsp;                buildNodeInFullScreenHandlerHelper(&quot;Tree Decision Prediction&quot;,</b>
+<b class="nc"><i>166</i>&nbsp;                        this.tableViews.get(NodePropertiesKeys.TREE_DECISION.name()), prediction_td);</b>
+<i>167</i>&nbsp;
+<i>168</i>&nbsp;            }
+<b class="nc"><i>169</i>&nbsp;            if (event.getTarget() == button_knn) {</b>
+<b class="nc"><i>170</i>&nbsp;                buildNodeInFullScreenHandlerHelper(&quot;KNN Prediction&quot;,</b>
+<b class="nc"><i>171</i>&nbsp;                        this.tableViews.get(NodePropertiesKeys.KNN.name()), prediction_knn);</b>
+<i>172</i>&nbsp;
+<i>173</i>&nbsp;            }
+<b class="nc"><i>174</i>&nbsp;            if (event.getTarget() == button_naive_bayes) {</b>
+<b class="nc"><i>175</i>&nbsp;                buildNodeInFullScreenHandlerHelper(&quot;Naive Bayes Prediction&quot;,</b>
+<b class="nc"><i>176</i>&nbsp;                        this.tableViews.get(NodePropertiesKeys.NAIVE_BAYES.name()), prediction_nb);</b>
+<i>177</i>&nbsp;
+<i>178</i>&nbsp;            }
+<b class="nc"><i>179</i>&nbsp;            if (event.getTarget() == button_my_prediction) {</b>
+<b class="nc"><i>180</i>&nbsp;                buildNodeInFullScreenHandlerHelper(&quot;MyPrediction Prediction&quot;,</b>
+<b class="nc"><i>181</i>&nbsp;                        this.tableViews.get(NodePropertiesKeys.MY_PREDICTION.name()), prediction_my_prediction);</b>
+<i>182</i>&nbsp;
+<i>183</i>&nbsp;            }
+<b class="nc"><i>184</i>&nbsp;            if (event.getTarget() == button_test_data) {</b>
+<b class="nc"><i>185</i>&nbsp;                buildNodeInFullScreenHandlerHelper(&quot;Test Data&quot;,</b>
+<b class="nc"><i>186</i>&nbsp;                        this.tableViews.get(NodePropertiesKeys.TEST_DATA.name()), test_data);</b>
+<i>187</i>&nbsp;
+<i>188</i>&nbsp;            }
+<b class="nc"><i>189</i>&nbsp;            if (event.getTarget() == button_training_data) {</b>
+<i>190</i>&nbsp;
+<b class="nc"><i>191</i>&nbsp;                buildNodeInFullScreenHandlerHelper(&quot;Training Data&quot;,</b>
+<b class="nc"><i>192</i>&nbsp;                        this.tableViews.get(NodePropertiesKeys.TRAINING_DATA.name()), training_data);</b>
+<i>193</i>&nbsp;            }
+<b class="nc"><i>194</i>&nbsp;        };</b>
+<b class="nc"><i>195</i>&nbsp;    }</b>
+<i>196</i>&nbsp;
+<i>197</i>&nbsp;    /**
+<i>198</i>&nbsp;     * Method: buildNodeInFullScreenHandlerHelper
+<i>199</i>&nbsp;     * Functionality: Helper method for method buildNodeInFullScreenHandler
+<i>200</i>&nbsp;     * Build logic for viewing copy of node in own stage
+<i>201</i>&nbsp;     */
+<i>202</i>&nbsp;    private void buildNodeInFullScreenHandlerHelper(
+<i>203</i>&nbsp;            String title,
+<i>204</i>&nbsp;            TableView&lt;TransformToTableView.Data&gt; tableView,
+<i>205</i>&nbsp;            Text text) {
+<i>206</i>&nbsp;
+<b class="nc"><i>207</i>&nbsp;        Stage stage = new Stage();</b>
+<i>208</i>&nbsp;        Scene scene;
+<i>209</i>&nbsp;
+<b class="nc"><i>210</i>&nbsp;        if (tableView != null) {</b>
+<b class="nc"><i>211</i>&nbsp;            TableView&lt;TransformToTableView.Data&gt; clonedTableView = this.cloneTableView(tableView);</b>
+<b class="nc"><i>212</i>&nbsp;            DisplayNodeInWindowGUI displayNodeInWindowGUI = new DisplayNodeInWindowGUI(clonedTableView);</b>
+<b class="nc"><i>213</i>&nbsp;            scene = new Scene(displayNodeInWindowGUI, this.getWidth(), this.getHeight());</b>
+<i>214</i>&nbsp;
+<b class="nc"><i>215</i>&nbsp;        } else {</b>
+<b class="nc"><i>216</i>&nbsp;            Text clonedText = new Text();</b>
+<b class="nc"><i>217</i>&nbsp;            clonedText.setText(text.getText());</b>
+<b class="nc"><i>218</i>&nbsp;            DisplayNodeInWindowGUI displayNodeInWindowGUI = new DisplayNodeInWindowGUI(clonedText);</b>
+<b class="nc"><i>219</i>&nbsp;            scene = new Scene(displayNodeInWindowGUI, this.getWidth(), this.getHeight());</b>
+<i>220</i>&nbsp;        }
+<i>221</i>&nbsp;
+<b class="nc"><i>222</i>&nbsp;        stage.setTitle(title);</b>
+<b class="nc"><i>223</i>&nbsp;        stage.setScene(scene);</b>
+<b class="nc"><i>224</i>&nbsp;        stage.initOwner(this.getScene().getWindow());</b>
+<b class="nc"><i>225</i>&nbsp;        stage.show();</b>
+<b class="nc"><i>226</i>&nbsp;    }</b>
+<i>227</i>&nbsp;
+<i>228</i>&nbsp;    /**
+<i>229</i>&nbsp;     * Method: buildCloneNodeHandler
+<i>230</i>&nbsp;     * Functionality: Build logic for event cloneNodeHandler
+<i>231</i>&nbsp;     */
+<i>232</i>&nbsp;    private void buildCloneNodeHandler() {
+<b class="nc"><i>233</i>&nbsp;        cloneNodeHandler = event -&gt; {</b>
+<b class="nc"><i>234</i>&nbsp;            DraggableNode clone = new DraggableNode(this.primaryStage);</b>
+<b class="nc"><i>235</i>&nbsp;            clone.setType(this.draggableNode.getType());</b>
+<b class="nc"><i>236</i>&nbsp;            DataManager cloneManger = clone.getManager();</b>
+<i>237</i>&nbsp;
+<b class="nc"><i>238</i>&nbsp;            for (String key : this.manager.getNodeProperties().keySet()) {</b>
+<b class="nc"><i>239</i>&nbsp;                cloneManger.getNodeProperties().put(key, this.manager.getNodeProperties().get(key));</b>
+<b class="nc"><i>240</i>&nbsp;            }</b>
+<i>241</i>&nbsp;
+<b class="nc"><i>242</i>&nbsp;            clone.setLayoutX(this.draggableNode.getLayoutX() + this.draggableNode.getPrefWidth());</b>
+<b class="nc"><i>243</i>&nbsp;            clone.setLayoutY(this.draggableNode.getLayoutY() + this.draggableNode.getPrefHeight());</b>
+<b class="nc"><i>244</i>&nbsp;            ((AnchorPane) this.draggableNode.getParent()).getChildren().add(clone);</b>
+<i>245</i>&nbsp;
+<b class="nc"><i>246</i>&nbsp;        };</b>
+<b class="nc"><i>247</i>&nbsp;    }</b>
+<i>248</i>&nbsp;
+<i>249</i>&nbsp;    /**
+<i>250</i>&nbsp;     * Method: resizeTableView
+<i>251</i>&nbsp;     * Functionality: Build logic for event sizeListener
+<i>252</i>&nbsp;     * Resize TableView when parent change size change size
+<i>253</i>&nbsp;     */
+<i>254</i>&nbsp;    private void buildParentChangeListener() {
+<i>255</i>&nbsp;
+<b class="nc"><i>256</i>&nbsp;        sizeListener = (observableValue, oldValue, newValue) -&gt; {</b>
+<b class="nc"><i>257</i>&nbsp;            double width = this.sp_test_data.getWidth();</b>
+<b class="nc"><i>258</i>&nbsp;            double height = this.sp_test_data.getHeight();</b>
+<i>259</i>&nbsp;
+<b class="nc"><i>260</i>&nbsp;           for (TableView&lt;TransformToTableView.Data&gt; tableView : this.tableViews.values()) {</b>
+<b class="nc"><i>261</i>&nbsp;               tableView.setMinWidth(width - 15);</b>
+<b class="nc"><i>262</i>&nbsp;               tableView.setMinHeight(height);</b>
+<i>263</i>&nbsp;
+<b class="nc"><i>264</i>&nbsp;           }</b>
+<b class="nc"><i>265</i>&nbsp;        };</b>
+<b class="nc"><i>266</i>&nbsp;    }</b>
+<i>267</i>&nbsp;
+<i>268</i>&nbsp;    /**
+<i>269</i>&nbsp;     * Method: confirmationSynchronizeAttributes
+<i>270</i>&nbsp;     * Functionality: Build confirmation logic for event synchronizeAttributesHandler
+<i>271</i>&nbsp;     * @return - true if user select yes else false
+<i>272</i>&nbsp;     */
+<i>273</i>&nbsp;    private boolean confirmationSynchronizeAttributes() {
+<b class="nc"><i>274</i>&nbsp;        AtomicBoolean output = new AtomicBoolean(false);</b>
+<i>275</i>&nbsp;
+<b class="nc"><i>276</i>&nbsp;        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, &quot;&quot;, ButtonType.NO, ButtonType.YES);</b>
+<b class="nc"><i>277</i>&nbsp;        alert.initOwner(this.primaryStage);</b>
+<i>278</i>&nbsp;
+<b class="nc"><i>279</i>&nbsp;        alert.setTitle(&quot;Synchronize files!&quot;);</b>
+<b class="nc"><i>280</i>&nbsp;        alert.setHeaderText(&quot;Do you want to synchronize &quot; +</b>
+<b class="nc"><i>281</i>&nbsp;                &quot;\nTraining file: &quot; + this.manager.getNodeProperties().get(NodePropertiesKeys.TRAINING_DATA.name()) +</b>
+<b class="nc"><i>282</i>&nbsp;                &quot;\nTest file: &quot; + this.manager.getNodeProperties().get(NodePropertiesKeys.TEST_DATA.name()));</b>
+<b class="nc"><i>283</i>&nbsp;        alert.setContentText(&quot;OBS!\n&quot;</b>
+<b class="nc"><i>284</i>&nbsp;                + this.manager.getNodeProperties().get(NodePropertiesKeys.TEST_DATA.name())</b>
+<i>285</i>&nbsp;                + &quot;\nattributes will be altered to sync with training data!&quot;);
+<i>286</i>&nbsp;
+<b class="nc"><i>287</i>&nbsp;        alert.showAndWait().ifPresent(response -&gt; {</b>
+<i>288</i>&nbsp;
+<b class="nc"><i>289</i>&nbsp;            if (response == ButtonType.YES) {</b>
+<b class="nc"><i>290</i>&nbsp;                output.set(true);</b>
+<i>291</i>&nbsp;            }
+<i>292</i>&nbsp;
+<b class="nc"><i>293</i>&nbsp;            if (response == ButtonType.NO) {</b>
+<b class="nc"><i>294</i>&nbsp;                output.set(false);</b>
+<i>295</i>&nbsp;            }
+<i>296</i>&nbsp;
+<b class="nc"><i>297</i>&nbsp;        });</b>
+<i>298</i>&nbsp;
+<b class="nc"><i>299</i>&nbsp;        return output.get();</b>
+<i>300</i>&nbsp;    }
+<i>301</i>&nbsp;
+<i>302</i>&nbsp;    /**
+<i>303</i>&nbsp;     * Method: buildSynchronizeAttributesHandler
+<i>304</i>&nbsp;     * Functionality: Build logic for event synchronizeAttributesHandler
+<i>305</i>&nbsp;     */
+<i>306</i>&nbsp;    private void buildSynchronizeAttributesHandler() {
+<b class="nc"><i>307</i>&nbsp;        synchronizeAttributesHandler = event -&gt; {</b>
+<b class="nc"><i>308</i>&nbsp;            ObservableMap&lt;String, String&gt; map = this.manager.getNodeProperties();</b>
+<i>309</i>&nbsp;
+<b class="nc"><i>310</i>&nbsp;            if (!this.manager.getNodeProperties().get(NodePropertiesKeys.TEST_DATA.name()).equals(&quot;&quot;)</b>
+<b class="nc"><i>311</i>&nbsp;                    &amp;&amp; !this.manager.getNodeProperties().get(NodePropertiesKeys.TRAINING_DATA.name()).equals(&quot;&quot;)</b>
+<b class="nc"><i>312</i>&nbsp;                    &amp;&amp; !this.manager.getNodeProperties().get(NodePropertiesKeys.PREDICTION_COLUMN_NUMBER.name()).equals(&quot;&quot;)</b>
+<b class="nc"><i>313</i>&nbsp;                    &amp;&amp; this.confirmationSynchronizeAttributes()) {</b>
+<i>314</i>&nbsp;
+<b class="nc"><i>315</i>&nbsp;                File testFile = new File(this.manager.getNodeProperties().get(NodePropertiesKeys.TEST_DATA.name()));</b>
+<b class="nc"><i>316</i>&nbsp;                File trainingFile = new File(this.manager.getNodeProperties().get(NodePropertiesKeys.TRAINING_DATA.name()));</b>
+<b class="nc"><i>317</i>&nbsp;                ArrayList&lt;String&gt; testAttributes = new ArrayList&lt;&gt;();</b>
+<b class="nc"><i>318</i>&nbsp;                ArrayList&lt;String&gt; trainingAttributes = new ArrayList&lt;&gt;();</b>
+<b class="nc"><i>319</i>&nbsp;                int classIndex = Integer.parseInt(this.manager.getNodeProperties().get(NodePropertiesKeys.PREDICTION_COLUMN_NUMBER.name()));</b>
+<i>320</i>&nbsp;
+<i>321</i>&nbsp;                try {
+<b class="nc"><i>322</i>&nbsp;                    testAttributes = FileManager.getAttributesFromArffFile(testFile, -1);</b>
+<b class="nc"><i>323</i>&nbsp;                    trainingAttributes = FileManager.getAttributesFromArffFile(trainingFile, -1);</b>
+<b class="nc"><i>324</i>&nbsp;                } catch (Exception exception) {</b>
+<b class="nc"><i>325</i>&nbsp;                    exception.printStackTrace();</b>
+<b class="nc"><i>326</i>&nbsp;                }</b>
+<i>327</i>&nbsp;
+<b class="nc"><i>328</i>&nbsp;                String pathTestFile = this.manager.getNodeProperties().get(NodePropertiesKeys.TEST_DATA.name());</b>
+<b class="nc"><i>329</i>&nbsp;                String testFileClassAttribute = FileManager.getSelectedClassAttributeFromArfFile(testAttributes, classIndex);</b>
+<b class="nc"><i>330</i>&nbsp;                String trainingFileClassAttribute = FileManager.getSelectedClassAttributeFromArfFile(trainingAttributes, classIndex);</b>
+<i>331</i>&nbsp;
+<b class="nc"><i>332</i>&nbsp;                if (!testFileClassAttribute.equals(trainingFileClassAttribute)) {</b>
+<i>333</i>&nbsp;
+<b class="nc"><i>334</i>&nbsp;                    FileManager.synchronizeClassAttributes(pathTestFile, testFileClassAttribute, trainingFileClassAttribute);</b>
+<i>335</i>&nbsp;
+<b class="nc"><i>336</i>&nbsp;                    this.manager.getNodeProperties().put(NodePropertiesKeys.TEST_DATA.name(), &quot;&quot;);</b>
+<b class="nc"><i>337</i>&nbsp;                    this.manager.getNodeProperties().put(NodePropertiesKeys.TEST_DATA.name(), testFile.getPath());</b>
+<i>338</i>&nbsp;
+<b class="nc"><i>339</i>&nbsp;                    text_class_attributes_status.setText(&quot;Class attributes is synchronized!&quot;);</b>
+<i>340</i>&nbsp;
+<i>341</i>&nbsp;                } else {
+<b class="nc"><i>342</i>&nbsp;                    text_class_attributes_status.setText(&quot;Class attributes is synchronized!&quot;);</b>
+<i>343</i>&nbsp;                }
+<i>344</i>&nbsp;
+<i>345</i>&nbsp;            }
+<b class="nc"><i>346</i>&nbsp;        };</b>
+<b class="nc"><i>347</i>&nbsp;    }</b>
+<i>348</i>&nbsp;
+<i>349</i>&nbsp;    /**
+<i>350</i>&nbsp;     * Method: buildNodePropertiesHandler
+<i>351</i>&nbsp;     * Functionality: Build logic for event nodePropertiesHandler
+<i>352</i>&nbsp;     */
+<i>353</i>&nbsp;    private void buildNodePropertiesHandler() {
+<b class="nc"><i>354</i>&nbsp;        nodePropertiesHandler = event -&gt; {</b>
+<i>355</i>&nbsp;
+<b class="nc"><i>356</i>&nbsp;            if (!this.manager.getNodeProperties().get(NodePropertiesKeys.TEST_DATA.name()).equals(&quot;&quot;) &amp;&amp;</b>
+<b class="nc"><i>357</i>&nbsp;                    !this.manager.getNodeProperties().get(NodePropertiesKeys.TRAINING_DATA.name()).equals(&quot;&quot;)) {</b>
+<i>358</i>&nbsp;
+<b class="nc"><i>359</i>&nbsp;                boolean isNameMatching = this.isNameMatching();</b>
+<b class="nc"><i>360</i>&nbsp;                boolean isTypeMatching = this.isTypeMatching();</b>
+<i>361</i>&nbsp;
+<b class="nc"><i>362</i>&nbsp;                for (NodePropertiesKeys key : NodePropertiesKeys.values()) {</b>
+<i>363</i>&nbsp;
+<b class="nc"><i>364</i>&nbsp;                    if (this.manager.getNodeProperties().containsKey(key.name())) {</b>
+<i>365</i>&nbsp;
+<b class="nc"><i>366</i>&nbsp;                        switch (key) {</b>
+<i>367</i>&nbsp;
+<i>368</i>&nbsp;                            case LINEAR_REGRESSION:
+<b class="nc"><i>369</i>&nbsp;                                this.displayPrediction(key.name(), isNameMatching, isTypeMatching, this.prediction_lr</b>
+<i>370</i>&nbsp;                                        , this.sp_linear_regression
+<i>371</i>&nbsp;                                        , false, false);
+<b class="nc"><i>372</i>&nbsp;                                break;</b>
+<i>373</i>&nbsp;
+<i>374</i>&nbsp;                            case MULTI_LAYER_PERCEPTRON:
+<b class="nc"><i>375</i>&nbsp;                                this.displayPrediction(key.name(), isNameMatching, isTypeMatching, this.prediction_mlp</b>
+<i>376</i>&nbsp;                                        , this.sp_multi_layer_perceptron
+<i>377</i>&nbsp;                                        , false, false);
+<b class="nc"><i>378</i>&nbsp;                                break;</b>
+<i>379</i>&nbsp;
+<i>380</i>&nbsp;                            case NAIVE_BAYES:
+<b class="nc"><i>381</i>&nbsp;                                this.displayPrediction(key.name(), isNameMatching, isTypeMatching, this.prediction_nb</b>
+<i>382</i>&nbsp;                                        , this.sp_naive_bayes
+<i>383</i>&nbsp;                                        , false, false);
+<b class="nc"><i>384</i>&nbsp;                                break;</b>
+<i>385</i>&nbsp;
+<i>386</i>&nbsp;                            case TREE_DECISION:
+<b class="nc"><i>387</i>&nbsp;                                this.displayPrediction(key.name(), isNameMatching, isTypeMatching, this.prediction_td</b>
+<i>388</i>&nbsp;                                        , this.sp_tree_decision
+<i>389</i>&nbsp;                                        , false, false);
+<b class="nc"><i>390</i>&nbsp;                                break;</b>
+<i>391</i>&nbsp;
+<i>392</i>&nbsp;                            case KNN:
+<b class="nc"><i>393</i>&nbsp;                                this.displayPrediction(key.name(), isNameMatching, isTypeMatching, this.prediction_knn</b>
+<i>394</i>&nbsp;                                        , this.sp_knn
+<i>395</i>&nbsp;                                        , false, false);
+<b class="nc"><i>396</i>&nbsp;                                break;</b>
+<i>397</i>&nbsp;
+<i>398</i>&nbsp;                            case MY_PREDICTION:
+<b class="nc"><i>399</i>&nbsp;                                this.displayPrediction(key.name(), isNameMatching, isTypeMatching, this.prediction_my_prediction</b>
+<i>400</i>&nbsp;                                        , this.sp_my_prediction
+<i>401</i>&nbsp;                                        , true, false);
+<b class="nc"><i>402</i>&nbsp;                                break;</b>
+<i>403</i>&nbsp;
+<i>404</i>&nbsp;                            case TRAINING_DATA:
+<b class="nc"><i>405</i>&nbsp;                                this.displayPrediction(key.name(), isNameMatching, isTypeMatching, this.training_data</b>
+<i>406</i>&nbsp;                                        , this.sp_training_data
+<i>407</i>&nbsp;                                        , false, true);
+<b class="nc"><i>408</i>&nbsp;                                break;</b>
+<i>409</i>&nbsp;
+<i>410</i>&nbsp;                            case TEST_DATA:
+<b class="nc"><i>411</i>&nbsp;                                this.displayPrediction(key.name(), isNameMatching, isTypeMatching, this.test_data</b>
+<i>412</i>&nbsp;                                        , this.sp_test_data
+<i>413</i>&nbsp;                                        , false, true);
+<b class="nc"><i>414</i>&nbsp;                                break;</b>
+<i>415</i>&nbsp;
+<i>416</i>&nbsp;                            default:
+<i>417</i>&nbsp;                                break;
+<i>418</i>&nbsp;                        }
+<i>419</i>&nbsp;
+<i>420</i>&nbsp;                    }
+<i>421</i>&nbsp;
+<i>422</i>&nbsp;                }
+<i>423</i>&nbsp;
+<i>424</i>&nbsp;            }
+<b class="nc"><i>425</i>&nbsp;        };</b>
+<b class="nc"><i>426</i>&nbsp;    }</b>
+<i>427</i>&nbsp;
+<i>428</i>&nbsp;    /**
+<i>429</i>&nbsp;     * Method: isNameMatching
+<i>430</i>&nbsp;     * Functionality: Test if training file and test file have compatible arguments names
+<i>431</i>&nbsp;     * @return - true if files are compatible
+<i>432</i>&nbsp;     */
+<i>433</i>&nbsp;    private boolean isNameMatching() {
+<i>434</i>&nbsp;
+<b class="nc"><i>435</i>&nbsp;        if (this.manager.getNodeProperties().get(NodePropertiesKeys.TEST_DATA.name()).equals(&quot;&quot;) ||</b>
+<b class="nc"><i>436</i>&nbsp;                this.manager.getNodeProperties().get(NodePropertiesKeys.TRAINING_DATA.name()).equals(&quot;&quot;)) {</b>
+<i>437</i>&nbsp;
+<b class="nc"><i>438</i>&nbsp;            throw new IllegalStateException(&quot;Set up for test file or/and training file is not done!&quot;);</b>
+<i>439</i>&nbsp;        }
+<i>440</i>&nbsp;
+<b class="nc"><i>441</i>&nbsp;        boolean isNameMatching = false;</b>
+<i>442</i>&nbsp;
+<i>443</i>&nbsp;        try {
+<i>444</i>&nbsp;
+<b class="nc"><i>445</i>&nbsp;            isNameMatching = FileManager.isAttributesNameMatching(</b>
+<b class="nc"><i>446</i>&nbsp;                    new File(this.manager.getNodeProperties().get(NodePropertiesKeys.TRAINING_DATA.name())),</b>
+<b class="nc"><i>447</i>&nbsp;                    new File(this.manager.getNodeProperties().get(NodePropertiesKeys.TEST_DATA.name())));</b>
+<i>448</i>&nbsp;
+<b class="nc"><i>449</i>&nbsp;        } catch (IOException exception) {</b>
+<i>450</i>&nbsp;
+<b class="nc"><i>451</i>&nbsp;            System.err.println(&quot;IOException&quot;);</b>
+<b class="nc"><i>452</i>&nbsp;            exception.printStackTrace();</b>
+<i>453</i>&nbsp;
+<b class="nc"><i>454</i>&nbsp;        } catch (Exception exception) {</b>
+<i>455</i>&nbsp;
+<b class="nc"><i>456</i>&nbsp;            System.err.println(&quot;Exception&quot;);</b>
+<b class="nc"><i>457</i>&nbsp;            exception.printStackTrace();</b>
+<b class="nc"><i>458</i>&nbsp;        }</b>
+<i>459</i>&nbsp;
+<b class="nc"><i>460</i>&nbsp;        return isNameMatching;</b>
+<i>461</i>&nbsp;    }
+<i>462</i>&nbsp;
+<i>463</i>&nbsp;    /**
+<i>464</i>&nbsp;     * Method: isTypeMatching
+<i>465</i>&nbsp;     * Functionality: Test if training file and test file have compatible arguments types
+<i>466</i>&nbsp;     * @return - true if files are compatible
+<i>467</i>&nbsp;     */
+<i>468</i>&nbsp;    private boolean isTypeMatching() {
+<i>469</i>&nbsp;
+<b class="nc"><i>470</i>&nbsp;        if (this.manager.getNodeProperties().get(NodePropertiesKeys.TEST_DATA.name()).equals(&quot;&quot;) ||</b>
+<b class="nc"><i>471</i>&nbsp;                this.manager.getNodeProperties().get(NodePropertiesKeys.TRAINING_DATA.name()).equals(&quot;&quot;)) {</b>
+<i>472</i>&nbsp;
+<b class="nc"><i>473</i>&nbsp;            throw new IllegalStateException(&quot;Set up for test file or/and training file is not done!&quot;);</b>
+<i>474</i>&nbsp;        }
+<i>475</i>&nbsp;
+<b class="nc"><i>476</i>&nbsp;        boolean isTypeMatching = false;</b>
+<i>477</i>&nbsp;
+<i>478</i>&nbsp;        try {
+<i>479</i>&nbsp;
+<b class="nc"><i>480</i>&nbsp;            isTypeMatching = FileManager.isAttributesTypeMatching(</b>
+<b class="nc"><i>481</i>&nbsp;                    new File(this.manager.getNodeProperties().get(NodePropertiesKeys.TRAINING_DATA.name())),</b>
+<b class="nc"><i>482</i>&nbsp;                    new File(this.manager.getNodeProperties().get(NodePropertiesKeys.TEST_DATA.name())));</b>
+<i>483</i>&nbsp;
+<i>484</i>&nbsp;
+<b class="nc"><i>485</i>&nbsp;        } catch (IOException exception) {</b>
+<i>486</i>&nbsp;
+<b class="nc"><i>487</i>&nbsp;            System.err.println(&quot;IOException&quot;);</b>
+<b class="nc"><i>488</i>&nbsp;            exception.printStackTrace();</b>
+<i>489</i>&nbsp;
+<b class="nc"><i>490</i>&nbsp;        } catch (Exception exception) {</b>
+<b class="nc"><i>491</i>&nbsp;            System.err.println(&quot;Exception&quot;);</b>
+<b class="nc"><i>492</i>&nbsp;            exception.printStackTrace();</b>
+<b class="nc"><i>493</i>&nbsp;        }</b>
+<i>494</i>&nbsp;
+<b class="nc"><i>495</i>&nbsp;        return isTypeMatching;</b>
+<i>496</i>&nbsp;    }
+<i>497</i>&nbsp;
+<i>498</i>&nbsp;    /**
+<i>499</i>&nbsp;     * Method: currentAlgorithmName
+<i>500</i>&nbsp;     * Functionality: Transform current algorithm name to lowerCases and without characters &#39;_&#39;.
+<i>501</i>&nbsp;     * @param string - String to be shaped
+<i>502</i>&nbsp;     * @return - String that is shaped
+<i>503</i>&nbsp;     */
+<i>504</i>&nbsp;    private String shapeString(String string) {
+<i>505</i>&nbsp;
+<b class="nc"><i>506</i>&nbsp;        StringBuilder output = new StringBuilder();</b>
+<i>507</i>&nbsp;
+<b class="nc"><i>508</i>&nbsp;        for (Character character : string.toCharArray()) {</b>
+<b class="nc"><i>509</i>&nbsp;            if (character != &#39;_&#39;) {</b>
+<b class="nc"><i>510</i>&nbsp;                output.append(character);</b>
+<i>511</i>&nbsp;            }
+<i>512</i>&nbsp;        }
+<i>513</i>&nbsp;
+<b class="nc"><i>514</i>&nbsp;        return output.toString().toLowerCase();</b>
+<i>515</i>&nbsp;    }
+<i>516</i>&nbsp;
+<i>517</i>&nbsp;    /**
+<i>518</i>&nbsp;     * Method: getPrediction
+<i>519</i>&nbsp;     * @param string - String
+<i>520</i>&nbsp;     * @return - String representing the prediction
+<i>521</i>&nbsp;     */
+<i>522</i>&nbsp;    private String getPrediction(String string) {
+<i>523</i>&nbsp;
+<i>524</i>&nbsp;        String output;
+<i>525</i>&nbsp;
+<b class="nc"><i>526</i>&nbsp;        string = shapeString(string);</b>
+<i>527</i>&nbsp;
+<i>528</i>&nbsp;        Algorithm selectedAlgorithm;
+<i>529</i>&nbsp;
+<b class="nc"><i>530</i>&nbsp;        selectedAlgorithm = (Algorithm) this.applicationContext.getBean(string);</b>
+<i>531</i>&nbsp;
+<b class="nc"><i>532</i>&nbsp;        selectedAlgorithm.setTestData(this.manager.getNodeProperties().get(NodePropertiesKeys.TEST_DATA.name()));</b>
+<b class="nc"><i>533</i>&nbsp;        selectedAlgorithm.setTrainingData(this.manager.getNodeProperties().get(NodePropertiesKeys.TRAINING_DATA.name()));</b>
+<i>534</i>&nbsp;
+<i>535</i>&nbsp;        try {
+<i>536</i>&nbsp;            // Put prediction column if no column have been selected
+<i>537</i>&nbsp;            // default column (= last column) is selected
+<i>538</i>&nbsp;            // If not selected not null...
+<b class="nc"><i>539</i>&nbsp;            if (this.manager.getNodeProperties().get(NodePropertiesKeys.PREDICTION_COLUMN_NUMBER.name()).equals(&quot;&quot;)) {</b>
+<b class="nc"><i>540</i>&nbsp;                System.out.println(&quot;No prediction column is selected!&quot;);</b>
+<b class="nc"><i>541</i>&nbsp;                selectedAlgorithm.setStandardIndexes(); // last index</b>
+<i>542</i>&nbsp;            } else {
+<b class="nc"><i>543</i>&nbsp;                selectedAlgorithm.setTestIndex(Integer.parseInt(this.manager.getNodeProperties().get(NodePropertiesKeys.PREDICTION_COLUMN_NUMBER.name())));</b>
+<b class="nc"><i>544</i>&nbsp;                selectedAlgorithm.setTrainingIndex(Integer.parseInt(this.manager.getNodeProperties().get(NodePropertiesKeys.PREDICTION_COLUMN_NUMBER.name())));</b>
+<i>545</i>&nbsp;            }
+<i>546</i>&nbsp;
+<b class="nc"><i>547</i>&nbsp;            output = selectedAlgorithm.getPrediction(true);</b>
+<i>548</i>&nbsp;
+<b class="nc"><i>549</i>&nbsp;        } catch (Exception exception) {</b>
+<b class="nc"><i>550</i>&nbsp;            output = exception.getMessage();</b>
+<b class="nc"><i>551</i>&nbsp;        }</b>
+<i>552</i>&nbsp;
+<b class="nc"><i>553</i>&nbsp;        return output;</b>
+<i>554</i>&nbsp;    }
+<i>555</i>&nbsp;
+<i>556</i>&nbsp;    /**
+<i>557</i>&nbsp;     * Method: createErrorMessage
+<i>558</i>&nbsp;     * Functionality: Create a error message if test and training file is not compatible
+<i>559</i>&nbsp;     * @param isNameMatching -
+<i>560</i>&nbsp;     * @param isTypeMatching -
+<i>561</i>&nbsp;     */
+<i>562</i>&nbsp;    private String createErrorMessage(boolean isNameMatching, boolean isTypeMatching) {
+<i>563</i>&nbsp;
+<b class="nc"><i>564</i>&nbsp;        ArrayList&lt;String&gt; attributesTestFile = new ArrayList&lt;&gt;();</b>
+<b class="nc"><i>565</i>&nbsp;        ArrayList&lt;String&gt; attributesTrainingFile = new ArrayList&lt;&gt;();</b>
+<b class="nc"><i>566</i>&nbsp;        StringBuilder output = new StringBuilder();</b>
+<i>567</i>&nbsp;
+<i>568</i>&nbsp;        // Extract attributes values from test file and training file
+<i>569</i>&nbsp;        try {
+<b class="nc"><i>570</i>&nbsp;            attributesTestFile = FileManager.getAttributesFromArffFile(</b>
+<b class="nc"><i>571</i>&nbsp;                    new File(this.manager.getNodeProperties().get(NodePropertiesKeys.TEST_DATA.name())),</b>
+<i>572</i>&nbsp;                    2);
+<b class="nc"><i>573</i>&nbsp;            attributesTrainingFile = FileManager.getAttributesFromArffFile(</b>
+<b class="nc"><i>574</i>&nbsp;                    new File(this.manager.getNodeProperties().get(NodePropertiesKeys.TRAINING_DATA.name())),</b>
+<i>575</i>&nbsp;                    2);
+<i>576</i>&nbsp;
+<b class="nc"><i>577</i>&nbsp;        } catch (Exception exception) {</b>
+<b class="nc"><i>578</i>&nbsp;            exception.printStackTrace();</b>
+<b class="nc"><i>579</i>&nbsp;        }</b>
+<i>580</i>&nbsp;
+<i>581</i>&nbsp;        // Building error message
+<b class="nc"><i>582</i>&nbsp;        if (!isNameMatching) {</b>
+<b class="nc"><i>583</i>&nbsp;            output.append(&quot;Error! \nAttribute names between files is not compatible!\n&quot;);</b>
+<i>584</i>&nbsp;
+<b class="nc"><i>585</i>&nbsp;        } else if (!isTypeMatching) {</b>
+<b class="nc"><i>586</i>&nbsp;            output.append(&quot;Error! \nAttribute types between files is not compatible!\n&quot;);</b>
+<i>587</i>&nbsp;
+<i>588</i>&nbsp;        }
+<b class="nc"><i>589</i>&nbsp;        output.append(&quot;\nTest file values:\n&quot;);</b>
+<b class="nc"><i>590</i>&nbsp;        for (String s : attributesTestFile) {</b>
+<b class="nc"><i>591</i>&nbsp;            output.append(s).append(&quot;\n&quot;);</b>
+<b class="nc"><i>592</i>&nbsp;        }</b>
+<b class="nc"><i>593</i>&nbsp;        output.append(&quot;\nTraining file values:\n&quot;);</b>
+<b class="nc"><i>594</i>&nbsp;        for (String s : attributesTrainingFile) {</b>
+<b class="nc"><i>595</i>&nbsp;            output.append(s).append(&quot;\n&quot;);</b>
+<b class="nc"><i>596</i>&nbsp;        }</b>
+<i>597</i>&nbsp;
+<b class="nc"><i>598</i>&nbsp;        return output.toString();</b>
+<i>599</i>&nbsp;    }
+<i>600</i>&nbsp;
+<i>601</i>&nbsp;    /**
+<i>602</i>&nbsp;     * Method: cloneTableView
+<i>603</i>&nbsp;     * Functionality: Clone a in parameter TableView and return the clone
+<i>604</i>&nbsp;     * @param tableView - TableView to be cloned
+<i>605</i>&nbsp;     * @return - TableView the clone
+<i>606</i>&nbsp;     */
+<i>607</i>&nbsp;    private TableView&lt;TransformToTableView.Data&gt; cloneTableView(TableView&lt;TransformToTableView.Data&gt; tableView) {
+<i>608</i>&nbsp;
+<b class="nc"><i>609</i>&nbsp;        TableView&lt;TransformToTableView.Data&gt; clonedTableView = new TableView&lt;&gt;();</b>
+<i>610</i>&nbsp;
+<b class="nc"><i>611</i>&nbsp;        clonedTableView.getColumns().addAll(tableView.getColumns());</b>
+<i>612</i>&nbsp;
+<b class="nc"><i>613</i>&nbsp;        clonedTableView.setItems(tableView.getItems());</b>
+<i>614</i>&nbsp;
+<b class="nc"><i>615</i>&nbsp;        return clonedTableView;</b>
+<i>616</i>&nbsp;    }
+<i>617</i>&nbsp;
+<i>618</i>&nbsp;    /**
+<i>619</i>&nbsp;     * Method: displayPrediction
+<i>620</i>&nbsp;     * Functionality: Manage the displaying of the prediction result
+<i>621</i>&nbsp;     * @param keyName - String should be an constant from NodePropertiesKeys
+<i>622</i>&nbsp;     * @param isNameMatching - boolean if arffFiles class name is matching or not
+<i>623</i>&nbsp;     * @param isTypeMatching - boolean if arffFiles class type is matching or not
+<i>624</i>&nbsp;     * @param text - Text to display the result if not TableView conversion is possible
+<i>625</i>&nbsp;     * @param scrollPane - the ScrollPane holding holding the TableView or Text where to display the result
+<i>626</i>&nbsp;     * @param isMyPrediction - boolean true if should be set to true if it is myPrediction
+<i>627</i>&nbsp;     * @param isDataFile - boolean should be set to true if a file to process not string
+<i>628</i>&nbsp;     */
+<i>629</i>&nbsp;    private void displayPrediction(String keyName
+<i>630</i>&nbsp;            , boolean isNameMatching
+<i>631</i>&nbsp;            , boolean isTypeMatching
+<i>632</i>&nbsp;            , Text text
+<i>633</i>&nbsp;            , ScrollPane scrollPane
+<i>634</i>&nbsp;            , boolean isMyPrediction
+<i>635</i>&nbsp;            , boolean isDataFile) {
+<i>636</i>&nbsp;
+<b class="nc"><i>637</i>&nbsp;        if (!this.manager.getNodeProperties().get(keyName).equals(&quot;&quot;)) {</b>
+<i>638</i>&nbsp;
+<i>639</i>&nbsp;
+<i>640</i>&nbsp;            // Test if prediction is possible
+<b class="nc"><i>641</i>&nbsp;            if (!isDataFile &amp;&amp; (!isNameMatching || !isTypeMatching)) {</b>
+<b class="nc"><i>642</i>&nbsp;                text.setText(this.createErrorMessage(isNameMatching, isTypeMatching));</b>
+<i>643</i>&nbsp;
+<i>644</i>&nbsp;            } else {
+<i>645</i>&nbsp;
+<i>646</i>&nbsp;                TransformToTableView transformToTableView;
+<i>647</i>&nbsp;
+<i>648</i>&nbsp;                // If it is a file to display data
+<b class="nc"><i>649</i>&nbsp;                if (isDataFile) {</b>
+<b class="nc"><i>650</i>&nbsp;                    String path = this.manager.getNodeProperties().get(keyName);</b>
+<b class="nc"><i>651</i>&nbsp;                    File arffFile = new File(path);</b>
+<b class="nc"><i>652</i>&nbsp;                    transformToTableView = new TransformToTableView(arffFile);</b>
+<i>653</i>&nbsp;
+<b class="nc"><i>654</i>&nbsp;                }</b>
+<i>655</i>&nbsp;                // If it is a string to display data from
+<i>656</i>&nbsp;                else {
+<i>657</i>&nbsp;
+<b class="nc"><i>658</i>&nbsp;                    if(isMyPrediction) {</b>
+<b class="nc"><i>659</i>&nbsp;                        String beanName = this.manager.getNodeProperties().get(keyName);</b>
+<b class="nc"><i>660</i>&nbsp;                        transformToTableView = new TransformToTableView(getPrediction(beanName));</b>
+<i>661</i>&nbsp;
+<b class="nc"><i>662</i>&nbsp;                    } else {</b>
+<b class="nc"><i>663</i>&nbsp;                        transformToTableView = new TransformToTableView(getPrediction(keyName));</b>
+<i>664</i>&nbsp;                    }
+<i>665</i>&nbsp;                }
+<i>666</i>&nbsp;
+<i>667</i>&nbsp;                // Test if conversion to TableView is possible
+<b class="nc"><i>668</i>&nbsp;                if (transformToTableView.isConversionPossible()){</b>
+<i>669</i>&nbsp;
+<b class="nc"><i>670</i>&nbsp;                    TableView&lt;TransformToTableView.Data&gt; tableView = transformToTableView.getTableView();</b>
+<b class="nc"><i>671</i>&nbsp;                    scrollPane.getStyleClass().clear();</b>
+<b class="nc"><i>672</i>&nbsp;                    scrollPane.setContent(tableView);</b>
+<b class="nc"><i>673</i>&nbsp;                    this.tableViews.put(keyName, tableView);</b>
+<i>674</i>&nbsp;
+<b class="nc"><i>675</i>&nbsp;                } else {</b>
+<b class="nc"><i>676</i>&nbsp;                    text.setText(getPrediction(keyName));</b>
+<i>677</i>&nbsp;                }
+<i>678</i>&nbsp;
+<i>679</i>&nbsp;            }
+<i>680</i>&nbsp;
+<i>681</i>&nbsp;        }
+<i>682</i>&nbsp;
+<b class="nc"><i>683</i>&nbsp;    }</b>
+<i>684</i>&nbsp;
+<i>685</i>&nbsp;}
+<i>686</i>&nbsp;
+<i>687</i>&nbsp;
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-06-08 17:08</div>
+</div>
+</body>
+</html>

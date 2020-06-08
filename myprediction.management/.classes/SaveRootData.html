@@ -1,0 +1,230 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: SaveRootData</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">myprediction.management</a> ]
+</div>
+
+<h1>Coverage Summary for Class: SaveRootData (myprediction.management)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">SaveRootData</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    84.6%
+  </span>
+  <span class="absValue">
+    (11/ 13)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    89.7%
+  </span>
+  <span class="absValue">
+    (26/ 29)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package myprediction.management;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import javafx.util.Pair;
+<i>4</i>&nbsp;
+<i>5</i>&nbsp;import java.io.Serializable;
+<i>6</i>&nbsp;import java.util.ArrayList;
+<i>7</i>&nbsp;import java.util.HashMap;
+<i>8</i>&nbsp;
+<i>9</i>&nbsp;/**
+<i>10</i>&nbsp; * Class: SaveRootData
+<i>11</i>&nbsp; * Date: 2020-05-03
+<i>12</i>&nbsp; * Author: Joel Martelleur
+<i>13</i>&nbsp; * @version v1.0
+<i>14</i>&nbsp; */
+<b class="fc"><i>15</i>&nbsp;public class SaveRootData implements Serializable {</b>
+<i>16</i>&nbsp;
+<i>17</i>&nbsp;    private static final long serialVersionUID = 2000L;
+<i>18</i>&nbsp;    private HashMap&lt;String, HashMap&lt;String, String&gt;&gt; draggableNodesBasicData;
+<i>19</i>&nbsp;    private HashMap&lt;String, ArrayList&lt;String&gt;&gt; draggableNodesLinkIds;
+<i>20</i>&nbsp;    private HashMap&lt;String, ArrayList&lt;Pair&lt;String, String&gt;&gt;&gt; draggableNodesNodeProperties;
+<i>21</i>&nbsp;    private HashMap&lt;String, ArrayList&lt;Pair&lt;String, String&gt;&gt;&gt; draggableNodesConnectedNodes;
+<i>22</i>&nbsp;    private ArrayList&lt;String&gt; linkNodes;
+<i>23</i>&nbsp;    private HashMap&lt;String, String&gt; customSettings;
+<i>24</i>&nbsp;
+<i>25</i>&nbsp;    /**
+<i>26</i>&nbsp;     * Method: getDraggableNodesBasicData
+<i>27</i>&nbsp;     * Functionality: Get method for corresponding instance variable
+<i>28</i>&nbsp;     * @return - HashMap&lt;String, HashMap&lt;String, String&gt;&gt;
+<i>29</i>&nbsp;     */
+<i>30</i>&nbsp;    public HashMap&lt;String, HashMap&lt;String, String&gt;&gt; getDraggableNodesBasicData() {
+<b class="fc"><i>31</i>&nbsp;        if (draggableNodesBasicData == null) {</b>
+<b class="fc"><i>32</i>&nbsp;            throw new IllegalStateException(&quot;Instance variable have not been set!&quot;);</b>
+<i>33</i>&nbsp;        }
+<b class="fc"><i>34</i>&nbsp;        return draggableNodesBasicData;</b>
+<i>35</i>&nbsp;    }
+<i>36</i>&nbsp;
+<i>37</i>&nbsp;    /**
+<i>38</i>&nbsp;     * Method: setDraggableNodesBasicData
+<i>39</i>&nbsp;     * Functionality: Set method for corresponding instance variable
+<i>40</i>&nbsp;     * @param draggableNodesBasicData - HashMap&lt;String, HashMap&lt;String, String&gt;&gt;
+<i>41</i>&nbsp;     */
+<i>42</i>&nbsp;    public void setDraggableNodesBasicData(HashMap&lt;String, HashMap&lt;String, String&gt;&gt; draggableNodesBasicData) {
+<b class="fc"><i>43</i>&nbsp;        this.draggableNodesBasicData = draggableNodesBasicData;</b>
+<b class="fc"><i>44</i>&nbsp;    }</b>
+<i>45</i>&nbsp;
+<i>46</i>&nbsp;    /**
+<i>47</i>&nbsp;     * Method: getDraggableNodesLinkIds
+<i>48</i>&nbsp;     * Functionality: Get method for corresponding instance variable
+<i>49</i>&nbsp;     * @return - HashMap&lt;String, ArrayList&lt;String&gt;&gt;
+<i>50</i>&nbsp;     */
+<i>51</i>&nbsp;    public HashMap&lt;String, ArrayList&lt;String&gt;&gt; getDraggableNodesLinkIds() {
+<b class="fc"><i>52</i>&nbsp;        if (draggableNodesLinkIds == null) {</b>
+<b class="fc"><i>53</i>&nbsp;            throw new IllegalStateException(&quot;Instance variable have not been set!&quot;);</b>
+<i>54</i>&nbsp;        }
+<b class="fc"><i>55</i>&nbsp;        return draggableNodesLinkIds;</b>
+<i>56</i>&nbsp;    }
+<i>57</i>&nbsp;
+<i>58</i>&nbsp;    /**
+<i>59</i>&nbsp;     * Method: setDraggableNodesLinkIds
+<i>60</i>&nbsp;     * Functionality: Set method for corresponding instance variable
+<i>61</i>&nbsp;     * @param draggableNodesLinkIds - HashMap&lt;String, ArrayList&lt;String&gt;&gt;
+<i>62</i>&nbsp;     */
+<i>63</i>&nbsp;    public void setDraggableNodesLinkIds(HashMap&lt;String, ArrayList&lt;String&gt;&gt; draggableNodesLinkIds) {
+<b class="fc"><i>64</i>&nbsp;        this.draggableNodesLinkIds = draggableNodesLinkIds;</b>
+<b class="fc"><i>65</i>&nbsp;    }</b>
+<i>66</i>&nbsp;
+<i>67</i>&nbsp;    /**
+<i>68</i>&nbsp;     * Method: getDraggableNodesNodeProperties
+<i>69</i>&nbsp;     * Functionality: Get method for corresponding instance variable
+<i>70</i>&nbsp;     * @return - HashMap&lt;String, ArrayList&lt;Pair&lt;String, String&gt;&gt;&gt;
+<i>71</i>&nbsp;     */
+<i>72</i>&nbsp;    public HashMap&lt;String, ArrayList&lt;Pair&lt;String, String&gt;&gt;&gt; getDraggableNodesNodeProperties() {
+<b class="fc"><i>73</i>&nbsp;        if (draggableNodesNodeProperties == null) {</b>
+<b class="fc"><i>74</i>&nbsp;            throw new IllegalStateException(&quot;Instance variable have not been set!&quot;);</b>
+<i>75</i>&nbsp;        }
+<b class="fc"><i>76</i>&nbsp;        return draggableNodesNodeProperties;</b>
+<i>77</i>&nbsp;    }
+<i>78</i>&nbsp;
+<i>79</i>&nbsp;    /**
+<i>80</i>&nbsp;     * Method: setDraggableNodesNodeProperties
+<i>81</i>&nbsp;     * Functionality: Set method for corresponding instance variable
+<i>82</i>&nbsp;     * @param draggableNodesNodeProperties - HashMap&lt;String, ArrayList&lt;Pair&lt;String, String&gt;&gt;&gt;
+<i>83</i>&nbsp;     */
+<i>84</i>&nbsp;    public void setDraggableNodesNodeProperties(HashMap&lt;String, ArrayList&lt;Pair&lt;String, String&gt;&gt;&gt; draggableNodesNodeProperties) {
+<b class="fc"><i>85</i>&nbsp;        this.draggableNodesNodeProperties = draggableNodesNodeProperties;</b>
+<b class="fc"><i>86</i>&nbsp;    }</b>
+<i>87</i>&nbsp;
+<i>88</i>&nbsp;    /**
+<i>89</i>&nbsp;     * Method: getDraggableNodesConnectedNodes
+<i>90</i>&nbsp;     * Functionality: Get method for corresponding instance variable
+<i>91</i>&nbsp;     * @return - HashMap&lt;String, ArrayList&lt;Pair&lt;String, String&gt;&gt;&gt;
+<i>92</i>&nbsp;     */
+<i>93</i>&nbsp;    public HashMap&lt;String, ArrayList&lt;Pair&lt;String, String&gt;&gt;&gt; getDraggableNodesConnectedNodes() {
+<b class="fc"><i>94</i>&nbsp;        if (draggableNodesConnectedNodes == null) {</b>
+<b class="fc"><i>95</i>&nbsp;            throw new IllegalStateException(&quot;Instance variable have not been set!&quot;);</b>
+<i>96</i>&nbsp;        }
+<b class="fc"><i>97</i>&nbsp;        return draggableNodesConnectedNodes;</b>
+<i>98</i>&nbsp;    }
+<i>99</i>&nbsp;
+<i>100</i>&nbsp;    /**
+<i>101</i>&nbsp;     * Method: setDraggableNodesConnectedNodes
+<i>102</i>&nbsp;     * Functionality: Set method for corresponding instance variable
+<i>103</i>&nbsp;     * @param draggableNodesConnectedNodes - HashMap&lt;String, ArrayList&lt;Pair&lt;String, String&gt;&gt;&gt;
+<i>104</i>&nbsp;     */
+<i>105</i>&nbsp;    public void setDraggableNodesConnectedNodes(HashMap&lt;String, ArrayList&lt;Pair&lt;String, String&gt;&gt;&gt; draggableNodesConnectedNodes) {
+<b class="fc"><i>106</i>&nbsp;        this.draggableNodesConnectedNodes = draggableNodesConnectedNodes;</b>
+<b class="fc"><i>107</i>&nbsp;    }</b>
+<i>108</i>&nbsp;
+<i>109</i>&nbsp;    /**
+<i>110</i>&nbsp;     * Method: getLinkNodes
+<i>111</i>&nbsp;     * Functionality: Get method for corresponding instance variable
+<i>112</i>&nbsp;     * @return - ArrayList&lt;String&gt;
+<i>113</i>&nbsp;     */
+<i>114</i>&nbsp;    public ArrayList&lt;String&gt; getLinkNodes() {
+<b class="fc"><i>115</i>&nbsp;        if (linkNodes == null) {</b>
+<b class="fc"><i>116</i>&nbsp;            throw new IllegalStateException(&quot;Instance variable have not been set!&quot;);</b>
+<i>117</i>&nbsp;        }
+<b class="fc"><i>118</i>&nbsp;        return linkNodes;</b>
+<i>119</i>&nbsp;    }
+<i>120</i>&nbsp;
+<i>121</i>&nbsp;    /**
+<i>122</i>&nbsp;     * Method: setLinkNodes
+<i>123</i>&nbsp;     * Functionality: Set method for corresponding instance variable
+<i>124</i>&nbsp;     * @param linkNodes - ArrayList&lt;String&gt;
+<i>125</i>&nbsp;     */
+<i>126</i>&nbsp;    public void setLinkNodes(ArrayList&lt;String&gt; linkNodes) {
+<b class="fc"><i>127</i>&nbsp;        this.linkNodes = linkNodes;</b>
+<b class="fc"><i>128</i>&nbsp;    }</b>
+<i>129</i>&nbsp;
+<i>130</i>&nbsp;    /**
+<i>131</i>&nbsp;     * Method: getCustomSettings
+<i>132</i>&nbsp;     * Functionality: Get method for corresponding instance variable
+<i>133</i>&nbsp;     * @return - HashMap&lt;String, String&gt;
+<i>134</i>&nbsp;     */
+<i>135</i>&nbsp;    public HashMap&lt;String, String&gt; getCustomSettings() {
+<b class="nc"><i>136</i>&nbsp;        return customSettings;</b>
+<i>137</i>&nbsp;    }
+<i>138</i>&nbsp;
+<i>139</i>&nbsp;    /**
+<i>140</i>&nbsp;     * Method: setCustomSettings
+<i>141</i>&nbsp;     * Functionality: get method for corresponding instance variable
+<i>142</i>&nbsp;     * @param customSettings - HashMap&lt;String, String&gt;
+<i>143</i>&nbsp;     */
+<i>144</i>&nbsp;    public void setCustomSettings(HashMap&lt;String, String&gt; customSettings) {
+<b class="nc"><i>145</i>&nbsp;        this.customSettings = customSettings;</b>
+<b class="nc"><i>146</i>&nbsp;    }</b>
+<i>147</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-06-08 17:08</div>
+</div>
+</body>
+</html>

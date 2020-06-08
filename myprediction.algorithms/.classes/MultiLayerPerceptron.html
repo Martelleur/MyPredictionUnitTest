@@ -1,0 +1,138 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: MultiLayerPerceptron</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">myprediction.algorithms</a> ]
+</div>
+
+<h1>Coverage Summary for Class: MultiLayerPerceptron (myprediction.algorithms)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">MultiLayerPerceptron</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (5/ 5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (11/ 11)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package myprediction.algorithms;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import org.springframework.stereotype.Component;
+<i>4</i>&nbsp;import weka.classifiers.Classifier;
+<i>5</i>&nbsp;import weka.classifiers.functions.MultilayerPerceptron;
+<i>6</i>&nbsp;
+<i>7</i>&nbsp;/**
+<i>8</i>&nbsp; * Class: MultiLayerPerceptron
+<i>9</i>&nbsp; * Author: Joel Martelleur
+<i>10</i>&nbsp; * Date: 2020-05-03
+<i>11</i>&nbsp; * @version v1.0
+<i>12</i>&nbsp; */
+<i>13</i>&nbsp;@Component(&quot;multilayerperceptron&quot;)
+<i>14</i>&nbsp;public class MultiLayerPerceptron extends GeneralAlgorithm implements Algorithm {
+<i>15</i>&nbsp;
+<b class="fc"><i>16</i>&nbsp;    private Classifier classifier = new MultilayerPerceptron();</b>
+<b class="fc"><i>17</i>&nbsp;    private final String descriptionAddress = &quot;https://en.wikipedia.org/wiki/Multilayer_perceptron&quot;;</b>
+<i>18</i>&nbsp;
+<i>19</i>&nbsp;    /**
+<i>20</i>&nbsp;     * Constructor: MultiLayerPerceptron
+<i>21</i>&nbsp;     */
+<i>22</i>&nbsp;    MultiLayerPerceptron() {
+<b class="fc"><i>23</i>&nbsp;        super();</b>
+<b class="fc"><i>24</i>&nbsp;    }</b>
+<i>25</i>&nbsp;
+<i>26</i>&nbsp;    @Override
+<i>27</i>&nbsp;    public Classifier getClassifier() {
+<b class="fc"><i>28</i>&nbsp;        return this.classifier;</b>
+<i>29</i>&nbsp;    }
+<i>30</i>&nbsp;
+<i>31</i>&nbsp;    @Override
+<i>32</i>&nbsp;    public String getName() {
+<b class="fc"><i>33</i>&nbsp;        return MultiLayerPerceptron.class.getSimpleName();</b>
+<i>34</i>&nbsp;    }
+<i>35</i>&nbsp;
+<i>36</i>&nbsp;    @Override
+<i>37</i>&nbsp;    public String getDescriptionAddress() {
+<b class="fc"><i>38</i>&nbsp;        return this.descriptionAddress;</b>
+<i>39</i>&nbsp;    }
+<i>40</i>&nbsp;
+<i>41</i>&nbsp;    @Override
+<i>42</i>&nbsp;    public String getDescription(String address) {
+<i>43</i>&nbsp;        String output;
+<i>44</i>&nbsp;
+<b class="fc"><i>45</i>&nbsp;        if (super.isConnected(address)) {</b>
+<b class="fc"><i>46</i>&nbsp;            output = address;</b>
+<i>47</i>&nbsp;        } else {
+<b class="fc"><i>48</i>&nbsp;            output = &quot;No connection to address!&quot;;</b>
+<i>49</i>&nbsp;        }
+<i>50</i>&nbsp;
+<b class="fc"><i>51</i>&nbsp;        return output;</b>
+<i>52</i>&nbsp;
+<i>53</i>&nbsp;    }
+<i>54</i>&nbsp;
+<i>55</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-06-08 17:08</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,83 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Algorithm</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">myprediction.algorithms</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Algorithm (myprediction.algorithms)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+</tr>
+<tr>
+  <td class="name">Algorithm</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package myprediction.algorithms;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import weka.classifiers.Classifier;
+<i>4</i>&nbsp;
+<i>5</i>&nbsp;import java.io.FileNotFoundException;
+<i>6</i>&nbsp;import java.util.ArrayList;
+<i>7</i>&nbsp;
+<i>8</i>&nbsp;/**
+<i>9</i>&nbsp; * Interface: Algorithm
+<i>10</i>&nbsp; * Author: Joel Martelleur
+<i>11</i>&nbsp; * Date: 2020-05-03
+<i>12</i>&nbsp; * @version v1.0
+<i>13</i>&nbsp; */
+<i>14</i>&nbsp;public interface Algorithm {
+<i>15</i>&nbsp;    public Classifier getClassifier(); // get Classifier
+<i>16</i>&nbsp;    public String getName(); // Return the name of th algorithm
+<i>17</i>&nbsp;    public String getDescriptionAddress(); // Return the description address
+<i>18</i>&nbsp;    public String getDescription(String address); // Return the description of the algorithm
+<i>19</i>&nbsp;    public void setTrainingData(String path); // Set the trainingData
+<i>20</i>&nbsp;    public void setTestData(String path); // Set the testData
+<i>21</i>&nbsp;    public void setEvaluateData(String path); // Set actual data
+<i>22</i>&nbsp;    public String getTrainingData(); // getTrainingData
+<i>23</i>&nbsp;    public String getTestData(); // Get testData
+<i>24</i>&nbsp;    public String getEvaluateData(); // Get actualData
+<i>25</i>&nbsp;    public String getPrediction(boolean csvFormats) throws Exception; // return the predictions
+<i>26</i>&nbsp;    public String getEvaluations() throws Exception; // return the evaluations
+<i>27</i>&nbsp;    public int getTrainingIndex(); // return the trainingIndex
+<i>28</i>&nbsp;    public void setTrainingIndex(int i) throws FileNotFoundException; // set the trainingIndex
+<i>29</i>&nbsp;    public int getTestIndex(); // return the trainingIndex
+<i>30</i>&nbsp;    public void setTestIndex(int i) throws FileNotFoundException; // set the trainingIndex
+<i>31</i>&nbsp;    public int getEvaluateIndex(); // return the evaluateIndex
+<i>32</i>&nbsp;    public void setEvaluateIndex(int i) throws FileNotFoundException; // set the evaluateIndex
+<i>33</i>&nbsp;    public void setStandardIndexes() throws FileNotFoundException; // Set standard (last index) index on testIndex, trainingIndex and evaluateIndex
+<i>34</i>&nbsp;    public int getNumberOfDataAttributes(String data) throws FileNotFoundException; // get number of data attributes from data file
+<i>35</i>&nbsp;    public boolean isConnected(String address); // Test the connection to the address
+<i>36</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-06-08 17:08</div>
+</div>
+</body>
+</html>

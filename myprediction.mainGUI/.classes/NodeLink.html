@@ -1,0 +1,261 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: NodeLink</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">myprediction.mainGUI</a> ]
+</div>
+
+<h1>Coverage Summary for Class: NodeLink (myprediction.mainGUI)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">NodeLink</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 67)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package myprediction.mainGUI;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import javafx.beans.binding.Bindings;
+<i>4</i>&nbsp;import javafx.beans.binding.When;
+<i>5</i>&nbsp;import javafx.beans.property.DoubleProperty;
+<i>6</i>&nbsp;import javafx.beans.property.SimpleDoubleProperty;
+<i>7</i>&nbsp;import javafx.fxml.FXML;
+<i>8</i>&nbsp;import javafx.fxml.FXMLLoader;
+<i>9</i>&nbsp;import javafx.geometry.Point2D;
+<i>10</i>&nbsp;import javafx.scene.layout.AnchorPane;
+<i>11</i>&nbsp;import javafx.scene.shape.CubicCurve;
+<i>12</i>&nbsp;
+<i>13</i>&nbsp;import java.io.IOException;
+<i>14</i>&nbsp;import java.io.Serializable;
+<i>15</i>&nbsp;import java.util.UUID;
+<i>16</i>&nbsp;
+<i>17</i>&nbsp;/**
+<i>18</i>&nbsp; * Class: NodeLink
+<i>19</i>&nbsp; * Author: Joel Martelleur
+<i>20</i>&nbsp; * Reference:
+<i>21</i>&nbsp; *  https://rterp.wordpress.com/2013/09/19/drag-and-drop-with-custom-components-in-javafx/
+<i>22</i>&nbsp; * 	https://monograff76.wordpress.com/2015/02/17/developing-a-drag-and-drop-ui-in-javafx-part-i-skeleton-application/
+<i>23</i>&nbsp; * Date: 2020-04-30
+<i>24</i>&nbsp; * @version v1.0
+<i>25</i>&nbsp; */
+<i>26</i>&nbsp;class NodeLink extends AnchorPane {
+<i>27</i>&nbsp;
+<i>28</i>&nbsp;	@FXML private CubicCurve node_link;
+<i>29</i>&nbsp;
+<b class="nc"><i>30</i>&nbsp;	private final DoubleProperty controlOffsetX = new SimpleDoubleProperty();</b>
+<b class="nc"><i>31</i>&nbsp;	private final DoubleProperty controlOffsetY = new SimpleDoubleProperty();</b>
+<b class="nc"><i>32</i>&nbsp;	private final DoubleProperty controlDirectionX1 = new SimpleDoubleProperty();</b>
+<b class="nc"><i>33</i>&nbsp;	private final DoubleProperty controlDirectionY1 = new SimpleDoubleProperty();</b>
+<b class="nc"><i>34</i>&nbsp;	private final DoubleProperty controlDirectionX2 = new SimpleDoubleProperty();</b>
+<b class="nc"><i>35</i>&nbsp;	private final DoubleProperty controlDirectionY2 = new SimpleDoubleProperty();</b>
+<i>36</i>&nbsp;
+<i>37</i>&nbsp;	/**
+<i>38</i>&nbsp;	 * Constructor: NodeLink
+<i>39</i>&nbsp;	 */
+<b class="nc"><i>40</i>&nbsp;	NodeLink() {</b>
+<i>41</i>&nbsp;		
+<b class="nc"><i>42</i>&nbsp;		FXMLLoader fxmlLoader = new FXMLLoader(</b>
+<b class="nc"><i>43</i>&nbsp;				getClass().getResource(&quot;/myprediction/mainGUI/NodeLink.fxml&quot;)</b>
+<i>44</i>&nbsp;				);
+<i>45</i>&nbsp;		
+<b class="nc"><i>46</i>&nbsp;		fxmlLoader.setRoot(this); </b>
+<b class="nc"><i>47</i>&nbsp;		fxmlLoader.setController(this);</b>
+<i>48</i>&nbsp;
+<i>49</i>&nbsp;		try { 
+<b class="nc"><i>50</i>&nbsp;			fxmlLoader.load();</b>
+<i>51</i>&nbsp;        
+<b class="nc"><i>52</i>&nbsp;		} catch (IOException exception) {</b>
+<b class="nc"><i>53</i>&nbsp;		    throw new RuntimeException(exception);</b>
+<b class="nc"><i>54</i>&nbsp;		}</b>
+<i>55</i>&nbsp;		
+<i>56</i>&nbsp;		//provide a universally unique identifier for this object
+<b class="nc"><i>57</i>&nbsp;		setId(UUID.randomUUID().toString());</b>
+<i>58</i>&nbsp;
+<b class="nc"><i>59</i>&nbsp;		this.setup();</b>
+<b class="nc"><i>60</i>&nbsp;	}</b>
+<i>61</i>&nbsp;
+<i>62</i>&nbsp;	/**
+<i>63</i>&nbsp;	 * Method: Setup
+<i>64</i>&nbsp;	 * Initialize node content and functionality
+<i>65</i>&nbsp;	 */
+<i>66</i>&nbsp;	private void setup() {
+<i>67</i>&nbsp;		
+<b class="nc"><i>68</i>&nbsp;		controlOffsetX.set(100.0);</b>
+<b class="nc"><i>69</i>&nbsp;		controlOffsetY.set(50.0);</b>
+<i>70</i>&nbsp;		
+<i>71</i>&nbsp;
+<b class="nc"><i>72</i>&nbsp;		controlDirectionX1.bind(new When(</b>
+<b class="nc"><i>73</i>&nbsp;				node_link.startXProperty().greaterThan(node_link.endXProperty()))</b>
+<b class="nc"><i>74</i>&nbsp;				.then(-1.0).otherwise(1.0));</b>
+<i>75</i>&nbsp;		
+<b class="nc"><i>76</i>&nbsp;		controlDirectionX2.bind(new When(</b>
+<b class="nc"><i>77</i>&nbsp;				node_link.startXProperty().greaterThan(node_link.endXProperty()))</b>
+<b class="nc"><i>78</i>&nbsp;				.then(1.0).otherwise(-1.0));</b>
+<i>79</i>&nbsp;
+<i>80</i>&nbsp;		
+<b class="nc"><i>81</i>&nbsp;		node_link.controlX1Property().bind(</b>
+<b class="nc"><i>82</i>&nbsp;				Bindings.add(</b>
+<b class="nc"><i>83</i>&nbsp;						node_link.startXProperty(), controlOffsetX.multiply(controlDirectionX1)</b>
+<i>84</i>&nbsp;						)
+<i>85</i>&nbsp;				);
+<i>86</i>&nbsp;		
+<b class="nc"><i>87</i>&nbsp;		node_link.controlX2Property().bind(</b>
+<b class="nc"><i>88</i>&nbsp;				Bindings.add(</b>
+<b class="nc"><i>89</i>&nbsp;						node_link.endXProperty(), controlOffsetX.multiply(controlDirectionX2)</b>
+<i>90</i>&nbsp;						)
+<i>91</i>&nbsp;				);
+<i>92</i>&nbsp;		
+<b class="nc"><i>93</i>&nbsp;		node_link.controlY1Property().bind(</b>
+<b class="nc"><i>94</i>&nbsp;				Bindings.add(</b>
+<b class="nc"><i>95</i>&nbsp;						node_link.startYProperty(), controlOffsetY.multiply(controlDirectionY1)</b>
+<i>96</i>&nbsp;						)
+<i>97</i>&nbsp;				);
+<i>98</i>&nbsp;		
+<b class="nc"><i>99</i>&nbsp;		node_link.controlY2Property().bind(</b>
+<b class="nc"><i>100</i>&nbsp;				Bindings.add(</b>
+<b class="nc"><i>101</i>&nbsp;						node_link.endYProperty(), controlOffsetY.multiply(controlDirectionY2)</b>
+<i>102</i>&nbsp;						)
+<i>103</i>&nbsp;				);
+<b class="nc"><i>104</i>&nbsp;	}</b>
+<i>105</i>&nbsp;
+<i>106</i>&nbsp;	/**
+<i>107</i>&nbsp;	 * Method: setStart
+<i>108</i>&nbsp;	 * Set the x and y values for the start of the link
+<i>109</i>&nbsp;	 * @param startPoint - Point2D
+<i>110</i>&nbsp;	 */
+<i>111</i>&nbsp;	void setStart(Point2D startPoint) {
+<i>112</i>&nbsp;
+<b class="nc"><i>113</i>&nbsp;		node_link.setStartX(startPoint.getX());</b>
+<b class="nc"><i>114</i>&nbsp;		node_link.setStartY(startPoint.getY());		</b>
+<b class="nc"><i>115</i>&nbsp;	}</b>
+<i>116</i>&nbsp;
+<i>117</i>&nbsp;	/**
+<i>118</i>&nbsp;	 * Method: enPoint
+<i>119</i>&nbsp;	 * Set the x and y values for the end of the link
+<i>120</i>&nbsp;	 * @param endPoint - Point2D
+<i>121</i>&nbsp;	 */
+<i>122</i>&nbsp;	void setEnd(Point2D endPoint) {
+<i>123</i>&nbsp;		
+<b class="nc"><i>124</i>&nbsp;		node_link.setEndX(endPoint.getX());</b>
+<b class="nc"><i>125</i>&nbsp;		node_link.setEndY(endPoint.getY());	</b>
+<b class="nc"><i>126</i>&nbsp;	}</b>
+<i>127</i>&nbsp;
+<i>128</i>&nbsp;	/**
+<i>129</i>&nbsp;	 * Method: bindEnds
+<i>130</i>&nbsp;	 * @param source - DraggableNode
+<i>131</i>&nbsp;	 * @param target - DraggableNode
+<i>132</i>&nbsp;	 */
+<i>133</i>&nbsp;	void bindEnds(DraggableNode source, DraggableNode target) {
+<b class="nc"><i>134</i>&nbsp;		node_link.startXProperty().bind(</b>
+<b class="nc"><i>135</i>&nbsp;				Bindings.add(source.layoutXProperty(), (source.getWidth() / 2.0)));</b>
+<i>136</i>&nbsp;		
+<b class="nc"><i>137</i>&nbsp;		node_link.startYProperty().bind(</b>
+<b class="nc"><i>138</i>&nbsp;				Bindings.add(source.layoutYProperty(), (source.getHeight() / 2.0)));</b>
+<i>139</i>&nbsp;		
+<b class="nc"><i>140</i>&nbsp;		node_link.endXProperty().bind(</b>
+<b class="nc"><i>141</i>&nbsp;				Bindings.add(target.layoutXProperty(), (target.getWidth() / 2.0)));</b>
+<i>142</i>&nbsp;		
+<b class="nc"><i>143</i>&nbsp;		node_link.endYProperty().bind(</b>
+<b class="nc"><i>144</i>&nbsp;				Bindings.add(target.layoutYProperty(), (target.getHeight() / 2.0)));</b>
+<i>145</i>&nbsp;
+<i>146</i>&nbsp;
+<b class="nc"><i>147</i>&nbsp;		source.registerLink(getId());</b>
+<b class="nc"><i>148</i>&nbsp;		target.registerLink(getId());</b>
+<i>149</i>&nbsp;
+<b class="nc"><i>150</i>&nbsp;	}</b>
+<i>151</i>&nbsp;
+<i>152</i>&nbsp;	/**
+<i>153</i>&nbsp;	 * Method: bindEnds
+<i>154</i>&nbsp;	 * @param source - DraggableNode
+<i>155</i>&nbsp;	 * @param target - DraggableNode
+<i>156</i>&nbsp;	 * @param height - double Define where to bind the link to the draggable nodes
+<i>157</i>&nbsp;	 * @param width - double Define where to bind the link to the draggable nodes
+<i>158</i>&nbsp;	 */
+<i>159</i>&nbsp;	void bindEnds(DraggableNode source, DraggableNode target, double width, double height) {
+<b class="nc"><i>160</i>&nbsp;		node_link.startXProperty().bind(</b>
+<b class="nc"><i>161</i>&nbsp;				Bindings.add(source.layoutXProperty(), (width / 2.0)));</b>
+<i>162</i>&nbsp;
+<b class="nc"><i>163</i>&nbsp;		node_link.startYProperty().bind(</b>
+<b class="nc"><i>164</i>&nbsp;				Bindings.add(source.layoutYProperty(), (height / 2.0)));</b>
+<i>165</i>&nbsp;
+<b class="nc"><i>166</i>&nbsp;		node_link.endXProperty().bind(</b>
+<b class="nc"><i>167</i>&nbsp;				Bindings.add(target.layoutXProperty(), (width / 2.0)));</b>
+<i>168</i>&nbsp;
+<b class="nc"><i>169</i>&nbsp;		node_link.endYProperty().bind(</b>
+<b class="nc"><i>170</i>&nbsp;				Bindings.add(target.layoutYProperty(), (height / 2.0)));</b>
+<i>171</i>&nbsp;
+<i>172</i>&nbsp;
+<b class="nc"><i>173</i>&nbsp;		source.registerLink(getId());</b>
+<b class="nc"><i>174</i>&nbsp;		target.registerLink(getId());</b>
+<i>175</i>&nbsp;
+<b class="nc"><i>176</i>&nbsp;	}</b>
+<i>177</i>&nbsp;
+<i>178</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-06-08 17:08</div>
+</div>
+</body>
+</html>

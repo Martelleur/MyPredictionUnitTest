@@ -1,0 +1,628 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: TransformToTableView</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">myprediction.nodePropertiesGUI</a> ]
+</div>
+
+<h1>Coverage Summary for Class: TransformToTableView (myprediction.nodePropertiesGUI)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">TransformToTableView</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 12)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 132)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">TransformToTableView$Data</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 27)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 53)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 39)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 185)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package myprediction.nodePropertiesGUI;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import javafx.beans.property.SimpleStringProperty;
+<i>4</i>&nbsp;import javafx.collections.FXCollections;
+<i>5</i>&nbsp;import javafx.collections.ObservableList;
+<i>6</i>&nbsp;import javafx.scene.control.TableColumn;
+<i>7</i>&nbsp;import javafx.scene.control.TableView;
+<i>8</i>&nbsp;import javafx.scene.control.cell.PropertyValueFactory;
+<i>9</i>&nbsp;import myprediction.management.FileManager;
+<i>10</i>&nbsp;import weka.core.Instances;
+<i>11</i>&nbsp;import weka.core.converters.ConverterUtils;
+<i>12</i>&nbsp;
+<i>13</i>&nbsp;import java.io.File;
+<i>14</i>&nbsp;import java.io.FileNotFoundException;
+<i>15</i>&nbsp;import java.io.IOException;
+<i>16</i>&nbsp;import java.util.*;
+<i>17</i>&nbsp;
+<i>18</i>&nbsp;/**
+<i>19</i>&nbsp; * Class: TransformToTableView
+<i>20</i>&nbsp; * Functionality: Transform String or files used in the application to TableViews
+<i>21</i>&nbsp; * Author: Joel Martelleur
+<i>22</i>&nbsp; * date 2020-05-18
+<i>23</i>&nbsp; * @version v1.0
+<i>24</i>&nbsp; */
+<i>25</i>&nbsp;class TransformToTableView {
+<i>26</i>&nbsp;
+<i>27</i>&nbsp;    private File csvFile;
+<i>28</i>&nbsp;    private File arffFile;
+<b class="nc"><i>29</i>&nbsp;    private ArrayList&lt;String&gt; columns = new ArrayList&lt;&gt;();</b>
+<b class="nc"><i>30</i>&nbsp;    private final int MAX_COLUMNS = 25;</b>
+<b class="nc"><i>31</i>&nbsp;    private String missingValue = &quot;----------&quot;;</b>
+<b class="nc"><i>32</i>&nbsp;    private boolean isConversionPossible = true;</b>
+<b class="nc"><i>33</i>&nbsp;    private TableView&lt;Data&gt; table = new TableView&lt;&gt;();</b>
+<b class="nc"><i>34</i>&nbsp;    private List&lt;Data&gt; inputData = new ArrayList&lt;&gt;();</b>
+<i>35</i>&nbsp;    private ObservableList&lt;Data&gt; data;
+<i>36</i>&nbsp;
+<i>37</i>&nbsp;
+<i>38</i>&nbsp;    /**
+<i>39</i>&nbsp;     * Constructor: TransformToTableView
+<i>40</i>&nbsp;     * Functionality: Creat a instance of this class with the opportunity to
+<i>41</i>&nbsp;     * convert a arff file to table view.
+<i>42</i>&nbsp;     * @param arffFile -
+<i>43</i>&nbsp;     */
+<b class="nc"><i>44</i>&nbsp;    TransformToTableView(File arffFile) {</b>
+<i>45</i>&nbsp;
+<b class="nc"><i>46</i>&nbsp;        String validFileExtension = &quot;arff&quot;;</b>
+<b class="nc"><i>47</i>&nbsp;        String inPutFileExtension = FileManager.getFileExtension(arffFile);</b>
+<b class="nc"><i>48</i>&nbsp;        if (!inPutFileExtension.equals(validFileExtension)) {</b>
+<b class="nc"><i>49</i>&nbsp;            throw new IllegalArgumentException(&quot;Wrong type of file! Should be &quot; +</b>
+<i>50</i>&nbsp;                    validFileExtension + &quot; not &quot; + inPutFileExtension);
+<i>51</i>&nbsp;        } else {
+<i>52</i>&nbsp;
+<b class="nc"><i>53</i>&nbsp;            String csvString = null;</b>
+<i>54</i>&nbsp;            try {
+<b class="nc"><i>55</i>&nbsp;                csvString = this.extractCsvStringFromArffFile(arffFile);</b>
+<b class="nc"><i>56</i>&nbsp;            } catch (Exception exception) {</b>
+<b class="nc"><i>57</i>&nbsp;                exception.getMessage();</b>
+<b class="nc"><i>58</i>&nbsp;            }</b>
+<i>59</i>&nbsp;
+<b class="nc"><i>60</i>&nbsp;            this.arffFile = arffFile;</b>
+<b class="nc"><i>61</i>&nbsp;            this.addDataFromCsvString(csvString);</b>
+<b class="nc"><i>62</i>&nbsp;            this.data = FXCollections.observableArrayList(this.inputData);</b>
+<i>63</i>&nbsp;        }
+<b class="nc"><i>64</i>&nbsp;    }</b>
+<i>65</i>&nbsp;
+<i>66</i>&nbsp;    /**
+<i>67</i>&nbsp;     * Method: isConversionPossible
+<i>68</i>&nbsp;     * Functionality: Getter for instance variable isConversionPossible
+<i>69</i>&nbsp;     * @return - true if possible false if not possible
+<i>70</i>&nbsp;     */
+<i>71</i>&nbsp;    boolean isConversionPossible() {
+<b class="nc"><i>72</i>&nbsp;        return isConversionPossible;</b>
+<i>73</i>&nbsp;    }
+<i>74</i>&nbsp;
+<i>75</i>&nbsp;    /**
+<i>76</i>&nbsp;     * Constructor: TransformToTableView
+<i>77</i>&nbsp;     * Functionality: Creat a instance of this class with the opportunity to
+<i>78</i>&nbsp;     * convert a csv string to a table view.
+<i>79</i>&nbsp;     * @param string - String
+<i>80</i>&nbsp;     */
+<b class="nc"><i>81</i>&nbsp;    TransformToTableView(String string) {</b>
+<i>82</i>&nbsp;
+<b class="nc"><i>83</i>&nbsp;        this.addDataFromCsvString(string);</b>
+<b class="nc"><i>84</i>&nbsp;        this.data = FXCollections.observableArrayList(this.inputData);</b>
+<i>85</i>&nbsp;
+<b class="nc"><i>86</i>&nbsp;    }</b>
+<i>87</i>&nbsp;
+<i>88</i>&nbsp;    /**
+<i>89</i>&nbsp;     * Constructor: TransformToTableView
+<i>90</i>&nbsp;     * Functionality: Creat a instance of this class with the opportunity to
+<i>91</i>&nbsp;     * a convert a specific string to table view.
+<i>92</i>&nbsp;     * @param string - String
+<i>93</i>&nbsp;     * @param custom - int
+<i>94</i>&nbsp;     */
+<b class="nc"><i>95</i>&nbsp;    TransformToTableView(String string, int custom) {</b>
+<i>96</i>&nbsp;
+<b class="nc"><i>97</i>&nbsp;        if (custom == 1) {</b>
+<b class="nc"><i>98</i>&nbsp;            this.addDataFromString1(string);</b>
+<i>99</i>&nbsp;        }
+<i>100</i>&nbsp;
+<b class="nc"><i>101</i>&nbsp;        this.data = FXCollections.observableArrayList(this.inputData);</b>
+<i>102</i>&nbsp;
+<b class="nc"><i>103</i>&nbsp;    }</b>
+<i>104</i>&nbsp;
+<i>105</i>&nbsp;    /**
+<i>106</i>&nbsp;     * Method: getTableView
+<i>107</i>&nbsp;     * Functionality: Populate a TableView with data
+<i>108</i>&nbsp;     * @return - TableView
+<i>109</i>&nbsp;     */
+<i>110</i>&nbsp;    TableView&lt;Data&gt; getTableView() {
+<i>111</i>&nbsp;
+<b class="nc"><i>112</i>&nbsp;        table.setEditable(false);</b>
+<i>113</i>&nbsp;
+<b class="nc"><i>114</i>&nbsp;        ArrayList&lt;TableColumn&lt;Data, String&gt;&gt; tableColumns = new ArrayList&lt;&gt;();</b>
+<i>115</i>&nbsp;
+<b class="nc"><i>116</i>&nbsp;        for (int i = 0; i &lt; this.columns.size(); i++) {</b>
+<i>117</i>&nbsp;
+<b class="nc"><i>118</i>&nbsp;            String keyToColumn = &quot;ssp&quot; + (i + 1);</b>
+<b class="nc"><i>119</i>&nbsp;            TableColumn&lt;Data, String&gt; tableColumn = new TableColumn&lt;&gt;(this.columns.get(i).toUpperCase());</b>
+<b class="nc"><i>120</i>&nbsp;            tableColumn.setMinWidth(100);</b>
+<b class="nc"><i>121</i>&nbsp;            tableColumn.setCellValueFactory(new PropertyValueFactory&lt;&gt;(keyToColumn));</b>
+<i>122</i>&nbsp;
+<b class="nc"><i>123</i>&nbsp;            tableColumns.add(tableColumn);</b>
+<i>124</i>&nbsp;
+<i>125</i>&nbsp;        }
+<i>126</i>&nbsp;
+<b class="nc"><i>127</i>&nbsp;        table.setItems(data);</b>
+<i>128</i>&nbsp;
+<b class="nc"><i>129</i>&nbsp;        this.table.getColumns().addAll(tableColumns);</b>
+<i>130</i>&nbsp;
+<b class="nc"><i>131</i>&nbsp;        return table;</b>
+<i>132</i>&nbsp;    }
+<i>133</i>&nbsp;
+<i>134</i>&nbsp;    /**
+<i>135</i>&nbsp;     * Method: extractCsvStringFromArffFile
+<i>136</i>&nbsp;     * Functionality: Extract a scv string from a arffFile
+<i>137</i>&nbsp;     * @param arffFile - File that is tha file to extract the scv string from
+<i>138</i>&nbsp;     * @return - String that represent the extracted scv string
+<i>139</i>&nbsp;     */
+<i>140</i>&nbsp;    private String extractCsvStringFromArffFile(File arffFile) throws Exception {
+<i>141</i>&nbsp;
+<b class="nc"><i>142</i>&nbsp;        StringBuilder out = new StringBuilder();</b>
+<b class="nc"><i>143</i>&nbsp;        ConverterUtils.DataSource source = new ConverterUtils.DataSource(arffFile.getPath());</b>
+<b class="nc"><i>144</i>&nbsp;        Instances instances= source.getDataSet();</b>
+<i>145</i>&nbsp;
+<i>146</i>&nbsp;        // Building attributes for output (Headers)
+<b class="nc"><i>147</i>&nbsp;        for (int i = 0; i &lt; instances.numAttributes(); i++) {</b>
+<i>148</i>&nbsp;
+<b class="nc"><i>149</i>&nbsp;            if (i == (instances.numAttributes() - 1)) {</b>
+<b class="nc"><i>150</i>&nbsp;                out.append(instances.attribute(i).name());</b>
+<i>151</i>&nbsp;            } else {
+<b class="nc"><i>152</i>&nbsp;                out.append(instances.attribute(i).name()).append(&quot;,&quot;);</b>
+<i>153</i>&nbsp;            }
+<i>154</i>&nbsp;
+<i>155</i>&nbsp;        }
+<i>156</i>&nbsp;
+<i>157</i>&nbsp;        // Building instances for output (data)
+<b class="nc"><i>158</i>&nbsp;        for (int i = 0; i &lt; instances.numInstances(); i++) {</b>
+<i>159</i>&nbsp;
+<b class="nc"><i>160</i>&nbsp;            out.append(&quot;\n&quot;).append(instances.instance(i));</b>
+<i>161</i>&nbsp;
+<i>162</i>&nbsp;        }
+<i>163</i>&nbsp;
+<b class="nc"><i>164</i>&nbsp;        return out.toString();</b>
+<i>165</i>&nbsp;    }
+<i>166</i>&nbsp;
+<i>167</i>&nbsp;    /**
+<i>168</i>&nbsp;     * Method: getTextFromFile
+<i>169</i>&nbsp;     * @return - String representing the text from the file
+<i>170</i>&nbsp;     * @throws IOException -
+<i>171</i>&nbsp;     */
+<i>172</i>&nbsp;    String getTextFromFile() throws IOException {
+<i>173</i>&nbsp;
+<b class="nc"><i>174</i>&nbsp;        StringBuilder output = new StringBuilder();</b>
+<b class="nc"><i>175</i>&nbsp;        Scanner scanner = new Scanner(this.arffFile);</b>
+<i>176</i>&nbsp;        String str;
+<i>177</i>&nbsp;
+<b class="nc"><i>178</i>&nbsp;        while (scanner.hasNextLine()) {</b>
+<i>179</i>&nbsp;
+<b class="nc"><i>180</i>&nbsp;            str = scanner.nextLine();</b>
+<b class="nc"><i>181</i>&nbsp;            output.append(str);</b>
+<b class="nc"><i>182</i>&nbsp;            output.append(&quot;\n&quot;);</b>
+<i>183</i>&nbsp;
+<i>184</i>&nbsp;        }
+<i>185</i>&nbsp;
+<b class="nc"><i>186</i>&nbsp;        return output.toString();</b>
+<i>187</i>&nbsp;    }
+<i>188</i>&nbsp;
+<i>189</i>&nbsp;    /**
+<i>190</i>&nbsp;     * Method: addDataFromCsvString
+<i>191</i>&nbsp;     * Functionality: Add data from in parameter csvString and store it in
+<i>192</i>&nbsp;     * instance variables this.inputData and this.columns
+<i>193</i>&nbsp;     * @param csvString - String
+<i>194</i>&nbsp;     */
+<i>195</i>&nbsp;    private void addDataFromCsvString(String csvString) {
+<i>196</i>&nbsp;
+<b class="nc"><i>197</i>&nbsp;        Scanner scanner = new Scanner(csvString);</b>
+<i>198</i>&nbsp;
+<i>199</i>&nbsp;        String str;
+<b class="nc"><i>200</i>&nbsp;        int lineNumber = 0;</b>
+<i>201</i>&nbsp;
+<b class="nc"><i>202</i>&nbsp;        while (scanner.hasNextLine()) {</b>
+<i>203</i>&nbsp;
+<b class="nc"><i>204</i>&nbsp;            str = scanner.nextLine();</b>
+<b class="nc"><i>205</i>&nbsp;            ArrayList&lt;String&gt; list = new ArrayList&lt;&gt;(Arrays.asList(str.split(&quot;,&quot;)));</b>
+<i>206</i>&nbsp;
+<i>207</i>&nbsp;            // If size of list is bigger then MAX_COLUMNS conversion is not possible
+<b class="nc"><i>208</i>&nbsp;            if (list.size() &gt; MAX_COLUMNS) {</b>
+<b class="nc"><i>209</i>&nbsp;                scanner.close();</b>
+<b class="nc"><i>210</i>&nbsp;                this.isConversionPossible = false;</b>
+<b class="nc"><i>211</i>&nbsp;                throw new IllegalStateException(&quot;Cannot display more then &quot; + this.MAX_COLUMNS + &quot; columns in table!&quot;);</b>
+<i>212</i>&nbsp;            }
+<i>213</i>&nbsp;
+<b class="nc"><i>214</i>&nbsp;            if ( lineNumber == 0) {</b>
+<b class="nc"><i>215</i>&nbsp;                list.add(0, &quot;Instances&quot;);</b>
+<i>216</i>&nbsp;            } else {
+<b class="nc"><i>217</i>&nbsp;                list.add(0, String.valueOf(lineNumber));</b>
+<i>218</i>&nbsp;            }
+<i>219</i>&nbsp;
+<b class="nc"><i>220</i>&nbsp;            if (lineNumber == 0) {</b>
+<i>221</i>&nbsp;
+<b class="nc"><i>222</i>&nbsp;                this.columns = list;</b>
+<i>223</i>&nbsp;
+<i>224</i>&nbsp;            } else {
+<i>225</i>&nbsp;
+<i>226</i>&nbsp;                // If missing values is found set those values to this.missingValues or
+<i>227</i>&nbsp;                // if mismatch between this.columns size and list size
+<b class="nc"><i>228</i>&nbsp;                if (list.size() != this.columns.size() || list.contains(&quot;&quot;)) {</b>
+<b class="nc"><i>229</i>&nbsp;                    list = addValuesToMissingValues(list);</b>
+<i>230</i>&nbsp;                }
+<i>231</i>&nbsp;
+<b class="nc"><i>232</i>&nbsp;                String[] strings = new String[MAX_COLUMNS];</b>
+<i>233</i>&nbsp;
+<b class="nc"><i>234</i>&nbsp;                for (int i = 0; i &lt; list.size(); i++) {</b>
+<b class="nc"><i>235</i>&nbsp;                    strings[i] = list.get(i);</b>
+<i>236</i>&nbsp;                }
+<i>237</i>&nbsp;
+<b class="nc"><i>238</i>&nbsp;                Data data = new Data(strings);</b>
+<b class="nc"><i>239</i>&nbsp;                this.inputData.add(data);</b>
+<i>240</i>&nbsp;
+<i>241</i>&nbsp;            }
+<i>242</i>&nbsp;
+<b class="nc"><i>243</i>&nbsp;            lineNumber++;</b>
+<i>244</i>&nbsp;
+<b class="nc"><i>245</i>&nbsp;        }</b>
+<b class="nc"><i>246</i>&nbsp;        scanner.close();</b>
+<b class="nc"><i>247</i>&nbsp;    }</b>
+<i>248</i>&nbsp;
+<i>249</i>&nbsp;    /**
+<i>250</i>&nbsp;     * Method: addDataFromString1
+<i>251</i>&nbsp;     * Functionality: Add data from string not in csv format
+<i>252</i>&nbsp;     * @param string -
+<i>253</i>&nbsp;     */
+<i>254</i>&nbsp;    private void addDataFromString1(String string) {
+<b class="nc"><i>255</i>&nbsp;        Scanner scanner = new Scanner(string);</b>
+<i>256</i>&nbsp;        String str;
+<b class="nc"><i>257</i>&nbsp;        this.columns.add(&quot;Evaluation Fields&quot;);</b>
+<b class="nc"><i>258</i>&nbsp;        this.columns.add(&quot;Values&quot;);</b>
+<i>259</i>&nbsp;
+<b class="nc"><i>260</i>&nbsp;        while (scanner.hasNextLine()) {</b>
+<i>261</i>&nbsp;
+<b class="nc"><i>262</i>&nbsp;            str = scanner.nextLine();</b>
+<b class="nc"><i>263</i>&nbsp;            ArrayList&lt;String&gt; list = new ArrayList&lt;&gt;(Arrays.asList(str.split(&quot;,&quot;)));</b>
+<i>264</i>&nbsp;
+<i>265</i>&nbsp;            // Modifying ArrayList list and store the new values in ArrayList listModified
+<b class="nc"><i>266</i>&nbsp;            ArrayList&lt;String&gt; modifiedList = this.modifyingStringArrayList(list);</b>
+<i>267</i>&nbsp;
+<i>268</i>&nbsp;            // If size of list is bigger then MAX_COLUMNS conversion is not possible
+<b class="nc"><i>269</i>&nbsp;            if (modifiedList.size() &gt; MAX_COLUMNS) {</b>
+<b class="nc"><i>270</i>&nbsp;                scanner.close();</b>
+<b class="nc"><i>271</i>&nbsp;                this.isConversionPossible = false;</b>
+<b class="nc"><i>272</i>&nbsp;                throw new IllegalStateException(&quot;Cannot display more then &quot; + this.MAX_COLUMNS + &quot; columns in table!&quot;);</b>
+<i>273</i>&nbsp;            }
+<i>274</i>&nbsp;
+<b class="nc"><i>275</i>&nbsp;            String[] strings = new String[MAX_COLUMNS];</b>
+<i>276</i>&nbsp;
+<i>277</i>&nbsp;            // If missing values is found set those values to this.missingValues or
+<i>278</i>&nbsp;            // if mismatch between this.columns size and list size
+<b class="nc"><i>279</i>&nbsp;            if (modifiedList.size() != this.columns.size() || modifiedList.contains(&quot;&quot;)) {</b>
+<b class="nc"><i>280</i>&nbsp;                modifiedList = addValuesToMissingValues(modifiedList);</b>
+<i>281</i>&nbsp;
+<i>282</i>&nbsp;            }
+<i>283</i>&nbsp;
+<b class="nc"><i>284</i>&nbsp;            for (int i = 0; i &lt; modifiedList.size(); i++) {</b>
+<b class="nc"><i>285</i>&nbsp;                strings[i] = modifiedList.get(i);</b>
+<i>286</i>&nbsp;            }
+<i>287</i>&nbsp;
+<b class="nc"><i>288</i>&nbsp;            Data data = new Data(strings);</b>
+<b class="nc"><i>289</i>&nbsp;            this.inputData.add(data);</b>
+<i>290</i>&nbsp;
+<b class="nc"><i>291</i>&nbsp;        }</b>
+<i>292</i>&nbsp;
+<b class="nc"><i>293</i>&nbsp;        scanner.close();</b>
+<b class="nc"><i>294</i>&nbsp;    }</b>
+<i>295</i>&nbsp;
+<i>296</i>&nbsp;    /**
+<i>297</i>&nbsp;     * Method: addValuesToMissingValues
+<i>298</i>&nbsp;     * Functionality: If missing values is found set those values to this.missingValues
+<i>299</i>&nbsp;     * @return - ArrayList&lt;String&gt;
+<i>300</i>&nbsp;     */
+<i>301</i>&nbsp;    private ArrayList&lt;String&gt; addValuesToMissingValues(ArrayList&lt;String&gt; list) {
+<b class="nc"><i>302</i>&nbsp;        ArrayList&lt;String&gt; newList = new ArrayList&lt;&gt;();</b>
+<i>303</i>&nbsp;
+<i>304</i>&nbsp;        // Correction if size mismatch between this.columns and in parameter list
+<b class="nc"><i>305</i>&nbsp;        if (list.size() != this.columns.size()) {</b>
+<i>306</i>&nbsp;
+<b class="nc"><i>307</i>&nbsp;            for (int i = 0; i &lt; this.columns.size(); i++) {</b>
+<i>308</i>&nbsp;
+<b class="nc"><i>309</i>&nbsp;                if (i &lt; list.size()){</b>
+<i>310</i>&nbsp;
+<b class="nc"><i>311</i>&nbsp;                    if (list.get(i).equals(&quot;&quot;)) {</b>
+<b class="nc"><i>312</i>&nbsp;                        newList.add(this.missingValue);</b>
+<i>313</i>&nbsp;                    } else {
+<b class="nc"><i>314</i>&nbsp;                        newList.add(list.get(i));</b>
+<i>315</i>&nbsp;                    }
+<i>316</i>&nbsp;                } else {
+<b class="nc"><i>317</i>&nbsp;                    newList.add(this.missingValue);</b>
+<i>318</i>&nbsp;                }
+<i>319</i>&nbsp;            }
+<i>320</i>&nbsp;
+<i>321</i>&nbsp;        // Correction ig im parameter consist of empty strings
+<b class="nc"><i>322</i>&nbsp;        } else if (list.contains(&quot;&quot;)) {</b>
+<i>323</i>&nbsp;
+<b class="nc"><i>324</i>&nbsp;            for (int i = 0; i &lt; this.columns.size(); i++) {</b>
+<i>325</i>&nbsp;
+<b class="nc"><i>326</i>&nbsp;                if (list.get(i).equals(&quot;&quot;)) {</b>
+<b class="nc"><i>327</i>&nbsp;                    newList.add(this.missingValue);</b>
+<i>328</i>&nbsp;                } else {
+<b class="nc"><i>329</i>&nbsp;                    newList.add(list.get(i));</b>
+<i>330</i>&nbsp;                }
+<i>331</i>&nbsp;            }
+<i>332</i>&nbsp;        }
+<i>333</i>&nbsp;
+<b class="nc"><i>334</i>&nbsp;        return newList;</b>
+<i>335</i>&nbsp;    }
+<i>336</i>&nbsp;
+<i>337</i>&nbsp;    /**
+<i>338</i>&nbsp;     * Method: modifyingStringArrayList
+<i>339</i>&nbsp;     * Functionality: Custom modification of in parameter ArrayList
+<i>340</i>&nbsp;     * @param stringArrayList - ArrayList&lt;String&gt;
+<i>341</i>&nbsp;     * @return - - ArrayList&lt;String&gt;
+<i>342</i>&nbsp;     */
+<i>343</i>&nbsp;    private ArrayList&lt;String&gt; modifyingStringArrayList(ArrayList&lt;String&gt; stringArrayList) {
+<i>344</i>&nbsp;
+<b class="nc"><i>345</i>&nbsp;        StringBuilder sb = new StringBuilder();</b>
+<b class="nc"><i>346</i>&nbsp;        boolean beforeDouble = true;</b>
+<i>347</i>&nbsp;
+<b class="nc"><i>348</i>&nbsp;        for (String s : stringArrayList) {</b>
+<b class="nc"><i>349</i>&nbsp;            if (this.isStringOnlyAlphabet(s) &amp;&amp; beforeDouble) {</b>
+<b class="nc"><i>350</i>&nbsp;                sb.append(s).append(&quot; &quot;);</b>
+<b class="nc"><i>351</i>&nbsp;            } else if (!this.isStringOnlyAlphabet(s) &amp;&amp; beforeDouble) {</b>
+<b class="nc"><i>352</i>&nbsp;                sb.append(&quot;,&quot;).append(s);</b>
+<b class="nc"><i>353</i>&nbsp;                beforeDouble = false;</b>
+<i>354</i>&nbsp;            } else {
+<b class="nc"><i>355</i>&nbsp;                sb.append(s);</b>
+<i>356</i>&nbsp;            }
+<b class="nc"><i>357</i>&nbsp;        }</b>
+<i>358</i>&nbsp;
+<b class="nc"><i>359</i>&nbsp;        return new ArrayList&lt;&gt;(Arrays.asList(sb.toString().split(&quot;,&quot;)));</b>
+<i>360</i>&nbsp;    }
+<i>361</i>&nbsp;
+<i>362</i>&nbsp;    /**
+<i>363</i>&nbsp;     * Method: isStringOnlyAlphabet
+<i>364</i>&nbsp;     * Functionality: Test if string is only of alphabet characters
+<i>365</i>&nbsp;     * @param str - String
+<i>366</i>&nbsp;     * @return - boolean
+<i>367</i>&nbsp;     */
+<i>368</i>&nbsp;    private boolean isStringOnlyAlphabet(String str)
+<i>369</i>&nbsp;    {
+<b class="nc"><i>370</i>&nbsp;        return ((str != null)</b>
+<b class="nc"><i>371</i>&nbsp;                &amp;&amp; (!str.equals(&quot;&quot;))</b>
+<b class="nc"><i>372</i>&nbsp;                &amp;&amp; (str.matches(&quot;^[a-zA-Z]*$&quot;)));</b>
+<i>373</i>&nbsp;    }
+<i>374</i>&nbsp;
+<i>375</i>&nbsp;
+<i>376</i>&nbsp;    /**
+<i>377</i>&nbsp;     * Inner Class: Data
+<i>378</i>&nbsp;     * Provide data to TableView
+<i>379</i>&nbsp;     */
+<i>380</i>&nbsp;    public static class Data {
+<b class="nc"><i>381</i>&nbsp;        private final static ArrayList&lt;SimpleStringProperty&gt; columnsDataInData = new ArrayList&lt;&gt;();</b>
+<i>382</i>&nbsp;
+<i>383</i>&nbsp;        private final SimpleStringProperty ssp1, ssp2, ssp3, ssp4,
+<i>384</i>&nbsp;                ssp5, ssp6, ssp7, ssp8, ssp9,
+<i>385</i>&nbsp;                ssp10, ssp11, ssp12, ssp13, ssp14,
+<i>386</i>&nbsp;                ssp15, ssp16, ssp17, ssp18, ssp19,
+<i>387</i>&nbsp;                ssp20, ssp21, ssp22, ssp23, ssp24, ssp25;
+<i>388</i>&nbsp;
+<b class="nc"><i>389</i>&nbsp;        private Data(String[] strings) {</b>
+<b class="nc"><i>390</i>&nbsp;            this.ssp1 = (strings[0] != null) ? new SimpleStringProperty(strings[0]) : null;</b>
+<b class="nc"><i>391</i>&nbsp;            this.ssp2 = (strings[1] != null) ?  new SimpleStringProperty(strings[1]) : null;</b>
+<b class="nc"><i>392</i>&nbsp;            this.ssp3 = (strings[2] != null) ?  new SimpleStringProperty(strings[2]) : null;</b>
+<b class="nc"><i>393</i>&nbsp;            this.ssp4 = (strings[3] != null) ?  new SimpleStringProperty(strings[3]) : null;</b>
+<b class="nc"><i>394</i>&nbsp;            this.ssp5 = (strings[4] != null) ?  new SimpleStringProperty(strings[4]) : null;</b>
+<b class="nc"><i>395</i>&nbsp;            this.ssp6 = (strings[5] != null) ?  new SimpleStringProperty(strings[5]) : null;</b>
+<b class="nc"><i>396</i>&nbsp;            this.ssp7 = (strings[6] != null) ?  new SimpleStringProperty(strings[6]) : null;</b>
+<b class="nc"><i>397</i>&nbsp;            this.ssp8 = (strings[7] != null) ?  new SimpleStringProperty(strings[7]) : null;</b>
+<b class="nc"><i>398</i>&nbsp;            this.ssp9 = (strings[8] != null) ?  new SimpleStringProperty(strings[8]) : null;</b>
+<b class="nc"><i>399</i>&nbsp;            this.ssp10 = (strings[9] != null) ?  new SimpleStringProperty(strings[9]) : null;</b>
+<b class="nc"><i>400</i>&nbsp;            this.ssp11 = (strings[10] != null) ? new SimpleStringProperty(strings[10]) : null;</b>
+<b class="nc"><i>401</i>&nbsp;            this.ssp12 = (strings[11] != null) ?  new SimpleStringProperty(strings[11]) : null;</b>
+<b class="nc"><i>402</i>&nbsp;            this.ssp13 = (strings[12] != null) ?  new SimpleStringProperty(strings[12]) : null;</b>
+<b class="nc"><i>403</i>&nbsp;            this.ssp14 = (strings[13] != null) ?  new SimpleStringProperty(strings[13]) : null;</b>
+<b class="nc"><i>404</i>&nbsp;            this.ssp15 = (strings[14] != null) ?  new SimpleStringProperty(strings[14]) : null;</b>
+<b class="nc"><i>405</i>&nbsp;            this.ssp16 = (strings[15] != null) ?  new SimpleStringProperty(strings[15]) : null;</b>
+<b class="nc"><i>406</i>&nbsp;            this.ssp17 = (strings[16] != null) ?  new SimpleStringProperty(strings[16]) : null;</b>
+<b class="nc"><i>407</i>&nbsp;            this.ssp18 = (strings[17] != null) ?  new SimpleStringProperty(strings[17]) : null;</b>
+<b class="nc"><i>408</i>&nbsp;            this.ssp19 = (strings[18] != null) ?  new SimpleStringProperty(strings[18]) : null;</b>
+<b class="nc"><i>409</i>&nbsp;            this.ssp20 = (strings[19] != null) ?  new SimpleStringProperty(strings[19]) : null;</b>
+<b class="nc"><i>410</i>&nbsp;            this.ssp21 = (strings[20] != null) ?  new SimpleStringProperty(strings[20]) : null;</b>
+<b class="nc"><i>411</i>&nbsp;            this.ssp22 = (strings[21] != null) ?  new SimpleStringProperty(strings[21]) : null;</b>
+<b class="nc"><i>412</i>&nbsp;            this.ssp23 = (strings[22] != null) ?  new SimpleStringProperty(strings[22]) : null;</b>
+<b class="nc"><i>413</i>&nbsp;            this.ssp24 = (strings[23] != null) ?  new SimpleStringProperty(strings[23]) : null;</b>
+<b class="nc"><i>414</i>&nbsp;            this.ssp25 = (strings[24] != null) ?  new SimpleStringProperty(strings[24]) : null;</b>
+<b class="nc"><i>415</i>&nbsp;        }</b>
+<i>416</i>&nbsp;
+<i>417</i>&nbsp;        public String getSsp1() {
+<b class="nc"><i>418</i>&nbsp;            return ssp1.get();</b>
+<i>419</i>&nbsp;        }
+<i>420</i>&nbsp;
+<i>421</i>&nbsp;        public String getSsp2() {
+<b class="nc"><i>422</i>&nbsp;            return ssp2.get();</b>
+<i>423</i>&nbsp;        }
+<i>424</i>&nbsp;
+<i>425</i>&nbsp;        public String getSsp3() {
+<b class="nc"><i>426</i>&nbsp;            return ssp3.get();</b>
+<i>427</i>&nbsp;        }
+<i>428</i>&nbsp;
+<i>429</i>&nbsp;        public String getSsp4() {
+<b class="nc"><i>430</i>&nbsp;            return ssp4.get();</b>
+<i>431</i>&nbsp;        }
+<i>432</i>&nbsp;
+<i>433</i>&nbsp;        public String getSsp5() {
+<b class="nc"><i>434</i>&nbsp;            return ssp5.get();</b>
+<i>435</i>&nbsp;        }
+<i>436</i>&nbsp;
+<i>437</i>&nbsp;        public String getSsp6() {
+<b class="nc"><i>438</i>&nbsp;            return ssp6.get();</b>
+<i>439</i>&nbsp;        }
+<i>440</i>&nbsp;
+<i>441</i>&nbsp;        public String getSsp7() {
+<b class="nc"><i>442</i>&nbsp;            return ssp7.get();</b>
+<i>443</i>&nbsp;        }
+<i>444</i>&nbsp;
+<i>445</i>&nbsp;        public String getSsp8() {
+<b class="nc"><i>446</i>&nbsp;            return ssp8.get();</b>
+<i>447</i>&nbsp;        }
+<i>448</i>&nbsp;
+<i>449</i>&nbsp;        public String getSsp9() {
+<b class="nc"><i>450</i>&nbsp;            return ssp9.get();</b>
+<i>451</i>&nbsp;        }
+<i>452</i>&nbsp;
+<i>453</i>&nbsp;        public String getSsp10() {
+<b class="nc"><i>454</i>&nbsp;            return ssp10.get();</b>
+<i>455</i>&nbsp;        }
+<i>456</i>&nbsp;
+<i>457</i>&nbsp;        public String getSsp11() {
+<b class="nc"><i>458</i>&nbsp;            return ssp11.get();</b>
+<i>459</i>&nbsp;        }
+<i>460</i>&nbsp;
+<i>461</i>&nbsp;        public String getSsp12() {
+<b class="nc"><i>462</i>&nbsp;            return ssp12.get();</b>
+<i>463</i>&nbsp;        }
+<i>464</i>&nbsp;
+<i>465</i>&nbsp;        public String getSsp13() {
+<b class="nc"><i>466</i>&nbsp;            return ssp13.get();</b>
+<i>467</i>&nbsp;        }
+<i>468</i>&nbsp;
+<i>469</i>&nbsp;        public String getSsp14() {
+<b class="nc"><i>470</i>&nbsp;            return ssp14.get();</b>
+<i>471</i>&nbsp;        }
+<i>472</i>&nbsp;
+<i>473</i>&nbsp;        public String getSsp15() {
+<b class="nc"><i>474</i>&nbsp;            return ssp15.get();</b>
+<i>475</i>&nbsp;        }
+<i>476</i>&nbsp;
+<i>477</i>&nbsp;        public String getSsp16() {
+<b class="nc"><i>478</i>&nbsp;            return ssp16.get();</b>
+<i>479</i>&nbsp;        }
+<i>480</i>&nbsp;
+<i>481</i>&nbsp;        public String getSsp17() {
+<b class="nc"><i>482</i>&nbsp;            return ssp17.get();</b>
+<i>483</i>&nbsp;        }
+<i>484</i>&nbsp;
+<b class="nc"><i>485</i>&nbsp;        public String getSsp18() { return ssp18.get();</b>
+<i>486</i>&nbsp;        }
+<i>487</i>&nbsp;
+<i>488</i>&nbsp;        public String getSsp19() {
+<b class="nc"><i>489</i>&nbsp;            return ssp19.get();</b>
+<i>490</i>&nbsp;        }
+<i>491</i>&nbsp;
+<i>492</i>&nbsp;        public String getSsp20() {
+<b class="nc"><i>493</i>&nbsp;            return ssp20.get();</b>
+<i>494</i>&nbsp;        }
+<i>495</i>&nbsp;
+<i>496</i>&nbsp;        public String getSsp21() {
+<b class="nc"><i>497</i>&nbsp;            return ssp21.get();</b>
+<i>498</i>&nbsp;        }
+<i>499</i>&nbsp;
+<i>500</i>&nbsp;        public String getSsp22() {
+<b class="nc"><i>501</i>&nbsp;            return ssp22.get();</b>
+<i>502</i>&nbsp;        }
+<i>503</i>&nbsp;
+<i>504</i>&nbsp;        public String getSsp23() {
+<b class="nc"><i>505</i>&nbsp;            return ssp23.get();</b>
+<i>506</i>&nbsp;        }
+<i>507</i>&nbsp;
+<i>508</i>&nbsp;        public String getSsp24() {
+<b class="nc"><i>509</i>&nbsp;            return ssp24.get();</b>
+<i>510</i>&nbsp;        }
+<i>511</i>&nbsp;
+<i>512</i>&nbsp;        public String getSsp25() {
+<b class="nc"><i>513</i>&nbsp;            return ssp25.get();</b>
+<i>514</i>&nbsp;        }
+<i>515</i>&nbsp;
+<i>516</i>&nbsp;    }
+<i>517</i>&nbsp;
+<i>518</i>&nbsp;
+<i>519</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-06-08 17:08</div>
+</div>
+</body>
+</html>

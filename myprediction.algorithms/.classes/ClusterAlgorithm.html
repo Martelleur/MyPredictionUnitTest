@@ -1,0 +1,68 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: ClusterAlgorithm</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">myprediction.algorithms</a> ]
+</div>
+
+<h1>Coverage Summary for Class: ClusterAlgorithm (myprediction.algorithms)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+</tr>
+<tr>
+  <td class="name">ClusterAlgorithm</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package myprediction.algorithms;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import java.io.FileNotFoundException;
+<i>4</i>&nbsp;
+<i>5</i>&nbsp;/**
+<i>6</i>&nbsp; * Interface: ClusterAlgorithm
+<i>7</i>&nbsp; * Author: Joel Martelleur
+<i>8</i>&nbsp; * Date: 2020-05-03
+<i>9</i>&nbsp; * @version v1.0
+<i>10</i>&nbsp; */
+<i>11</i>&nbsp;public interface ClusterAlgorithm {
+<i>12</i>&nbsp;    public String getName(); // Return the name of th algorithm
+<i>13</i>&nbsp;    public String getDescriptionAddress(); // Return the description address
+<i>14</i>&nbsp;    public String getDescription(String address); // Return the description of the algorithm
+<i>15</i>&nbsp;    public String getData(); // get the data
+<i>16</i>&nbsp;    public void setData(String path); // Set the data
+<i>17</i>&nbsp;    public int getNumberOfCluster(); // get the number of cluster
+<i>18</i>&nbsp;    public void setNumberOfCLuster(int n) throws FileNotFoundException; // Set the number of cluster
+<i>19</i>&nbsp;    public String getClustering() throws Exception; // return the clustering of the data
+<i>20</i>&nbsp;    public boolean isConnected(String address); // Test the connection to the address
+<i>21</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-06-08 17:08</div>
+</div>
+</body>
+</html>

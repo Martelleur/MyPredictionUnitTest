@@ -1,0 +1,491 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: ClusterPropertyGUI</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">myprediction.nodePropertiesGUI</a> ]
+</div>
+
+<h1>Coverage Summary for Class: ClusterPropertyGUI (myprediction.nodePropertiesGUI)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ClusterPropertyGUI</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 15)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 139)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">ClusterPropertyGUI$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 16)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 140)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package myprediction.nodePropertiesGUI;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import javafx.beans.value.ChangeListener;
+<i>4</i>&nbsp;import javafx.collections.MapChangeListener;
+<i>5</i>&nbsp;import javafx.event.ActionEvent;
+<i>6</i>&nbsp;import javafx.event.EventHandler;
+<i>7</i>&nbsp;import javafx.fxml.FXML;
+<i>8</i>&nbsp;import javafx.fxml.FXMLLoader;
+<i>9</i>&nbsp;import javafx.scene.Scene;
+<i>10</i>&nbsp;import javafx.scene.control.Button;
+<i>11</i>&nbsp;import javafx.scene.control.ScrollPane;
+<i>12</i>&nbsp;import javafx.scene.control.TableView;
+<i>13</i>&nbsp;import javafx.scene.layout.AnchorPane;
+<i>14</i>&nbsp;import javafx.scene.layout.BorderPane;
+<i>15</i>&nbsp;import javafx.scene.text.Text;
+<i>16</i>&nbsp;import javafx.stage.Stage;
+<i>17</i>&nbsp;import myprediction.AppConfig;
+<i>18</i>&nbsp;import myprediction.algorithms.ClusterAlgorithm;
+<i>19</i>&nbsp;import myprediction.mainGUI.DragIconType;
+<i>20</i>&nbsp;import myprediction.mainGUI.DraggableNode;
+<i>21</i>&nbsp;import myprediction.nodePropertiesManagement.DataManager;
+<i>22</i>&nbsp;import myprediction.nodePropertiesManagement.NodePropertiesKeys;
+<i>23</i>&nbsp;import org.springframework.context.ApplicationContext;
+<i>24</i>&nbsp;import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+<i>25</i>&nbsp;
+<i>26</i>&nbsp;import java.io.File;
+<i>27</i>&nbsp;import java.io.IOException;
+<i>28</i>&nbsp;import java.util.ArrayList;
+<i>29</i>&nbsp;import java.util.HashMap;
+<i>30</i>&nbsp;
+<i>31</i>&nbsp;/**
+<i>32</i>&nbsp; * Class: ClusterPropertyGUI
+<i>33</i>&nbsp; * Author: Joel Martelleur
+<i>34</i>&nbsp; * Date: 2020-05-22
+<i>35</i>&nbsp; * @version v1.0
+<i>36</i>&nbsp; */
+<i>37</i>&nbsp;public class ClusterPropertyGUI extends BorderPane {
+<i>38</i>&nbsp;
+<i>39</i>&nbsp;    @FXML private Text agglomeration_clustering;
+<i>40</i>&nbsp;    @FXML private Text k_mean_clustering;
+<i>41</i>&nbsp;    @FXML private Text my_prediction_clustering;
+<i>42</i>&nbsp;    @FXML private Text training_data;
+<i>43</i>&nbsp;
+<i>44</i>&nbsp;    @FXML private ScrollPane sp_agglomeration;
+<i>45</i>&nbsp;    @FXML private ScrollPane sp_kmean;
+<i>46</i>&nbsp;    @FXML private ScrollPane sp_my_clustering;
+<i>47</i>&nbsp;    @FXML private ScrollPane sp_training_data;
+<i>48</i>&nbsp;
+<i>49</i>&nbsp;    @FXML private Button button_kmean;
+<i>50</i>&nbsp;    @FXML private Button button_agglomeration;
+<i>51</i>&nbsp;    @FXML private Button button_my_clustering;
+<i>52</i>&nbsp;    @FXML private Button clone_node;
+<i>53</i>&nbsp;    @FXML private Button button_training_data;
+<i>54</i>&nbsp;
+<i>55</i>&nbsp;    private DraggableNode draggableNode;
+<b class="nc"><i>56</i>&nbsp;    private ChangeListener&lt;Number&gt; sizeListener = null;</b>
+<b class="nc"><i>57</i>&nbsp;    private EventHandler&lt;ActionEvent&gt; nodeInFullScreenHandler = null;</b>
+<b class="nc"><i>58</i>&nbsp;    private EventHandler&lt;ActionEvent&gt; cloneNodeHandler = null;</b>
+<b class="nc"><i>59</i>&nbsp;    private MapChangeListener&lt;String, String&gt; nodePropertiesHandler = null;</b>
+<b class="nc"><i>60</i>&nbsp;    private HashMap&lt;String, TableView&lt;TransformToTableView.Data&gt;&gt; tableViews = new HashMap&lt;&gt;();</b>
+<b class="nc"><i>61</i>&nbsp;    private ApplicationContext applicationContext = new AnnotationConfigApplicationContext(AppConfig.class);</b>
+<i>62</i>&nbsp;    private DataManager manager;
+<i>63</i>&nbsp;    private Stage primaryStage;
+<i>64</i>&nbsp;
+<i>65</i>&nbsp;    /**
+<i>66</i>&nbsp;     * Constructor: ClusterPropertyGUI
+<i>67</i>&nbsp;     * @param draggableNode - DraggableNode
+<i>68</i>&nbsp;     */
+<b class="nc"><i>69</i>&nbsp;    public ClusterPropertyGUI(DraggableNode draggableNode, Stage primaryStage) {</b>
+<i>70</i>&nbsp;
+<b class="nc"><i>71</i>&nbsp;        this.primaryStage = primaryStage;</b>
+<b class="nc"><i>72</i>&nbsp;        this.draggableNode = draggableNode;</b>
+<b class="nc"><i>73</i>&nbsp;        this.manager = draggableNode.getManager();</b>
+<i>74</i>&nbsp;
+<b class="nc"><i>75</i>&nbsp;        FXMLLoader fxmlLoader = new FXMLLoader(</b>
+<b class="nc"><i>76</i>&nbsp;                getClass().getResource(&quot;/myprediction/nodePropertiesGUI/ClusterPropertyGUI.fxml&quot;)</b>
+<i>77</i>&nbsp;        );
+<i>78</i>&nbsp;
+<b class="nc"><i>79</i>&nbsp;        fxmlLoader.setRoot(this);</b>
+<b class="nc"><i>80</i>&nbsp;        fxmlLoader.setController(this);</b>
+<i>81</i>&nbsp;
+<i>82</i>&nbsp;        try {
+<b class="nc"><i>83</i>&nbsp;            fxmlLoader.load();</b>
+<i>84</i>&nbsp;
+<b class="nc"><i>85</i>&nbsp;        } catch (IOException exception) {</b>
+<b class="nc"><i>86</i>&nbsp;            throw new RuntimeException(exception);</b>
+<b class="nc"><i>87</i>&nbsp;        }</b>
+<i>88</i>&nbsp;
+<b class="nc"><i>89</i>&nbsp;        this.setUp();</b>
+<i>90</i>&nbsp;
+<b class="nc"><i>91</i>&nbsp;    }</b>
+<i>92</i>&nbsp;
+<i>93</i>&nbsp;    /**
+<i>94</i>&nbsp;     * Method: setUp
+<i>95</i>&nbsp;     * Functionality: Setup for this class
+<i>96</i>&nbsp;     */
+<i>97</i>&nbsp;    private void setUp() {
+<i>98</i>&nbsp;
+<i>99</i>&nbsp;        // Build events
+<b class="nc"><i>100</i>&nbsp;        this.buildNodePropertiesHandler();</b>
+<b class="nc"><i>101</i>&nbsp;        this.buildNodeInFullScreenHandler();</b>
+<b class="nc"><i>102</i>&nbsp;        this.buildParentChangeListener();</b>
+<b class="nc"><i>103</i>&nbsp;        this.buildCloneNodeHandler();</b>
+<i>104</i>&nbsp;
+<i>105</i>&nbsp;        // connect and register events
+<b class="nc"><i>106</i>&nbsp;        this.clone_node.setOnAction(cloneNodeHandler);</b>
+<b class="nc"><i>107</i>&nbsp;        this.sp_agglomeration.heightProperty().addListener(sizeListener);</b>
+<b class="nc"><i>108</i>&nbsp;        this.sp_agglomeration.widthProperty().addListener(sizeListener);</b>
+<b class="nc"><i>109</i>&nbsp;        this.button_kmean.setOnAction(nodeInFullScreenHandler);</b>
+<b class="nc"><i>110</i>&nbsp;        this.button_agglomeration.setOnAction(nodeInFullScreenHandler);</b>
+<b class="nc"><i>111</i>&nbsp;        this.button_my_clustering.setOnAction(nodeInFullScreenHandler);</b>
+<b class="nc"><i>112</i>&nbsp;        this.button_training_data.setOnAction(nodeInFullScreenHandler);</b>
+<b class="nc"><i>113</i>&nbsp;        this.manager.getNodeProperties().addListener(nodePropertiesHandler);</b>
+<i>114</i>&nbsp;
+<b class="nc"><i>115</i>&nbsp;    }</b>
+<i>116</i>&nbsp;
+<i>117</i>&nbsp;    /**
+<i>118</i>&nbsp;     * Method: buildNodeInFullScreenHandler
+<i>119</i>&nbsp;     * Functionality: Build  logic for event nodeInFullScreenHandler
+<i>120</i>&nbsp;     */
+<i>121</i>&nbsp;    private void buildNodeInFullScreenHandler() {
+<b class="nc"><i>122</i>&nbsp;        nodeInFullScreenHandler = event -&gt; {</b>
+<i>123</i>&nbsp;
+<b class="nc"><i>124</i>&nbsp;            if (event.getTarget() == button_agglomeration) {</b>
+<b class="nc"><i>125</i>&nbsp;                buildNodeInFullScreenHandlerHelper(&quot;Agglomeration Clustering&quot;,</b>
+<b class="nc"><i>126</i>&nbsp;                        tableViews.get(DragIconType.AGGLOMERATION.name()), this.agglomeration_clustering);</b>
+<i>127</i>&nbsp;
+<i>128</i>&nbsp;            }
+<b class="nc"><i>129</i>&nbsp;            if (event.getTarget() == button_kmean) {</b>
+<b class="nc"><i>130</i>&nbsp;                buildNodeInFullScreenHandlerHelper(&quot;K Mean Clustering&quot;,</b>
+<b class="nc"><i>131</i>&nbsp;                        tableViews.get(DragIconType.K_MEAN.name()), this.k_mean_clustering);</b>
+<i>132</i>&nbsp;
+<i>133</i>&nbsp;            }
+<b class="nc"><i>134</i>&nbsp;            if (event.getTarget() == button_my_clustering) {</b>
+<b class="nc"><i>135</i>&nbsp;                buildNodeInFullScreenHandlerHelper(&quot;MyCluster Clustering&quot;,</b>
+<b class="nc"><i>136</i>&nbsp;                        tableViews.get(DragIconType.MY_CLUSTER.name()), this.my_prediction_clustering);</b>
+<i>137</i>&nbsp;            }
+<b class="nc"><i>138</i>&nbsp;            if (event.getTarget() == button_training_data) {</b>
+<b class="nc"><i>139</i>&nbsp;                buildNodeInFullScreenHandlerHelper(&quot;Training Data&quot;,</b>
+<b class="nc"><i>140</i>&nbsp;                        tableViews.get(DragIconType.TRAINING_DATA.name()), this.my_prediction_clustering);</b>
+<i>141</i>&nbsp;            }
+<b class="nc"><i>142</i>&nbsp;        };</b>
+<b class="nc"><i>143</i>&nbsp;    }</b>
+<i>144</i>&nbsp;
+<i>145</i>&nbsp;    /**
+<i>146</i>&nbsp;     * Method: buildNodeInFullScreenHandlerHelper
+<i>147</i>&nbsp;     * Functionality: Helper method for method buildNodeInFullScreenHandler
+<i>148</i>&nbsp;     * Build logic for viewing copy of node in own stage
+<i>149</i>&nbsp;     */
+<i>150</i>&nbsp;    private void buildNodeInFullScreenHandlerHelper( String title,
+<i>151</i>&nbsp;        TableView&lt;TransformToTableView.Data&gt; tableView,
+<i>152</i>&nbsp;        Text text) {
+<i>153</i>&nbsp;
+<b class="nc"><i>154</i>&nbsp;        Stage stage = new Stage();</b>
+<i>155</i>&nbsp;        Scene scene;
+<i>156</i>&nbsp;
+<b class="nc"><i>157</i>&nbsp;        if (tableView != null) {</b>
+<b class="nc"><i>158</i>&nbsp;            TableView&lt;TransformToTableView.Data&gt; clonedTableView = this.cloneTableView(tableView);</b>
+<b class="nc"><i>159</i>&nbsp;            DisplayNodeInWindowGUI displayNodeInWindowGUI = new DisplayNodeInWindowGUI(clonedTableView);</b>
+<b class="nc"><i>160</i>&nbsp;            scene = new Scene(displayNodeInWindowGUI, this.getWidth(), this.getHeight());</b>
+<i>161</i>&nbsp;
+<b class="nc"><i>162</i>&nbsp;        } else {</b>
+<b class="nc"><i>163</i>&nbsp;            Text clonedText = new Text();</b>
+<b class="nc"><i>164</i>&nbsp;            clonedText.setText(text.getText());</b>
+<b class="nc"><i>165</i>&nbsp;            DisplayNodeInWindowGUI displayNodeInWindowGUI = new DisplayNodeInWindowGUI(clonedText);</b>
+<b class="nc"><i>166</i>&nbsp;            scene = new Scene(displayNodeInWindowGUI, this.getWidth(), this.getHeight());</b>
+<i>167</i>&nbsp;        }
+<i>168</i>&nbsp;
+<b class="nc"><i>169</i>&nbsp;        stage.setTitle(title);</b>
+<b class="nc"><i>170</i>&nbsp;        stage.setScene(scene);</b>
+<b class="nc"><i>171</i>&nbsp;        stage.initOwner(this.getScene().getWindow());</b>
+<b class="nc"><i>172</i>&nbsp;        stage.show();</b>
+<i>173</i>&nbsp;
+<b class="nc"><i>174</i>&nbsp;    }</b>
+<i>175</i>&nbsp;
+<i>176</i>&nbsp;    /**
+<i>177</i>&nbsp;     * Method: buildCloneNodeHandler
+<i>178</i>&nbsp;     * Functionality: Build logic for event cloneNodeHandler
+<i>179</i>&nbsp;     */
+<i>180</i>&nbsp;    private void buildCloneNodeHandler() {
+<b class="nc"><i>181</i>&nbsp;        cloneNodeHandler = event -&gt; {</b>
+<b class="nc"><i>182</i>&nbsp;            DraggableNode clone = new DraggableNode(this.primaryStage);</b>
+<b class="nc"><i>183</i>&nbsp;            clone.setType(this.draggableNode.getType());</b>
+<b class="nc"><i>184</i>&nbsp;            DataManager cloneManger = clone.getManager();</b>
+<i>185</i>&nbsp;
+<b class="nc"><i>186</i>&nbsp;            for (String key : this.manager.getNodeProperties().keySet()) {</b>
+<b class="nc"><i>187</i>&nbsp;                cloneManger.getNodeProperties().put(key, this.manager.getNodeProperties().get(key));</b>
+<b class="nc"><i>188</i>&nbsp;            }</b>
+<i>189</i>&nbsp;
+<b class="nc"><i>190</i>&nbsp;            clone.setLayoutX(this.draggableNode.getLayoutX() + this.draggableNode.getPrefWidth());</b>
+<b class="nc"><i>191</i>&nbsp;            clone.setLayoutY(this.draggableNode.getLayoutY() + this.draggableNode.getPrefHeight());</b>
+<b class="nc"><i>192</i>&nbsp;            ((AnchorPane) this.draggableNode.getParent()).getChildren().add(clone);</b>
+<i>193</i>&nbsp;
+<b class="nc"><i>194</i>&nbsp;        };</b>
+<b class="nc"><i>195</i>&nbsp;    }</b>
+<i>196</i>&nbsp;
+<i>197</i>&nbsp;    /**
+<i>198</i>&nbsp;     * Method: resizeTableView
+<i>199</i>&nbsp;     * Functionality: Build logic for event sizeListener
+<i>200</i>&nbsp;     * Resize TableView when parent change size change size
+<i>201</i>&nbsp;     */
+<i>202</i>&nbsp;    private void buildParentChangeListener() {
+<i>203</i>&nbsp;
+<b class="nc"><i>204</i>&nbsp;        sizeListener = (observableValue, oldValue, newValue) -&gt; {</b>
+<b class="nc"><i>205</i>&nbsp;            double width = this.sp_agglomeration.getWidth();</b>
+<b class="nc"><i>206</i>&nbsp;            double height = this.sp_agglomeration.getHeight();</b>
+<i>207</i>&nbsp;
+<b class="nc"><i>208</i>&nbsp;            for (TableView&lt;TransformToTableView.Data&gt; tableView : this.tableViews.values()) {</b>
+<b class="nc"><i>209</i>&nbsp;                tableView.setMinWidth(width - 15);</b>
+<b class="nc"><i>210</i>&nbsp;                tableView.setMinHeight(height);</b>
+<i>211</i>&nbsp;
+<b class="nc"><i>212</i>&nbsp;            }</b>
+<b class="nc"><i>213</i>&nbsp;        };</b>
+<b class="nc"><i>214</i>&nbsp;    }</b>
+<i>215</i>&nbsp;
+<i>216</i>&nbsp;    /**
+<i>217</i>&nbsp;     * Method: buildNodePropertiesHandler
+<i>218</i>&nbsp;     * Functionality: Build logic for event nodePropertiesHandler
+<i>219</i>&nbsp;     */
+<i>220</i>&nbsp;    private void buildNodePropertiesHandler() {
+<i>221</i>&nbsp;
+<b class="nc"><i>222</i>&nbsp;        nodePropertiesHandler = event -&gt; {</b>
+<i>223</i>&nbsp;
+<b class="nc"><i>224</i>&nbsp;            if (!this.manager.getNodeProperties().get(NodePropertiesKeys.TRAINING_DATA.name()).equals(&quot;&quot;)) {</b>
+<i>225</i>&nbsp;
+<b class="nc"><i>226</i>&nbsp;                for (NodePropertiesKeys key : NodePropertiesKeys.values()) {</b>
+<i>227</i>&nbsp;
+<b class="nc"><i>228</i>&nbsp;                    if (this.manager.getNodeProperties().containsKey(key.name())) {</b>
+<i>229</i>&nbsp;
+<b class="nc"><i>230</i>&nbsp;                        switch (key) {</b>
+<i>231</i>&nbsp;
+<i>232</i>&nbsp;                            case AGGLOMERATION:
+<i>233</i>&nbsp;
+<b class="nc"><i>234</i>&nbsp;                                this.displayClustering(key.name(), this.agglomeration_clustering,</b>
+<i>235</i>&nbsp;                                        this.sp_agglomeration, false, false);
+<b class="nc"><i>236</i>&nbsp;                                break;</b>
+<i>237</i>&nbsp;
+<i>238</i>&nbsp;                            case MY_CLUSTER:
+<b class="nc"><i>239</i>&nbsp;                                this.displayClustering(key.name(), this.k_mean_clustering,</b>
+<i>240</i>&nbsp;                                        this.sp_my_clustering, true, false);
+<b class="nc"><i>241</i>&nbsp;                                break;</b>
+<i>242</i>&nbsp;
+<i>243</i>&nbsp;                            case K_MEAN:
+<b class="nc"><i>244</i>&nbsp;                                this.displayClustering(key.name(), this.k_mean_clustering,</b>
+<i>245</i>&nbsp;                                        this.sp_kmean, false, false);
+<b class="nc"><i>246</i>&nbsp;                                break;</b>
+<i>247</i>&nbsp;
+<i>248</i>&nbsp;                            case TRAINING_DATA:
+<b class="nc"><i>249</i>&nbsp;                                this.displayClustering(key.name(), this.training_data,</b>
+<i>250</i>&nbsp;                                        this.sp_training_data, false, true);
+<i>251</i>&nbsp;                                break;
+<i>252</i>&nbsp;                        }
+<i>253</i>&nbsp;                    }
+<i>254</i>&nbsp;
+<i>255</i>&nbsp;                }
+<i>256</i>&nbsp;            }
+<b class="nc"><i>257</i>&nbsp;        };</b>
+<b class="nc"><i>258</i>&nbsp;    }</b>
+<i>259</i>&nbsp;
+<i>260</i>&nbsp;    /**
+<i>261</i>&nbsp;     * Method: currentAlgorithmName
+<i>262</i>&nbsp;     * Functionality: Transform current algorithm name to lowerCases and without characters &#39;_&#39;.
+<i>263</i>&nbsp;     * @param string - String to be shaped
+<i>264</i>&nbsp;     * @return - String that is shaped
+<i>265</i>&nbsp;     */
+<i>266</i>&nbsp;    private String shapeString(String string) {
+<i>267</i>&nbsp;
+<b class="nc"><i>268</i>&nbsp;        StringBuilder output = new StringBuilder();</b>
+<i>269</i>&nbsp;
+<b class="nc"><i>270</i>&nbsp;        for (Character character : string.toCharArray()) {</b>
+<b class="nc"><i>271</i>&nbsp;            if (character != &#39;_&#39;) {</b>
+<b class="nc"><i>272</i>&nbsp;                output.append(character);</b>
+<i>273</i>&nbsp;            }
+<i>274</i>&nbsp;        }
+<i>275</i>&nbsp;
+<b class="nc"><i>276</i>&nbsp;        return output.toString().toLowerCase();</b>
+<i>277</i>&nbsp;    }
+<i>278</i>&nbsp;
+<i>279</i>&nbsp;    /**
+<i>280</i>&nbsp;     * Method: getClustering
+<i>281</i>&nbsp;     * @param string - String
+<i>282</i>&nbsp;     * @return - String representing the prediction
+<i>283</i>&nbsp;     */
+<i>284</i>&nbsp;    private String getClustering(String string) {
+<i>285</i>&nbsp;
+<i>286</i>&nbsp;        String output;
+<i>287</i>&nbsp;
+<b class="nc"><i>288</i>&nbsp;        string = shapeString(string);</b>
+<i>289</i>&nbsp;
+<i>290</i>&nbsp;        ClusterAlgorithm selectedAlgorithm;
+<i>291</i>&nbsp;
+<b class="nc"><i>292</i>&nbsp;        selectedAlgorithm = (ClusterAlgorithm) this.applicationContext.getBean(string);</b>
+<b class="nc"><i>293</i>&nbsp;        selectedAlgorithm.setData(this.manager.getNodeProperties().get(NodePropertiesKeys.TRAINING_DATA.name()));</b>
+<i>294</i>&nbsp;
+<i>295</i>&nbsp;        try {
+<i>296</i>&nbsp;            // set cluster to default 1 if no cluster number is selected
+<b class="nc"><i>297</i>&nbsp;            if (this.manager.getNodeProperties().get(NodePropertiesKeys.CLUSTERING_NUMBER.name()).equals(&quot;&quot;)) {</b>
+<b class="nc"><i>298</i>&nbsp;                selectedAlgorithm.setNumberOfCLuster(1);</b>
+<i>299</i>&nbsp;
+<i>300</i>&nbsp;            } else {
+<b class="nc"><i>301</i>&nbsp;                int selectedClusterNumber = Integer.parseInt(this.manager.getNodeProperties().get(NodePropertiesKeys.CLUSTERING_NUMBER.name()));</b>
+<b class="nc"><i>302</i>&nbsp;                selectedAlgorithm.setNumberOfCLuster(selectedClusterNumber);</b>
+<i>303</i>&nbsp;            }
+<i>304</i>&nbsp;
+<b class="nc"><i>305</i>&nbsp;            output = selectedAlgorithm.getClustering();</b>
+<i>306</i>&nbsp;
+<b class="nc"><i>307</i>&nbsp;        } catch (Exception error) {</b>
+<b class="nc"><i>308</i>&nbsp;            output = &quot;Error\n&quot; + error.getMessage();</b>
+<b class="nc"><i>309</i>&nbsp;            error.printStackTrace();</b>
+<b class="nc"><i>310</i>&nbsp;        }</b>
+<i>311</i>&nbsp;
+<b class="nc"><i>312</i>&nbsp;        return output;</b>
+<i>313</i>&nbsp;    }
+<i>314</i>&nbsp;
+<i>315</i>&nbsp;    /**
+<i>316</i>&nbsp;     * Method: cloneTableView
+<i>317</i>&nbsp;     * Functionality: Clone a in parameter TableView and return the clone
+<i>318</i>&nbsp;     * @param tableView - TableView to be cloned
+<i>319</i>&nbsp;     * @return - TableView the clone
+<i>320</i>&nbsp;     */
+<i>321</i>&nbsp;    private TableView&lt;TransformToTableView.Data&gt; cloneTableView(TableView&lt;TransformToTableView.Data&gt; tableView) {
+<i>322</i>&nbsp;
+<b class="nc"><i>323</i>&nbsp;        TableView&lt;TransformToTableView.Data&gt; clonedTableView = new TableView&lt;&gt;();</b>
+<i>324</i>&nbsp;
+<b class="nc"><i>325</i>&nbsp;        clonedTableView.getColumns().addAll(tableView.getColumns());</b>
+<i>326</i>&nbsp;
+<b class="nc"><i>327</i>&nbsp;        clonedTableView.setItems(tableView.getItems());</b>
+<i>328</i>&nbsp;
+<b class="nc"><i>329</i>&nbsp;        return clonedTableView;</b>
+<i>330</i>&nbsp;    }
+<i>331</i>&nbsp;
+<i>332</i>&nbsp;    /**
+<i>333</i>&nbsp;     * Method: displayClustering
+<i>334</i>&nbsp;     * Functionality: Manage the displaying of the clustering result
+<i>335</i>&nbsp;     * @param keyName - String should be an constant from NodePropertiesKeys
+<i>336</i>&nbsp;     * @param text - Text to display the result if not TableView conversion is possible
+<i>337</i>&nbsp;     * @param scrollPane - the ScrollPane holding holding the TableView or Text where to display the result
+<i>338</i>&nbsp;     * @param isMyCluster - boolean true if should be set to true if it is myCluster
+<i>339</i>&nbsp;     * @param isDataFile - boolean should be set to true if a file to process not string
+<i>340</i>&nbsp;     */
+<i>341</i>&nbsp;    private void displayClustering(String keyName
+<i>342</i>&nbsp;            , Text text
+<i>343</i>&nbsp;            , ScrollPane scrollPane
+<i>344</i>&nbsp;            , boolean isMyCluster
+<i>345</i>&nbsp;            , boolean isDataFile) {
+<i>346</i>&nbsp;
+<b class="nc"><i>347</i>&nbsp;        if (!this.manager.getNodeProperties().get(keyName).equals(&quot;&quot;)) {</b>
+<i>348</i>&nbsp;
+<i>349</i>&nbsp;            TransformToTableView transformToTableView;
+<i>350</i>&nbsp;
+<i>351</i>&nbsp;            // If it is a file to display data
+<b class="nc"><i>352</i>&nbsp;            if (isDataFile) {</b>
+<b class="nc"><i>353</i>&nbsp;                String path = this.manager.getNodeProperties().get(keyName);</b>
+<b class="nc"><i>354</i>&nbsp;                File arffFile = new File(path);</b>
+<b class="nc"><i>355</i>&nbsp;                transformToTableView = new TransformToTableView(arffFile);</b>
+<i>356</i>&nbsp;
+<b class="nc"><i>357</i>&nbsp;            } else {</b>
+<b class="nc"><i>358</i>&nbsp;                if(isMyCluster) {</b>
+<b class="nc"><i>359</i>&nbsp;                    String beanName = this.manager.getNodeProperties().get(keyName);</b>
+<b class="nc"><i>360</i>&nbsp;                    transformToTableView = new TransformToTableView(getClustering(beanName));</b>
+<i>361</i>&nbsp;
+<b class="nc"><i>362</i>&nbsp;                } else {</b>
+<b class="nc"><i>363</i>&nbsp;                    transformToTableView = new TransformToTableView(getClustering(keyName));</b>
+<i>364</i>&nbsp;                }
+<i>365</i>&nbsp;            }
+<i>366</i>&nbsp;
+<i>367</i>&nbsp;
+<i>368</i>&nbsp;            // Test if conversion to TableView is possible
+<b class="nc"><i>369</i>&nbsp;            if (transformToTableView.isConversionPossible()){</b>
+<i>370</i>&nbsp;
+<b class="nc"><i>371</i>&nbsp;                TableView&lt;TransformToTableView.Data&gt; tableView = transformToTableView.getTableView();</b>
+<b class="nc"><i>372</i>&nbsp;                scrollPane.getStyleClass().clear();</b>
+<b class="nc"><i>373</i>&nbsp;                scrollPane.setContent(tableView);</b>
+<b class="nc"><i>374</i>&nbsp;                this.tableViews.put(keyName, tableView);</b>
+<i>375</i>&nbsp;
+<b class="nc"><i>376</i>&nbsp;            } else {</b>
+<b class="nc"><i>377</i>&nbsp;                text.setText(getClustering(keyName));</b>
+<i>378</i>&nbsp;            }
+<i>379</i>&nbsp;
+<i>380</i>&nbsp;        }
+<b class="nc"><i>381</i>&nbsp;    }</b>
+<i>382</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-06-08 17:08</div>
+</div>
+</body>
+</html>
